@@ -1,0 +1,6 @@
+.jumbotron
+  h2 Kai 
+  p.lead
+    | Nutritient-dense food on a budget
+.row.marketing
+  .col-lg-6

@@ -1,0 +1,27 @@
+h2 Listing users
+
+table.table
+  thead
+    tr
+      th Name
+      th Age
+      th Weight
+      th Activity
+      th Sex
+      th
+  tbody
+    = for user <- @users do
+      tr
+        td= user.name
+        td= user.age
+        td= user.weight
+        td= user.activity
+        td= user.sex
+        td class="text-right"
+          = link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs"
+          | &nbsp;
+          = link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-default btn-xs"
+          | &nbsp;
+          = link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs"
+
+= link "New user", to: user_path(@conn, :new)
