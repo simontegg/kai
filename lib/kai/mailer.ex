@@ -2,7 +2,7 @@ defmodule Kai.Mailer do
   alias Kai.{Endpoint, Router, User}
   use Mailgun.Client,
     domain: Application.get_env(:kai, :mailgun_domain),
-      key: Application.get_env(:kai, :mailgun_key)
+    key: Application.get_env(:kai, :mailgun_key)
 
   def send_login_token(%User{email: email, access_token: token}) do
     send_email to: email,
