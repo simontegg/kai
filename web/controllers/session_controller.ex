@@ -19,7 +19,6 @@ defmodule Kai.SessionController do
 
     case Repo.insert_or_update(user_struct) do
       {:ok, user} ->
-        IO.inspect(user)
         Task.async(fn -> Mailer.send_login_token(user) end)
         conn
         |> put_flash(:info, "We sent you a link to create an account. Please check your inbox.")

@@ -13,13 +13,13 @@ use Mix.Config
 # which you typically run after static files are built.
 config :kai, Kai.Endpoint,
   http: [port: {:system, "PORT"}],
-url: [scheme: "https", host: "nameless-savannah-55523.herokuapp.com", port: 443],
-force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  url: [scheme: "https", host: "nameless-savannah-55523.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Do not print debug messages in production
-config :logger, level: :info
+#config :logger, level: :info
 
 config :kai, Kai.Repo,
   adapter: Ecto.Adapters.Postgres,
