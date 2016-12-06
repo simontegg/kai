@@ -27,32 +27,15 @@
   - nutrient a 
   - nutrient b
   ...
-
-
-
-
 ## User foods
  - food_id
 
 
 ## Backend 
 
-Serverless CRUD
-DynamoDB
+## Views:
+ - (a) server-side slime + css + vanilla js
+ - (b) server rendered elm + elim-ui
 
-## Frontend
-
-Elm form
-
-
-
-## Realtime
-
-- pushpin interace to http CRUD
-- https://github.com/fanout/pushpin
-
-## Tables
-
-U
 
 

@@ -13,18 +13,19 @@ defmodule Kai.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
 
-    case Repo.insert(changeset) do
-      {:ok, _user} ->
-        conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :index))
-      {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
-  end
+  #  def create(conn, %V{"user" => user_params}) do
+  #    changeset = User.changeset(%User{}, user_params)
+  #
+  #    case Repo.insert(changeset) do
+  #      {:ok, _user} ->
+  #        conn
+  #        |> put_flash(:info, "User created successfully.")
+  #        |> redirect(to: user_path(conn, :index))
+  #{:error, changeset} ->
+  #  render(conn, "new.html", changeset: changeset)
+  #    end
+  #  end
 
   def show(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
@@ -46,8 +47,8 @@ defmodule Kai.UserController do
         conn
         |> put_flash(:info, "User updated successfully.")
         |> redirect(to: user_path(conn, :show, user))
-      {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+{:error, changeset} ->
+  render(conn, "edit.html", user: user, changeset: changeset)
     end
   end
 

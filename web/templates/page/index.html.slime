@@ -4,3 +4,10 @@
     | Nutritient-dense food on a budget
 .row.marketing
   .col-lg-6
+
+/  = if current_user do
+/    h2 Welcome, #{current_user.name}
+/  - else
+
+    a.btn.btn-primary.btn-lg[href="/auth/auth0"]
+      | Login

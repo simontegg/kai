@@ -14,15 +14,16 @@ defmodule Kai.Router do
   end
 
   scope "/", Kai do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, Kai.Auth] 
 
     get "/", PageController, :index
     resources "/users", UserController
-      
-  end
+    resources "/session", SessionController, only: [:new, :create, :show]
+    resources "/session", SessionController, only: [:delete], singleton: true
 
+  end
   # Other scopes may use custom stacks.
   # scope "/api", Kai do
-  #   pipe_through :api
-  # end
+    #   pipe_through :api
+    # end
 end

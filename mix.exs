@@ -18,8 +18,16 @@ defmodule Kai.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {Kai, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :phoenix_slime,
-                    :phoenix_ecto, :postgrex]]
+     applications: [
+                    :phoenix, 
+                    :phoenix_pubsub, 
+                    :phoenix_html, 
+                    :cowboy, 
+                    :logger, 
+                    :gettext, 
+                    :phoenix_slime,
+                    :phoenix_ecto, 
+                    :postgrex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +46,11 @@ defmodule Kai.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:phoenix_slime, "~> 0.8.0"},
+       {:poison, "~> 2.1", override: true},
+     {:mailgun, "~> 0.1.2"},
+       {:secure_random, "~> 0.5"},
      {:exrm, "~> 1.0.8"},
+     {:csv, "~> 1.4.2"},
      {:cowboy, "~> 1.0"}]
   end
 
