@@ -1,0 +1,30 @@
+= form_for @changeset, @action, fn f ->
+  = if @changeset.action do
+    .alert.alert-danger
+      p Oops, something went wrong! Please check the errors below.
+  .form-group
+    = label f, :store_receipt_id, class: "control-label"
+    = text_input f, :store_receipt_id, class: "form-control"
+    = error_tag f, :store_receipt_id
+  .form-group
+    = label f, :company_id, class: "control-label"
+    = text_input f, :company_id, class: "form-control"
+    = error_tag f, :company_id
+  .form-group
+    = label f, :store_id, class: "control-label"
+    = text_input f, :store_id, class: "form-control"
+    = error_tag f, :store_id
+  .form-group
+    = label f, :user_id, class: "control-label"
+    = text_input f, :user_id, class: "form-control"
+    = error_tag f, :user_id
+  .form-group
+    = label f, :image_url, class: "control-label"
+    = text_input f, :image_url, class: "form-control"
+    = error_tag f, :image_url
+  .form-group
+    = label f, :company_name, class: "control-label"
+    = text_input f, :company_name, class: "form-control"
+    = error_tag f, :company_name
+  .form-group
+    = submit "Submit", class: "btn btn-primary"

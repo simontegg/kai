@@ -1,0 +1,5 @@
+h2 Edit receipt
+
+= render "form.html", changeset: @changeset, action: receipt_path(@conn, :update, @receipt)
+
+= link "Back", to: receipt_path(@conn, :index)
