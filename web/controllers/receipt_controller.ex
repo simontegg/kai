@@ -2,6 +2,7 @@ defmodule Kai.ReceiptController do
   use Kai.Web, :controller
 
   alias Kai.Receipt
+  alias Kai.ReceiptUploader
 
   def index(conn, _params) do
     receipts = Repo.all(Receipt)
@@ -15,6 +16,8 @@ defmodule Kai.ReceiptController do
 
   def create(conn, %{"receipt" => receipt_params}) do
     changeset = Receipt.changeset(%Receipt{}, receipt_params)
+    IO.inspect receipt_params
+    ReceiptUploader.store({%Plug.Upload{}})
 
     case Repo.insert(changeset) do
       {:ok, _receipt} ->

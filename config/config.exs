@@ -30,7 +30,9 @@ config :phoenix, :template_engines,
 
 config :slime, :keep_lines, true
 
-config :arc, bucket: "kai-dev"
+config :arc, 
+  virtual_host: true,
+  bucket: "kai-dev"
 
 config :ex_aws,
   access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),

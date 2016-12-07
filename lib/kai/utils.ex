@@ -1,4 +1,4 @@
-defmodule ElixirLangMoscow.Utils do
+defmodule Kai.Utils do
   def validate_extension(allowed, file) do
     file_extension =
       file.file_name

@@ -1,6 +1,6 @@
 defmodule Kai.Receipt do
   use Kai.Web, :model
-  use Arc.Ecto.Model 
+  use Arc.Ecto.Schema
 
   alias Kai.ReceiptUploader
 
@@ -29,7 +29,7 @@ defmodule Kai.Receipt do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @required_fields, @optional_fields)
-    |> cast_attachments(params, @required_file_fields, @optional_file_fields)
+    |> cast_attachments(params, @required_file_fields)
   end
 
   def image_url(struct), do: ReceiptUploader.url({struct.image, struct})

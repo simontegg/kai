@@ -20,6 +20,7 @@ defmodule Kai.Router do
     resources "/users", UserController
     resources "/session", SessionController, only: [:new, :create, :show]
     resources "/session", SessionController, only: [:delete], singleton: true
+    resources "/receipts", ReceiptController
 
   end
   # Other scopes may use custom stacks.

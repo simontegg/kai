@@ -20,6 +20,7 @@ defmodule Kai.Mixfile do
     [
       mod: {Kai, []},
       applications: [
+        :arc_ecto,
         :phoenix, 
         :phoenix_pubsub, 
         :phoenix_html, 
@@ -43,6 +44,7 @@ defmodule Kai.Mixfile do
   defp deps do
     [
       {:arc, "~> 0.6.0-rc3"},
+      {:arc_ecto, "~> 0.5.0-rc1"},
       {:cowboy, "~> 1.0"},
       {:csv, "~> 1.4.2"},
       {:ex_aws, "~> 1.0.0-rc3"},

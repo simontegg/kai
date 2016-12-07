@@ -1,4 +1,5 @@
 %{"arc": {:hex, :arc, "0.6.0-rc3", "b950c6b67054bbc4ae56e13815d4159be3523a6fb5c2bdba38c34729014a8e6c", [:mix], [{:ex_aws, "~> 1.0.0-rc.3", [hex: :ex_aws, optional: true]}, {:hackney, "~> 1.5", [hex: :hackney, optional: true]}, {:poison, "~> 2.0", [hex: :poison, optional: true]}, {:sweet_xml, "~> 0.5", [hex: :sweet_xml, optional: true]}]},
+  "arc_ecto": {:hex, :arc_ecto, "0.5.0-rc1", "e03002f2e0decc044d26a8dc8f42813ffa7848e7f68a6a52571caf335b6f18da", [:mix], [{:arc, "~> 0.6.0-rc1", [hex: :arc, optional: false]}, {:ecto, "~> 2.0", [hex: :ecto, optional: false]}]},
   "base64url": {:hex, :base64url, "0.0.1", "36a90125f5948e3afd7be97662a1504b934dd5dac78451ca6e9abf85a10286be", [:rebar], []},
   "bbmustache": {:hex, :bbmustache, "1.0.4", "7ba94f971c5afd7b6617918a4bb74705e36cab36eb84b19b6a1b7ee06427aa38", [:rebar], []},
   "certifi": {:hex, :certifi, "0.7.0", "861a57f3808f7eb0c2d1802afeaae0fa5de813b0df0979153cbafcd853ababaf", [:rebar3], []},
