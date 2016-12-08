@@ -39,8 +39,14 @@ config :ex_aws,
   secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
   s3: [
     scheme: "https://",
-    host: "s3-website-ap-southeast-2.amazonaws.com",
+    host: "s3-ap-southeast-2.amazonaws.com",
     region: "ap-southeast-2"
-  ]
+  ],
+  debug_requests: true
+
+config :ex_aws, :httpoison_opts,
+  recv_timeout: 120_000,
+  hackney: [recv_timeout: 120_000, pool: false]
+
 
 import_config "#{Mix.env}.exs"

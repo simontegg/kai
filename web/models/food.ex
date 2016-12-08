@@ -28,6 +28,15 @@ defmodule Kai.Food do
     field :energy_kcal, :integer
     field :energy_kj, :integer
     field :ergocalciferol, :float
+    field :fat_total, :float
+    field :fatty_acid_18_3, :float
+    field :fatty_acid_20_5, :float
+    field :fatty_acid_22_6, :float
+    field :fatty_acids_total, :float
+    field :fatty_acids_total_omega_3, :float
+    field :fatty_acids_total_mono, :float
+
+
 
     field :weight, :integer
     field :activity, :string

@@ -19,7 +19,7 @@ table.table
         td= receipt.user_id
         td
           img src="#{receipt.image_url}"
-        td= receipt.company_name
+        td= receipt.company
         td class="text-right"
           = link "Show", to: receipt_path(@conn, :show, receipt), class: "btn btn-default btn-xs"
           | &nbsp;

@@ -18,7 +18,7 @@ ul
     img src="#{@receipt.image_url}"
   li
     strong Company name:&nbsp;
-    = @receipt.company_name
+    = @receipt.company
 
 = link "Edit", to: receipt_path(@conn, :edit, @receipt)
 | &nbsp;
