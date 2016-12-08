@@ -15,7 +15,7 @@ ul
     = @receipt.user_id
   li
     strong Image url:&nbsp;
-    img src="#{@receipt.image_url}"
+    img src="#{image_url(@receipt)}"
   li
     strong Company name:&nbsp;
     = @receipt.company
