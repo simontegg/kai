@@ -33,8 +33,31 @@ defmodule Kai.Food do
     field :fatty_acid_20_5, :float
     field :fatty_acid_22_6, :float
     field :fatty_acids_total, :float
-    field :fatty_acids_total_omega_3, :float
+    field :fatty_acids_total_o3, :float
     field :fatty_acids_total_mono, :float
+    field :fatty_acids_total_mono_trans, :float
+    field :fatty_acids_total_poly, :float
+    field :fatty_acids_total_poly_o3, :float
+    field :fatty_acids_total_poly_o6, :float
+    field :fatty_acids_total_sat, :float
+    field :fatty_acids_total_trans, :float
+    field :fibre_total, :float
+    field :fibre_insoluble, :float
+    field :fibre_soluble, :float
+    field :fluoride, :float
+    field :folate_natural, :float
+    field :folate_total, :float
+    field :fructose, :float
+    field :gamma_tocopherol, :float
+    field :glucose, :float
+    field :glycine, :float
+    field :glycogen, :float
+    field :histidine, :float
+    field :iodide, :float
+    field :iron, :float
+    field :isoleucine, :float
+
+
 
 
 
