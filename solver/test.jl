@@ -1,24 +1,54 @@
+#Modules
 using JuMP
 using Cbc
 
-sufficiency = 100
+
+# Initial Data
+food_names = ["bacon", "lettuce", "tomato"]
+prices = [6, 6, 7]
 quantities = [0, 0, 0]
-nutrients = [3.5, 4, 3]
-prices = [5, 10, 7]
-len = length(quantities)
-m = Model(solver=CbcSolver())
-@variable(m, quantities[1:len] >= 0, Int)
 
-@constraint(
-	m, 
-	sum([nutrients[i] * quantities[i] for i=1:len]) / sufficiency >= 1
-)
+nutrient_names = ["c", "d", "k"]
+sufficiency = [100, 110, 130]
 
-@objective(m, Min, sum([quantities[i] * prices[i] for i=1:len]))
+nutrients = [
+ # c   d   k
+  3.0 2.0 2.0; #bacon
+  2.0 4.5 2.5; #lettuce
+  1.0 1.0 7.0  #tomato
+]
+
+
+# helpers
+food_count = length(food_names)
+nutrient_count = length(nutrient_names)
+
+
+# setup model
+m = Model(solver = CbcSolver(logLevel = 1), )
+@variable(m, quantities[1:food_count] >= 0, Int)
+
+for i in 1:nutrient_count
+  @constraint(
+    m, 
+    sum([nutrients[j, i] * quantities[j] for j in 1:food_count])
+      / sufficiency[i] >= 1
+  )
+end
+
+@objective(m, Min, sum([quantities[i] * prices[i] for i in 1:food_count]))
+
+
+# solve
 status = solve(m)
 println("Status = $status")
 println("Optimal Objective Function value: ", getobjectivevalue(m))
 println("Optimal Solutions:")
-println("quantities = ", getvalue(quantities))
+solution = getvalue(quantities)
+println("quantities = ", solution)
 
+for i in 1:nutrient_count
+  println(nutrient_names[i], ": ")
+  println(sum([nutrients[j, i] * solution[j] for j in 1:food_count]))
+end
 
