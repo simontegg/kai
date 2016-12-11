@@ -9,9 +9,9 @@ html lang="en"
     title Hello Phoenix + Slim!
     link rel="stylesheet" href=static_path(@conn,"/css/app.css")
   body
-    .container role="main" 
-      .header
-        ul.nav.nav-pills.pull-right
+    div role="main" 
+      div
+        ul
       = render "_flashes.html", conn: @conn
       = render @view_module, @view_template, assigns
     script src=static_path(@conn,"/js/app.js")
