@@ -3,7 +3,8 @@ div
  /   h2 Welcome, #{current_user.name}
  / - else
 
-  form.measure.ml5.mt5[action="/solve" method="POST"]
+   form.measure.ml5.mt5[accept-charset="UTF" action="/" method="POST"]
+     input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
     fieldset#user-details.ba.b--transparent.ph0.mh0
       legend.f3.fw5.ph0.mh0 Your Details
       .mt3
@@ -14,7 +15,7 @@ div
         input#weight.pa2.input-reset.ba.bg-transparent[type="number" name="weight" value="" required=true]
       .mt3
         legend.f5.mb3 Your sex:
-          .ba.pa2.mt2
+          .ba.pa2.mt1
            .mt0
              input#sex-female.mr-2[type="radio" name="sex" value="female"]
              label.f5[for="sex-female"] Female
@@ -26,7 +27,7 @@ div
              label.f5[for="sex-male"] Male
       .mt3
         legend.f5.fw5.mb3 Activity level:
-          .ba.pa2.mt2
+          .ba.pa2.mt1
             .mt0
               input#activity-high.mr-2[type="radio" name="activity" value="high"]
               label.f5[for="activity-high"] Athlete
