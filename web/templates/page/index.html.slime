@@ -1,13 +1,26 @@
-.jumbotron
-  h2 Kai 
-  p.lead
-    | Nutritient-dense food on a budget
 .row.marketing
   .col-lg-6
 
-/  = if current_user do
-/    h2 Welcome, #{current_user.name}
-/  - else
+ / = if current_user do
+ /   h2 Welcome, #{current_user.name}
+ / - else
 
     a.btn.btn-primary.btn-lg[href="/auth/auth0"]
       | Login
+
+    form#user-details[action="/solve" method="POST"]
+      div
+        input#age[type="number" name="age" value="" required=true]
+        label[for="age"] Your age
+      div
+        input#age[type="number" name="weight" value="" required=true]
+        label[for="age"] Your weight (kilos)
+      div
+        h4 Your sex
+        label[for="sex-female"] Female
+        input#sex-female[type="radio" name="sex-female" value="female"]
+        label[for="sex-intersex"] Intersex
+        input#sex-intersex[type="radio" name="sex-intersex" value="intersex"]
+        label[for="sex-male"] Male
+        input#sex-male[type="radio" name="sex-male" value="male"]
+      input[type="submit" value="Send Details"] 

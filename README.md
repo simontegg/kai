@@ -17,8 +17,6 @@
   - food_id
   - food name
   - date
-    
- - 
 
 ## Food
   - NZFF_id
@@ -77,61 +75,25 @@
 **Implementation**
 
 1. Associate diet parameters w/ new user
-  create user [-email, -name]
+  create user without [email, name]
+  - location
+  - weight
+  - age
+  - sex
 
-2. POST /solver data=parameters 
+  ### computed
+  - calories
+  - nutrients
 
-solver Find prices by location
-
-define function constraints:
-
-fun  nutrient_sufficiency(qty, reccomended):
-    if qty > reccomended 
-      return 1
-    else 
-      return qty / reccomended
-
-def foods [
-  food:
-    price: <- set price from user location
-    qty: Float
-    nutrientA: Float
-    ...
-  ..
-]
-
-def nutrientMap
-  nutrient: 
-    - qty
-    - reccomended
-    - score
-
-fun calculateCostandSufficiency(foods, nutrientMap):
-  def scores = []
-  let cost = 0
-
-  for food in foods
-    cost += food.price * food.qty
-    for nutrient in food
-      nutrientMap[nutrient].qty += food[nutrient]
-    end
-  end
-
-  for nutrient in nutrientMap
-    let score = nutrient_sufficiency(nutrient.qty, nutrient.reccomended)
-    nutrient.score = score
-    scores.append(score)
-  end
-
-  let sufficiency = average(scores)
-
-end
-
-minin
+  from base food list get foods (hardcoded)
+  from location lookup prices 
+    
 
 
 
+2. POST /solver data=computed
 
+3. 
 
 
 
