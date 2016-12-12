@@ -1,7 +1,11 @@
 defmodule Kai.User do
   use Kai.Web, :model
+  use Timex
+  import Hashids
 
   alias Kai.Repo
+  
+  @salt Hashids.new(salt: System.get_env("SECRET_KEY_BASE"))
 
   schema "users" do
     field :name, :string
@@ -26,14 +30,6 @@ defmodule Kai.User do
     |> validate_required([:email])
     |> unique_constraint(:email)
   
-    #    struct
-    #    |> cast(params, [:name, :age, :weight, :activity, :sex])
-    #    |> validate_required([:name, :age, :sex])
-    #    |> validate_inclusion(:age, 18..120)
-    #    |> validate_format(:email, ~r/@/)
-    #    |> update_change(:email, &String.downcase/1)
-    #    |> unique_constraint([:email, :access_token])
-    #
   end
 
   def registration_changeset(struct, params \\ %{}) do
@@ -42,8 +38,14 @@ defmodule Kai.User do
     |> generate_access_token
   end
 
+  def timestamp do
+    :os.system_time(:milli_seconds)
+  end
+
+
   defp generate_access_token(struct) do
-    token = SecureRandom.hex(30)
+    now = timestamp
+    token = Hashids.encode(@salt, now)
 
     case Repo.get_by(__MODULE__, access_token: token) do
       nil ->

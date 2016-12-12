@@ -20,18 +20,19 @@ defmodule Kai.Mixfile do
     [
       mod: {Kai, []},
       applications: [
-        :arc_ecto,
         :phoenix, 
-        :phoenix_pubsub, 
-        :phoenix_html, 
-        :cowboy, 
-        :logger, 
-        :gettext, 
-        :phoenix_slime,
         :phoenix_ecto, 
+        :phoenix_html, 
+        :phoenix_pubsub, 
+        :phoenix_slime,
+        :logger, 
+        :cowboy, 
+        :gettext, 
         :postgrex,
+        :arc_ecto,
         :ex_aws,
-        :httpoison
+        :httpoison,
+        :timex
       ]
     ]
   end
@@ -68,11 +69,13 @@ defmodule Kai.Mixfile do
       {:exrm, "~> 1.0.8"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.5"},
+      {:hashids, "~> 2.0"},
       {:mailgun, "~> 0.1.2"},
       {:poison, "~> 2.1", override: true},
       {:postgrex, ">= 0.0.0"},
       {:secure_random, "~> 0.5"},
-      {:sweet_xml, "~> 0.5"}
+      {:sweet_xml, "~> 0.5"},
+      {:timex, "~> 3.0"}
     ]
   end
 

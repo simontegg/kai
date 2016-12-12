@@ -8,7 +8,7 @@ html lang="en"
     meta content="" name="author"
     title Hello Phoenix + Slim!
     link rel="stylesheet" href=static_path(@conn,"/css/app.css")
-  body
+  body.san-serif
     div role="main" 
       div
         ul

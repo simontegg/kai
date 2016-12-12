@@ -1,4 +1,4 @@
-div
+div.san-serif
   / = if current_user do
  /   h2 Welcome, #{current_user.name}
  / - else
@@ -17,26 +17,29 @@ div
         legend.f5.mb3 Your sex:
           .ba.pa2.mt1
            .mt0
-             input#sex-female.mr-2[type="radio" name="sex" value="female"]
-             label.f5[for="sex-female"] Female
+             input#sex-no-answer.hidden-radio[type="radio" name="sex" value="no-answer" checked=true]
+             label.db.pointer.f5[for="sex-no-answer"] No Answer
            .mt2
-             input#sex-intersex.mr-2[type="radio" name="sex" value="intersex"]
-             label.f5[for="sex-intersex"] Intersex
+             input#sex-female.hidden-radio[type="radio" name="sex" value="female"]
+             label.db.pointer.f5[for="sex-female"] Female
            .mt2
-             input#sex-male.mr-2[type="radio" name="sex" value="male"]
-             label.f5[for="sex-male"] Male
+             input#sex-intersex.hidden-radio[type="radio" name="sex" value="intersex"]
+             label.db.pointer.f5[for="sex-intersex"] Intersex
+           .mt2
+             input#sex-male.hidden-radio[type="radio" name="sex" value="male"]
+             label.db.pointer.f5[for="sex-male"] Male
       .mt3
         legend.f5.fw5.mb3 Activity level:
           .ba.pa2.mt1
             .mt0
-              input#activity-high.mr-2[type="radio" name="activity" value="high"]
-              label.f5[for="activity-high"] Athlete
+              input#activity-high.hidden-radio[type="radio" name="activity" value="high"]
+              label.db.pointer.f5[for="activity-high"] Athlete
             .mt2
-              input#activity-medium.mr-2[type="radio" name="activity" value="medium"]
-              label.f5[for="activity-medium"] Weekend warrior
+              input#activity-medium.hidden-radio[type="radio" name="activity" value="medium"]
+              label.db.pointer.f5[for="activity-medium"] Weekend warrior
             .mt2
-              input#activity-low.mr-2[type="radio" name="activity" value="low"]
-              label.f5[for="activity-low"] Couch potato
+              input#activity-low.hidden-radio[type="radio" name="activity" value="low"]
+              label.db.pointer.f5[for="activity-low"] Couch potato
 
       div 
         input.b.ph3.pv2.input-reset.ba.b--black.bg-transparent.pointer.f6.dib[type="submit" value="Send Details"] 

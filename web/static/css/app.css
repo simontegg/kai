@@ -1,2 +1,40 @@
 /* This file is for your main application css. */
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700)
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
+/* HTML5 Boilerplate accessible hidden styles */
+
+.hidden-radio {
+  border: 0; 
+  clip: rect(0 0 0 0); 
+  height: 1px; margin: -1px; 
+  overflow: hidden; 
+  padding: 0; 
+  position: absolute; 
+  width: 1px;
+}
+
+.hidden-radio + label:before {
+  content: '';
+  display: inline-block;
+  width: 0.875em;
+  height: 0.875em;
+  vertical-align: -0.25em;
+  border-radius: 0.875em;
+  border: 0.125em solid #333;
+  margin-right: 0.75em;
+}
+
+.hidden-radio:checked + label:before {
+  width: 0.75em;
+  height: 0.75em;
+  background: #111;
+  border: 0.125em solid #f4f4f4;
+  box-shadow: 0 0 0 0.125em #333;
+  margin-right: 0.875em;
+  position: relative;
+  left: 0.06em;
+  bottom: 0.06em;
+
+}
+
+  

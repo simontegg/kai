@@ -75,11 +75,12 @@
 **Implementation**
 
 1. Associate diet parameters w/ new user
-  create user without [email, name]
+  create user without email
   - location
   - weight
   - age
   - sex
+  - activity
 
   ### computed
   - calories
