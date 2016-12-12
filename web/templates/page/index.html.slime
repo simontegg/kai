@@ -6,13 +6,19 @@ div.san-serif
    form.measure.ml5.mt5[accept-charset="UTF" action="/" method="POST"]
      input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
     fieldset#user-details.ba.b--transparent.ph0.mh0
-      legend.f3.fw5.ph0.mh0 Your Details
+      legend.f3.fw5.ph0.mh0.underline Your Details
       .mt3
         label.db.lh-copy.f5[for="age"] Age:
         input#age.pa2.input-reset.ba.bg-transparent[type="number" name="age" value="" required=true]
       .mt3
         label.db.lh-copy.f5[for="weight"] Weight (kilograms):
         input#weight.pa2.input-reset.ba.bg-transparent[type="number" name="weight" value="" required=true]
+      .mt3
+        label.db.lh-copy.f5[for="height"] Height (centimetres):
+        input#height.pa2.input-reset.ba.bg-transparent[type="number" name="height" value="" required=true]
+      .mt3
+        label.db.lh-copy.f5[for="activity"] Exercise per week?
+        input#activity.pa2.input-reset.ba.bg-transparent[type="number" name="activity" value="1"]
       .mt3
         legend.f5.mb3 Your sex:
           .ba.pa2.mt1
@@ -28,18 +34,6 @@ div.san-serif
            .mt2
              input#sex-male.hidden-radio[type="radio" name="sex" value="male"]
              label.db.pointer.f5[for="sex-male"] Male
-      .mt3
-        legend.f5.fw5.mb3 Activity level:
-          .ba.pa2.mt1
-            .mt0
-              input#activity-high.hidden-radio[type="radio" name="activity" value="high"]
-              label.db.pointer.f5[for="activity-high"] Athlete
-            .mt2
-              input#activity-medium.hidden-radio[type="radio" name="activity" value="medium"]
-              label.db.pointer.f5[for="activity-medium"] Weekend warrior
-            .mt2
-              input#activity-low.hidden-radio[type="radio" name="activity" value="low"]
-              label.db.pointer.f5[for="activity-low"] Couch potato
-
       div 
-        input.b.ph3.pv2.input-reset.ba.b--black.bg-transparent.pointer.f6.dib[type="submit" value="Send Details"] 
+        input.f5.dim.ph3.pv2.mb2.bn.br3.dib.white.bg-near-black.input-reset.button-reset.pointer[type="submit" value="Compute my groceries"] 
+

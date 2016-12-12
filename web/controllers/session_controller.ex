@@ -1,6 +1,7 @@
 defmodule Kai.SessionController do
   use Kai.Web, :controller
   alias Kai.{Mailer, Auth, User}
+  import Hashids
 
   def new(conn, _params) do
   #    IO.inspect(%User{})
@@ -29,6 +30,9 @@ defmodule Kai.SessionController do
   end
 
   def show(conn, %{"id" => access_token}) do
+    
+
+
     case Repo.get_by(User, access_token: access_token) do
       nil ->
         conn

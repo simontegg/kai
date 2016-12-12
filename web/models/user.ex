@@ -1,6 +1,5 @@
 defmodule Kai.User do
   use Kai.Web, :model
-  use Timex
   import Hashids
 
   alias Kai.Repo

@@ -27,7 +27,7 @@
 .hidden-radio:checked + label:before {
   width: 0.75em;
   height: 0.75em;
-  background: #111;
+  background: #333;
   border: 0.125em solid #f4f4f4;
   box-shadow: 0 0 0 0.125em #333;
   margin-right: 0.875em;

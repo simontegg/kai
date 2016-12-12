@@ -5,14 +5,12 @@ defmodule Kai.Mailer do
     key: Application.get_env(:kai, :mailgun_key)
 
   def send_login_token(%User{email: email, access_token: token}) do
-
-   IO.puts(System.get_env("MAILGUN_KEY"))
-
-
-    send_email to: email,
-    from: "noreplay@example.com",
-    subject: "Your token",
-    text: "Access your account #{token_url(token)}"
+    send_email(
+      to: email,
+      from: "noreplay@example.com",
+      subject: "Your token",
+      text: "Access your account #{token_url(token)}"
+    )
   end
 
   defp token_url(token) do
