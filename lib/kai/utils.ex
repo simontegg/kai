@@ -7,4 +7,12 @@ defmodule Kai.Utils do
     Enum.member?(allowed, file_extension)
   end
 
+  def is_numeric(str) do
+    case Float.parse(str) do
+      {_num, ""} -> true
+      {_num, _r} -> false               # _r : remainder_of_bianry
+      :error     -> false
+    end
+  end
+
 end

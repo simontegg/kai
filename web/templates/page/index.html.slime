@@ -17,7 +17,7 @@ div.san-serif
         label.db.lh-copy.f5[for="height"] Height (centimetres):
         input#height.pa2.input-reset.ba.bg-transparent[type="number" name="height" value="" required=true]
       .mt3
-        label.db.lh-copy.f5[for="activity"] Exercise per week?
+        label.db.lh-copy.f5[for="activity"] Workouts per week:
         input#activity.pa2.input-reset.ba.bg-transparent[type="number" name="activity" value="1"]
       .mt3
         legend.f5.mb3 Your sex:
@@ -34,6 +34,6 @@ div.san-serif
            .mt2
              input#sex-male.hidden-radio[type="radio" name="sex" value="male"]
              label.db.pointer.f5[for="sex-male"] Male
-      div 
-        input.f5.dim.ph3.pv2.mb2.bn.br3.dib.white.bg-near-black.input-reset.button-reset.pointer[type="submit" value="Compute my groceries"] 
+      .mt4
+        input.f5.dim.ph3.pv2.mb2.bn.br2.dib.white.bg-near-black.input-reset.button-reset.pointer[type="submit" value="Compute my groceries"] 
 

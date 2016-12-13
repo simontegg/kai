@@ -1,11 +1,14 @@
 
 defmodule Kai.Requirements do
   alias Kai.{Endpoint, Router, User}
-  @male 5
+  
+  defstruct [:age, :height, :weight, :sex]
+  
   @female -161
+  @male 5
+  @mean -76
 
-  def calories(sex, height, weight, activity) do 
-    
+  def calories(:sex, :age, :height, :weight, :activity) do 
   end
 
   # https://en.wikipedia.org/wiki/Harris%E2%80%93Benedict_equation
