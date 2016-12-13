@@ -3,6 +3,19 @@ div.san-serif
   form.measure.ml5.mt5[accept-charset="UTF" action="/preferences" method="POST"]
     input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
     fieldset#preferences.ba.b--transparent.ph0.mh0
+      .mt3
+        legend.f5.mb3 I eat meat:
+          .ba.pa2.mt1
+            .mt0
+              input#meat-yes.hidden-radio[type="radio" name="meat" value="meat-yes" checked=true]
+             label.db.pointer.f5[for="meat-yes"] yes
+           .mt2
+             input#meat-no.hidden-radio[type="radio" name="meat" value="meat-no"]
+             label.db.pointer.f5[for="meat-no"] no
+           .mt2
+             input#meat-indeterminate.hidden-radio[type="radio" name="meat" value="meat-indeterminate"]
+             label.db.pointer.f5[for="meat-indeterminate"] some
+
       legend.f3.fw5.ph0.mh0 I eat:
       .ba.pb2.mw5
         .flex.items-center.mt2.ml2
@@ -17,7 +30,7 @@ div.san-serif
         .flex.items-center.mt2.ml2
           input#floor-food.pa2.input-reset.checkmark[type="checkbox" name="floor-food" value="floor-food"]
           label.db.lh-copy.f5.pointer[for="floor-food"] food I found on the floor
-      legend.f3.fw5.ph0.mh0 I eat:
+      legend.f3.fw5.ph0.mh0.mt3 More specifically:
       .ba.pb2.mw5
         .flex.items-center.mt2.ml2
           input#chicken.pa2.input-reset.checkmark[type="checkbox" name="chicken" value="chicken" checked=true]
@@ -26,10 +39,13 @@ div.san-serif
           input#pork.pa2.input-reset.checkmark[type="checkbox" name="pork" value="pork" checked=true]
           label.db.lh-copy.f5.pointer[for="pork"] pork
         .flex.items-center.mt2.ml2
-          input#grains.pa2.input-reset.checkmark[type="checkbox" name="grains" value="grains" checked=true]
-          label.db.lh-copy.f5.pointer[for="grains"] fish
+          input#fish.pa2.input-reset.checkmark[type="checkbox" name="fish" value="fish" checked=true]
+          label.db.lh-copy.f5.pointer[for="fish"] fish
         .flex.items-center.mt2.ml2
-          input#floor-food.pa2.input-reset.checkmark[type="checkbox" name="floor-food" value="floor-food"]
-          label.db.lh-copy.f5.pointer[for="floor-food"] read meat
+          input#eggs.pa2.input-reset.checkmark[type="checkbox" name="eggs" value="eggs" checked=true]
+          label.db.lh-copy.f5.pointer[for="eggs"] eggs
+        .flex.items-center.mt2.ml2
+          input#red-meat.pa2.input-reset.checkmark[type="checkbox" name="red-meat" value="red meat" checked=true]
+          label.db.lh-copy.f5.pointer[for="red-meat"] red meat
       input.f5.dim.ph3.pv2.mt3.mb2.bn.br2.dib.white.bg-near-black.input-reset.button-reset.pointer[type="submit" value="Set my food preferences"] 
 
