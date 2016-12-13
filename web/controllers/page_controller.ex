@@ -14,17 +14,22 @@ defmodule Kai.PageController do
   def convert(k, v) when k in @strings, do: {String.to_atom(k), String.to_atom(v)}
 
   def decode(params) do 
-    for {k, v} <- params, k in @numbers or k in @strings, into: %{}, do: convert(k, v)
+    for {k, v} <- params, 
+      k in @numbers or k in @strings, 
+      into: %{}, 
+      do: convert(k, v)
   end
 
-  def new(conn, json) do
+  def calories(conn, json) do
     cal = json |> decode |> daily_kilo_calories
-
-
     IO.inspect cal
-    render(conn, "your-groceries.html")
+    redirect(conn, to: "/preferences")
   end
 
+  def serve_preferences(conn, json) do
+    render(conn, "preferences.html")
+  end
+  
   def index(conn, _params) do
     render conn, "index.html", current_user: get_session(conn, :current_user)
   end

@@ -1,11 +1,7 @@
 div.san-serif
-  / = if current_user do
- /   h2 Welcome, #{current_user.name}
- / - else
-
-   form.measure.ml5.mt5[accept-charset="UTF" action="/" method="POST"]
-     input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
-    fieldset#user-details.ba.b--transparent.ph0.mh0
+  form.measure.ml5.mt5[accept-charset="UTF" action="/biometrics" method="POST"]
+    input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
+    fieldset#biometrics.ba.b--transparent.ph0.mh0
       legend.f3.fw5.ph0.mh0.underline Your Details
       .mt3
         label.db.lh-copy.f5[for="age"] Age:
@@ -22,8 +18,8 @@ div.san-serif
       .mt3
         legend.f5.mb3 Your sex:
           .ba.pa2.mt1
-           .mt0
-             input#sex-no-answer.hidden-radio[type="radio" name="sex" value="no-answer" checked=true]
+            .mt0
+              input#sex-no-answer.hidden-radio[type="radio" name="sex" value="no-answer" checked=true]
              label.db.pointer.f5[for="sex-no-answer"] No Answer
            .mt2
              input#sex-female.hidden-radio[type="radio" name="sex" value="female"]

@@ -17,7 +17,8 @@ defmodule Kai.Router do
     pipe_through [:browser, Kai.Auth] 
 
     get "/", PageController, :index
-    post "/", PageController, :new
+    post "/biometrics", PageController, :calories
+    get "/preferences", PageController, :serve_preferences
     resources "/users", UserController
     resources "/session", SessionController, only: [:new, :create, :show]
     resources "/session", SessionController, only: [:delete], singleton: true

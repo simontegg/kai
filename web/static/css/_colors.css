@@ -52,7 +52,9 @@
  --white-0125: rgba(255,255,255,.0125);
 
   --dark-red:  #e7040f;
-  --red:  #ff4136;
+/*  --red:  #ff4136; */
+  --red: #F44336;
+
   --light-red:  #ff725c;
   --orange:  #ff6300;
   --gold:  #ffb700;
@@ -65,7 +67,8 @@
   --pink:  #ff80cc;
   --light-pink:  #ffa3d7;
   --dark-green:  #137752;
-  --green:  #19a974;
+ /* --green:  #19a974; */
+  --green:  #4CAF50;
   --light-green:  #9eebcf;
   --navy:  #001b44;
   --dark-blue:  #00449e;

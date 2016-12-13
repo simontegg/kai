@@ -1,0 +1,35 @@
+
+div.san-serif
+  form.measure.ml5.mt5[accept-charset="UTF" action="/preferences" method="POST"]
+    input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
+    fieldset#preferences.ba.b--transparent.ph0.mh0
+      legend.f3.fw5.ph0.mh0 I eat:
+      .ba.pb2.mw5
+        .flex.items-center.mt2.ml2
+          input#meat.pa2.input-reset.checkmark[type="checkbox" name="meat" value="meat" checked=true]
+          label.db.lh-copy.f5.pointer[for="meat"] meat
+        .flex.items-center.mt2.ml2
+          input#dairy.pa2.input-reset.checkmark[type="checkbox" name="dairy" value="dairy" checked=true]
+          label.db.lh-copy.f5.pointer[for="dairy"] dairy
+        .flex.items-center.mt2.ml2
+          input#grains.pa2.input-reset.checkmark[type="checkbox" name="grains" value="grains" checked=true]
+          label.db.lh-copy.f5.pointer[for="grains"] grains
+        .flex.items-center.mt2.ml2
+          input#floor-food.pa2.input-reset.checkmark[type="checkbox" name="floor-food" value="floor-food"]
+          label.db.lh-copy.f5.pointer[for="floor-food"] food I found on the floor
+      legend.f3.fw5.ph0.mh0 I eat:
+      .ba.pb2.mw5
+        .flex.items-center.mt2.ml2
+          input#chicken.pa2.input-reset.checkmark[type="checkbox" name="chicken" value="chicken" checked=true]
+          label.db.lh-copy.f5.pointer[for="chicken"] chicken
+        .flex.items-center.mt2.ml2
+          input#pork.pa2.input-reset.checkmark[type="checkbox" name="pork" value="pork" checked=true]
+          label.db.lh-copy.f5.pointer[for="pork"] pork
+        .flex.items-center.mt2.ml2
+          input#grains.pa2.input-reset.checkmark[type="checkbox" name="grains" value="grains" checked=true]
+          label.db.lh-copy.f5.pointer[for="grains"] fish
+        .flex.items-center.mt2.ml2
+          input#floor-food.pa2.input-reset.checkmark[type="checkbox" name="floor-food" value="floor-food"]
+          label.db.lh-copy.f5.pointer[for="floor-food"] read meat
+      input.f5.dim.ph3.pv2.mt3.mb2.bn.br2.dib.white.bg-near-black.input-reset.button-reset.pointer[type="submit" value="Set my food preferences"] 
+
