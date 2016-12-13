@@ -17,10 +17,11 @@ defmodule Kai.PageController do
     for {k, v} <- params, k in @numbers or k in @strings, into: %{}, do: convert(k, v)
   end
 
-  def new(conn, params) do
-    user = decode(params)
+  def new(conn, json) do
+    cal = json |> decode |> daily_kilo_calories
 
-    IO.inspect user
+
+    IO.inspect cal
     render(conn, "your-groceries.html")
   end
 
