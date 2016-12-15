@@ -28,8 +28,13 @@ config :phoenix, :template_engines,
   slim: PhoenixSlime.Engine,
   slime: PhoenixSlime.Engine
 
+# testing
+config :hound, driver: "phantomjs"
+
+# templates
 config :slime, :keep_lines, true
 
+#upload files
 config :arc, 
   virtual_host: true,
   bucket: "kai-dev"

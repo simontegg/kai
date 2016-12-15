@@ -10,6 +10,11 @@ defmodule Kai.Repo.Migrations.CreateUser do
       add :sex, :string
       add :email, :string
       add :access_token, :string
+    
+      #vitamin sufficiency
+      add :biotin_ai, :float
+      add :folate_dfe_rda, :float
+      add :niacin_ne_rda, :float
 
       timestamps()
     end

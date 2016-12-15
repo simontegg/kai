@@ -20,9 +20,9 @@ defmodule Kai.PageController do
       do: convert(k, v)
   end
 
-  def calories(conn, json) do
-    cal = json |> decode |> daily_kilo_calories
-    IO.inspect cal
+  def nutrients(conn, json) do
+    requirements = json |> decode |> requirements
+    IO.inspect requirements
     redirect(conn, to: "/preferences")
   end
 

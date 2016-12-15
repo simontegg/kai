@@ -1,5 +1,9 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/home/simontegg/n/bin/node', '/usr/local/bin/npm', 'install' ]
+1 verbose cli [ '/home/simontegg/n/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'phantomjs-prebuilt',
+1 verbose cli   '-g' ]
 2 info using npm@3.5.3
 3 info using node@v7.2.1
 4 verbose stack Error: Cannot find module 'internal/fs'
@@ -15,7 +19,7 @@
 4 verbose stack     at tryModuleLoad (module.js:447:12)
 5 verbose cwd /home/simontegg/projects/kai
 6 error Linux 4.3.0-1-amd64
-7 error argv "/home/simontegg/n/bin/node" "/usr/local/bin/npm" "install"
+7 error argv "/home/simontegg/n/bin/node" "/usr/local/bin/npm" "install" "phantomjs-prebuilt" "-g"
 8 error node v7.2.1
 9 error npm  v3.5.3
 10 error code MODULE_NOT_FOUND

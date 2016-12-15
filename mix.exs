@@ -13,29 +13,31 @@ defmodule Kai.Mixfile do
      deps: deps()]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
   def application do
+    [ mod: {Kai, []},
+      applications: app_list(Mix.env) ]
+  end
+
+  def app_list do
     [
-      mod: {Kai, []},
-      applications: [
-        :phoenix, 
-        :phoenix_ecto, 
-        :phoenix_html, 
-        :phoenix_pubsub, 
-        :phoenix_slime,
-        :logger, 
-        :cowboy, 
-        :gettext, 
-        :postgrex,
-        :arc_ecto,
-        :ex_aws,
-        :httpoison,
-        :timex
-      ]
+      :phoenix, 
+      :phoenix_ecto, 
+      :phoenix_html, 
+      :phoenix_pubsub, 
+      :phoenix_slime,
+      :logger, 
+      :cowboy, 
+      :gettext, 
+      :postgrex,
+      :arc_ecto,
+      :ex_aws,
+      :httpoison,
+      :timex
     ]
   end
+
+  def app_list(:test), do: [:hound | app_list]
+  def app_list(_),     do: app_list
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -63,6 +65,11 @@ defmodule Kai.Mixfile do
       {:ex_aws, "~> 1.0.0-rc3"},
       {:httpoison, "~> 0.7"}, 
 
+      # Testing
+      {:espec_phoenix, "~> 0.6.4", only: :test},
+      {:espec, "~> 1.2.0", only: :test},
+      {:white_bread, "~> 2.5", only: [:dev, :test]},
+      {:hound, "~> 1.0"},
 
       {:cowboy, "~> 1.0"},
       {:csv, "~> 1.4.2"},
@@ -86,8 +93,8 @@ defmodule Kai.Mixfile do
         "ecto.migrate", 
         "run priv/repo/seeds.exs"
       ],
-     "ecto.reset": ["ecto.drop", "ecto.setup"],
-     "test": ["ecto.create --quiet", "ecto.migrate", "test"]
-   ]
+    "ecto.reset": ["ecto.drop", "ecto.setup"],
+    "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+  ]
   end
 end

@@ -15,6 +15,11 @@ defmodule Kai.User do
     field :email, :string
     field :access_token, :string
 
+    #vitamin sufficiency
+    field :biotin_ai, :float
+    field :folate_dfe_rda, :float
+    field :niacin_ne_rda, :float
+
     timestamps()
   end
 
