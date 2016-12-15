@@ -2,16 +2,15 @@ defmodule Kai.PageController do
   use Kai.Web, :controller
   
   import Kai.Requirements
+  import String
+  
   alias Kai.Utils
-  alias String
 
   @numbers ["age", "height", "weight", "activity"]
   @strings ["sex"]
 
-  defstruct [:age, :height, :weight, :sex]
-
-  def convert(k, v) when k in @numbers, do: {String.to_atom(k), String.to_integer(v)}
-  def convert(k, v) when k in @strings, do: {String.to_atom(k), String.to_atom(v)}
+  def convert(k, v) when k in @numbers, do: {to_atom(k), to_integer(v)}
+  def convert(k, v) when k in @strings, do: {to_atom(k), to_atom(v)}
 
   def decode(params) do 
     for {k, v} <- params, 

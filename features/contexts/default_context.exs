@@ -2,15 +2,14 @@ defmodule WhiteBread.DefaultContext do
   use WhiteBread.Context 
   use Hound.Helpers
   
-  @port to_string(Application.get_env(:kai, Kai.Endpoint)[:http][:port])
-  @base_url "http://localhost:"
+  @port Application.get_env(:kai, Kai.Endpoint)[:http][:port] |> to_string
+  @base_url "http://localhost:" <> @port
   
   scenario_starting_state fn state ->
     Application.ensure_all_started(:hound)
     Hound.start_session
 
-    url = @base_url <> @port
-    %{url: url}
+    %{key: "value"}
   end
 
   scenario_finalize fn state ->
@@ -18,9 +17,7 @@ defmodule WhiteBread.DefaultContext do
   end
   
   given_ ~r/^I navigate to "(?<path>[^"]+)"$/, fn state, %{path: path} ->
-    IO.inspect state
-    href = state.url  <> path
-    navigate_to(href)
+    @base_url |> Kernel.<>(path) |> navigate_to
     {:ok, state}
   end
 
