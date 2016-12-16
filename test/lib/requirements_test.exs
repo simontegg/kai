@@ -1,25 +1,19 @@
-defmodule Kai.ReceiptTest do
+defmodule Kai.RequirementsTest do
   use ExUnit.Case
-  #use Kai.ModelCase
+  import Kai.Factory
   alias Kai.Requirements
 
-  import Kai.Factory
+  for line <- File.stream!(Path.join([__DIR__, "test-data.txt"]), [], :line) do
+    [name, attrs, expected] = 
+      line |> String.split("||") |> Enum.map(&String.strip(&1))
 
-  @tag :wip
-  test "computes micronutrient requirements from biometrics" do
-    IO.inspect Requirements
-    user = build(:user)
+    test "it computes nutrient requirements for: " <> name do      
+      {expected, []} = Code.eval_string(unquote(expected))
+      {attrs, []} = Code.eval_string(unquote(attrs))
+      nutrients = build(:user, attrs) |> Requirements.nutrients
 
-    nutrients = Requirements.nutrients(user)
-
-    IO.inspect user
-    IO.inspect nutrients
-    #assert nutrients.niacin_ne_rda == user.niacin_ne_rda
-    Enum.each(nutrients, fn ({k, v}) -> 
-      assert Map.get(nutrients, k) == Map.get(user, k)
-    end)
-
+      assert ^expected = nutrients
+    end
   end
-
 
 end

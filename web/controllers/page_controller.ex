@@ -3,8 +3,6 @@ defmodule Kai.PageController do
   
   import Kai.Requirements
   import String
-  
-  alias Kai.Utils
 
   @numbers ["age", "height", "weight", "activity"]
   @strings ["sex"]

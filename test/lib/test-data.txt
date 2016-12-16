@@ -1,0 +1,2 @@
+female || [sex: "female"] || %{calories: 2922, biotin_ai: 0.03, niacin_ne_rda: 16, folate_dfe_rda: 0.4}
+male, age:51 || [sex: "male", age: 51] || %{calories: 3047, biotin_ai: 0.03, niacin_ne_rda: 16, folate_dfe_rda: 0.4}

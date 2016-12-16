@@ -8,14 +8,19 @@ defmodule Kai.SessionController do
     changeset = User.changeset(%User{})
     render conn, "new.html", changeset: changeset
   end
+
+  def user_by_email(email) do
+    case Repo.get_by(User, email: email) do
+      nil -> %User{email: email}
+      user -> user
+    end
+  end
   
   def create(conn, %{"user" => user_params}) do
-    user_email = String.downcase(user_params["email"])
-    user_struct =
-      case Repo.get_by(User, email: user_email) do
-        nil -> %User{email: user_email}
-        user -> user
-      end
+    email = String.downcase(user_params["email"]) 
+    user_struct = 
+      email
+      |> user_by_email 
       |> User.registration_changeset(user_params)
 
     case Repo.insert_or_update(user_struct) do

@@ -1,7 +1,6 @@
 defmodule Kai.Factory do
   use ExMachina.Ecto, repo: Kai.Repo
 
-
   def user_factory do
     %Kai.User{
       name: "me",

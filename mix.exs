@@ -28,7 +28,6 @@ defmodule Kai.Mixfile do
       :phoenix_slime,
       :logger, 
       :cowboy, 
-      :ex_machina,
       :gettext, 
       :postgrex,
       :arc_ecto,
@@ -71,6 +70,9 @@ defmodule Kai.Mixfile do
       {:ex_machina, "~> 1.0", only: [:test]},
       {:white_bread, "~> 2.5", only: [:dev, :test]},
       {:hound, "~> 1.0"},
+
+      # Linting
+      {:credo, "~> 0.5", only: [:dev, :test]},
 
       {:cowboy, "~> 1.0"},
       {:csv, "~> 1.4.2"},
