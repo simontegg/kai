@@ -12,16 +12,16 @@ defmodule Kai.PageController do
   def convert(k, v) when k in @numbers, do: {to_atom(k), to_integer(v)}
   def convert(k, v) when k in @strings, do: {to_atom(k), to_atom(v)}
 
-  def decode(params) do 
-    for {k, v} <- params, 
+  def decode(json) do 
+    for {k, v} <- json, 
       k in @numbers or k in @strings, 
       into: %{}, 
       do: convert(k, v)
   end
 
   def nutrients(conn, json) do
-    requirements = json |> decode |> requirements
-    IO.inspect requirements
+    nutrients = json |> decode |> nutrients
+    IO.inspect nutrients
     redirect(conn, to: "/preferences")
   end
 

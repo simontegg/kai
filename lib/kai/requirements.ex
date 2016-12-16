@@ -1,7 +1,8 @@
 
 defmodule Kai.Requirements do
+  alias Kai.User 
 
-  def requirements(params) do 
+  def nutrients(params) do 
     %{
       calories: calories(params),
       biotin_ai: biotin_ai(params),
@@ -16,6 +17,7 @@ defmodule Kai.Requirements do
     params 
     |> baseline_metabolic_rate 
     |> Kernel.*(multipier)
+    |> round
   end
 
   def activity_multiplier(activity) do
@@ -34,16 +36,16 @@ defmodule Kai.Requirements do
     :height => height,
     :age => age,
     :sex => sex }) do 
-  (10 * weight) + (6.25 * height) - (5 * age) + modifier(sex) 
-    end
+      (10 * weight) + (6.25 * height) - (5 * age) + modifier(sex) 
+  end
 
-    def modifier(sex) do
-      case sex do
-        "female"  -> -161
-        "male"    -> 5
-        _         -> -76
-      end
+  def modifier(sex) do
+    case sex do
+     "female"  -> -161
+      "male"    -> 5
+       _         -> -76
     end
+  end
 
     # http://lpi.oregonstate.edu/mic/vitamins/biotin
     def biotin_ai(%{:age => age}) do

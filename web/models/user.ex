@@ -10,6 +10,7 @@ defmodule Kai.User do
     field :name, :string
     field :age, :integer
     field :weight, :integer
+    field :height, :integer
     field :sex, :string
     field :activity, :string
     field :email, :string
@@ -19,6 +20,7 @@ defmodule Kai.User do
     field :biotin_ai, :float
     field :folate_dfe_rda, :float
     field :niacin_ne_rda, :float
+    field :calories, :integer
 
     timestamps()
   end

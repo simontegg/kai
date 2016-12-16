@@ -17,6 +17,7 @@
   "espec": {:hex, :espec, "1.2.0", "93a057d9b200619c6a64676f27b5e7d3d6d80097763232a76bb88d8b0c3db28d", [:mix], [{:meck, "~> 0.8.4", [hex: :meck, optional: false]}]},
   "espec_phoenix": {:hex, :espec_phoenix, "0.6.4", "a8ab48e21ae261466848c41bce520f88028ecf439b9cbd436758ccde824db474", [:mix], [{:espec, ">= 1.2.0", [hex: :espec, optional: false]}, {:phoenix, ">= 1.0.0", [hex: :phoenix, optional: false]}]},
   "ex_aws": {:hex, :ex_aws, "1.0.0-rc.4", "87c3edb1358069edd93896d0a0dff28e0b1b08327730abb6620aba2420f3809a", [:mix], [{:gen_stage, "~> 0.8.0", [hex: :gen_stage, optional: false]}, {:hackney, "~> 1.5", [hex: :hackney, optional: true]}, {:jsx, "~> 2.8", [hex: :jsx, optional: true]}, {:poison, "~> 1.2 or ~> 2.0", [hex: :poison, optional: true]}, {:sweet_xml, "~> 0.5", [hex: :sweet_xml, optional: true]}]},
+  "ex_machina": {:hex, :ex_machina, "1.0.2", "1cc49e1a09e3f7ab2ecb630c17f14c2872dc4ec145d6d05a9c3621936a63e34f", [:mix], [{:ecto, "~> 2.0", [hex: :ecto, optional: true]}]},
   "exrm": {:hex, :exrm, "1.0.8", "5aa8990cdfe300282828b02cefdc339e235f7916388ce99f9a1f926a9271a45d", [:mix], [{:relx, "~> 3.5", [hex: :relx, optional: false]}]},
   "fs": {:hex, :fs, "0.9.2", "ed17036c26c3f70ac49781ed9220a50c36775c6ca2cf8182d123b6566e49ec59", [:rebar], []},
   "gen_stage": {:hex, :gen_stage, "0.8.0", "a76e3f0530f86fae8b8a1021c06527b1ec171cf4c0bdfecd8d5ad0376d1205af", [:mix], []},

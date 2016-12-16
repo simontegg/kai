@@ -9,6 +9,7 @@ defmodule Kai.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     preferred_client_env: [espec: :test],
      aliases: aliases(),
      deps: deps()]
   end
@@ -27,6 +28,7 @@ defmodule Kai.Mixfile do
       :phoenix_slime,
       :logger, 
       :cowboy, 
+      :ex_machina,
       :gettext, 
       :postgrex,
       :arc_ecto,
@@ -66,8 +68,7 @@ defmodule Kai.Mixfile do
       {:httpoison, "~> 0.7"}, 
 
       # Testing
-      {:espec_phoenix, "~> 0.6.4", only: :test},
-      {:espec, "~> 1.2.0", only: :test},
+      {:ex_machina, "~> 1.0", only: [:test]},
       {:white_bread, "~> 2.5", only: [:dev, :test]},
       {:hound, "~> 1.0"},
 
