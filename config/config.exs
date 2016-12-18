@@ -16,9 +16,10 @@ config :kai, Kai.Endpoint,
   render_errors: [view: Kai.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Kai.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :kai,
-  mailgun_domain: System.get_env("MAILGUN_DOMAIN"),
-  mailgun_key: System.get_env("MAILGUN_KEY")
+config :kai, Kai.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  domain: System.get_env("MAILGUN_DOMAIN"),
+  api_key: System.get_env("MAILGUN_KEY")
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

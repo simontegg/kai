@@ -36,4 +36,10 @@ defmodule WhiteBread.DefaultContext do
     {:ok, state}
   end
 
+  then_ ~r/^the page contains the text "(?<text>[^"]+)"$/, fn state, %{text: text} ->
+    element = find_element(:xpath, "//*[text()[normalize-space(.)='#{text}']]")
+
+    assert element
+    {:ok, state}
+  end
 end

@@ -1,0 +1,27 @@
+## This file is a PO Template file.
+##
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here as no
+## effect: edit them in PO (`.po`) files instead.
+msgid ""
+msgstr ""
+
+#: web/controllers/session_controller.ex:32
+msgid "We sent you a link to create an account. Please check your inbox."
+msgstr ""
+
+#: web/controllers/session_controller.ex:43
+msgid "Access token not found or expired."
+msgstr ""
+
+#: web/controllers/session_controller.ex:56
+msgid "User logged out."
+msgstr ""
+
+#: web/controllers/session_controller.ex:48
+msgid "Welcome %{email}"
+msgstr ""

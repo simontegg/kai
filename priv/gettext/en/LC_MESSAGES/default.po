@@ -1,0 +1,2 @@
+msgid "sent link"
+msgstr "We sent you a link to create an account. Please check your inbox."

@@ -1,6 +1,6 @@
 defmodule Kai.SessionController do
   use Kai.Web, :controller
-  alias Kai.{Mailer, Auth, User}
+  alias Kai.{Mailer, Auth, User, Email}
   import Hashids
 
   def new(conn, _params) do
@@ -24,9 +24,12 @@ defmodule Kai.SessionController do
 
     case Repo.insert_or_update(user_struct) do
       {:ok, user} ->
-        Task.async(fn -> Mailer.send_login_token(user) end)
+        Task.async(fn -> 
+          Email.login_email(user) |> Mailer.deliver_now 
+        end)
+
         conn
-        |> put_flash(:info, "We sent you a link to create an account. Please check your inbox.")
+        |> put_flash(:info, gettext "sent link")
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -37,12 +40,12 @@ defmodule Kai.SessionController do
     case Repo.get_by(User, access_token: access_token) do
       nil ->
         conn
-        |> put_flash(:error, "Access token not found or expired.")
+        |> put_flash(:error, gettext "Access token not found or expired.")
         |> redirect(to: page_path(conn, :index))
       user ->
         conn
         |> Auth.login(user)
-        |> put_flash(:info, "Welcome #{user.email}")
+        |> put_flash(:info, gettext "Welcome %{email}", email: user.email)
         |> redirect(to: page_path(conn, :index))
     end
   end
@@ -50,7 +53,7 @@ defmodule Kai.SessionController do
   def delete(conn, _params) do
     conn
     |> Kai.Auth.logout()
-    |> put_flash(:info, "User logged out.")
+    |> put_flash(:info, gettext "User logged out.")
     |> redirect(to: page_path(conn, :index))
   end
 

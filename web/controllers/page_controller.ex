@@ -28,8 +28,6 @@ defmodule Kai.PageController do
     
     Toniq.enqueue(SolverWorker, intake)
 
-
-
     redirect(conn, to: "/preferences")
   end
 
