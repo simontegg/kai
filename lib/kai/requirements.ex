@@ -113,13 +113,30 @@ defmodule Kai.Requirements do
       end
     end
 
+    def thiamin_rda(%{:age => age, :sex => sex}) when sex == "male" do
+      cond do
+        age > 0 and age < 4   -> 0.5
+        age > 3 and age < 9   -> 0.6
+        age > 8 and age < 14  -> 0.9
+        age > 13              -> 1.2
+      end
+    end
+    def thiamin_rda(%{:age => age, :sex => sex}) when sex == "female" do
+      cond do
+        age > 0 and age < 4   -> 0.5
+        age > 3 and age < 9   -> 0.6
+        age > 8 and age < 14  -> 0.9
+        age > 13              -> 1.0
+        age > 18              -> 1.1
+      end
+    end
     def thiamin_rda(%{:age => age, :sex => sex}) do
       cond do
         age > 0 and age < 4   -> 0.5
         age > 3 and age < 9   -> 0.6
         age > 8 and age < 14  -> 0.9
-        age > 13              -> if age == "male", do: 1.2, else: 1.0
-        age > 18              -> if age == "male", do: 1.2, else: 1.1
+        age > 13              -> 1.1
+        age > 18              -> 1.15
       end
     end
 
