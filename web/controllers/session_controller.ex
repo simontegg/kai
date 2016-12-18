@@ -1,7 +1,6 @@
 defmodule Kai.SessionController do
   use Kai.Web, :controller
   alias Kai.{Mailer, Auth, User, Email}
-  import Hashids
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -29,8 +28,9 @@ defmodule Kai.SessionController do
         end)
 
         conn
-        |> put_flash(:info, gettext "sent link")
+        |> put_flash(:info, gettext("sent link"))
         |> redirect(to: page_path(conn, :index))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -40,12 +40,13 @@ defmodule Kai.SessionController do
     case Repo.get_by(User, access_token: access_token) do
       nil ->
         conn
-        |> put_flash(:error, gettext "Access token not found or expired.")
+        |> put_flash(:error, gettext("Access token not found or expired."))
         |> redirect(to: page_path(conn, :index))
+
       user ->
         conn
         |> Auth.login(user)
-        |> put_flash(:info, gettext "Welcome %{email}", email: user.email)
+        |> put_flash(:info, gettext("Welcome %{email}", email: user.email))
         |> redirect(to: page_path(conn, :index))
     end
   end
@@ -56,8 +57,5 @@ defmodule Kai.SessionController do
     |> put_flash(:info, gettext "User logged out.")
     |> redirect(to: page_path(conn, :index))
   end
-
-
-
 end
 

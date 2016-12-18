@@ -21,3 +21,6 @@ config :kai, Kai.Repo,
   database: "kai_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :kai, Kai.Mailer,
+  adapter: Bamboo.TestAdapter

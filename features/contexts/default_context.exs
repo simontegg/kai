@@ -8,8 +8,6 @@ defmodule WhiteBread.DefaultContext do
   scenario_starting_state fn state ->
     Application.ensure_all_started(:hound)
     Hound.start_session
-
-    %{key: "value"}
   end
 
   scenario_finalize fn state ->
@@ -29,10 +27,12 @@ defmodule WhiteBread.DefaultContext do
   end
 
   then_ ~r/^the page contains the legend "(?<legend>[^"]+)"$/, fn state, %{legend: legend} ->
-    actual_legends = find_all_elements(:tag, "legend")
-                    |> Enum.map(fn el -> visible_text(el) end)
+    :tag    
+    |> find_all_elements("legend") 
+    |> Enum.map(fn el -> visible_text(el) end)
+    |> Enum.member?(legend)
+    |> assert
 
-    assert Enum.member?(actual_legends, legend)
     {:ok, state}
   end
 
