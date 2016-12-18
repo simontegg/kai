@@ -3,7 +3,7 @@ using JuMP
 using Cbc
 
 
-# Initial Data
+# initial data
 food_names = ["bacon", "lettuce", "tomato"]
 prices = [6, 6, 7]
 quantities = [0, 0, 0]
@@ -19,13 +19,13 @@ nutrients = [
 ]
 
 
-# helpers
+# computed variables
 food_count = length(food_names)
 nutrient_count = length(nutrient_names)
 
 
 # setup model
-m = Model(solver = CbcSolver(logLevel = 1), )
+m = Model(solver = CbcSolver(logLevel = 1))
 @variable(m, quantities[1:food_count] >= 0, Int)
 
 for i in 1:nutrient_count

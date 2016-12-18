@@ -4,7 +4,6 @@ defmodule Kai.SessionController do
   import Hashids
 
   def new(conn, _params) do
-  #    IO.inspect(%User{})
     changeset = User.changeset(%User{})
     render conn, "new.html", changeset: changeset
   end
@@ -17,9 +16,9 @@ defmodule Kai.SessionController do
   end
   
   def create(conn, %{"user" => user_params}) do
-    email = String.downcase(user_params["email"]) 
     user_struct = 
-      email
+      user_params["email"]
+      |> String.downcase
       |> user_by_email 
       |> User.registration_changeset(user_params)
 
@@ -35,9 +34,6 @@ defmodule Kai.SessionController do
   end
 
   def show(conn, %{"id" => access_token}) do
-    
-
-
     case Repo.get_by(User, access_token: access_token) do
       nil ->
         conn

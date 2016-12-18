@@ -26,14 +26,16 @@ defmodule Kai.Mixfile do
       :phoenix_html, 
       :phoenix_pubsub, 
       :phoenix_slime,
-      :logger, 
       :cowboy, 
+      :logger, 
+      :porcelain,
       :gettext, 
       :postgrex,
       :arc_ecto,
       :ex_aws,
       :httpoison,
-      :timex
+      :timex,
+      :toniq
     ]
   end
 
@@ -73,6 +75,11 @@ defmodule Kai.Mixfile do
 
       # Linting
       {:credo, "~> 0.5", only: [:dev, :test]},
+
+      # Networks
+      {:porcelain, "~> 2.0"},
+      {:exredis, ">= 0.1.1"},
+      {:toniq, "~> 1.0"},
 
       {:cowboy, "~> 1.0"},
       {:csv, "~> 1.4.2"},

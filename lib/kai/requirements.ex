@@ -85,28 +85,24 @@ defmodule Kai.Requirements do
       end
     end
     
-    def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "male", do
+    def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "male" do
       cond do
         age > 0 and age < 4   -> 0.5
         age > 3 and age < 9   -> 0.6
         age > 8 and age < 14  -> 0.9
         age > 13              -> 1.3
         age > 18              -> 1.3
-
       end
     end
-
-    def riboflavin_rda(%{:age => age, :sex => sex}) when sex = "female", do
+    def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "female" do
       cond do
         age > 0 and age < 4   -> 0.5
         age > 3 and age < 9   -> 0.6
         age > 8 and age < 14  -> 0.9
         age > 13              -> 1.0
         age > 18              -> 1.1
-
       end
     end
-    
     def riboflavin_rda(%{:age => age, :sex => sex}) do
       cond do
         age > 0 and age < 4   -> 0.5
@@ -114,7 +110,6 @@ defmodule Kai.Requirements do
         age > 8 and age < 14  -> 0.9
         age > 13              -> 1.15
         age > 18              -> 1.2
-
       end
     end
 
@@ -138,7 +133,7 @@ defmodule Kai.Requirements do
     end
 
     #preformed vitamin A from supplements
-    def vitamin_a_rae_ul(%{:age => age, :sex => sex}) do
+    def vitamin_a_rae_ul(%{:age => age}) do
       cond do
         age > 0 and age < 4   -> 0.6
         age > 3 and age < 9   -> 0.9

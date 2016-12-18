@@ -90,6 +90,13 @@
   from location lookup prices 
     
 
+## Scenario: Solver on Lamda
+
+Solver needs:
+  - food:
+    - nurients...
+    - price per edible
+  - sufficiency constraints
 
 
 2. POST /solver data=computed

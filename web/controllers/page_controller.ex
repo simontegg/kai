@@ -1,8 +1,11 @@
 defmodule Kai.PageController do
   use Kai.Web, :controller
+  import Toniq
+  alias Kai.SolverWorker
   
-  import Kai.Requirements
   import String
+
+  alias Kai.Requirements
 
   @numbers ["age", "height", "weight", "activity"]
   @strings ["sex"]
@@ -18,8 +21,15 @@ defmodule Kai.PageController do
   end
 
   def nutrients(conn, json) do
-    nutrients = json |> decode |> nutrients
-    IO.inspect nutrients
+    intake_table = 
+      json 
+      |> decode 
+      |> Requirements.nutrients
+    
+    Toniq.enqueue(SolverWorker, intake_table)
+
+
+
     redirect(conn, to: "/preferences")
   end
 
