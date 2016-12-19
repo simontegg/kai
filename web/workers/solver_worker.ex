@@ -20,19 +20,15 @@ defmodule Kai.SolverWorker do
 
   def write_constraints(constraints) do
     headers = Map.keys(constraints)
-    file_name = "constraints.csv"
-    
-    file = 
-      __DIR__
-      |> Path.join(file_name)
-      |> File.open!([:write, :utf8])
+    file_path = Path.join(__DIR__, "constraints.csv")
+    file = File.open!(file_path, [:write, :utf8])
     
     constraints
     |> List.wrap 
     |> CSV.encode(headers: headers)
     |> Enum.each(&IO.write(file, &1))
 
-    file_name
+    file_path
   end
 
 
