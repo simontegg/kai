@@ -21,12 +21,12 @@ defmodule Kai.PageController do
   end
 
   def nutrients(conn, json) do
-    intake = 
+    constraints = 
       json 
       |> decode 
       |> Requirements.nutrients
     
-    Toniq.enqueue(SolverWorker, intake)
+    Toniq.enqueue(SolverWorker, constraints)
 
     redirect(conn, to: "/preferences")
   end

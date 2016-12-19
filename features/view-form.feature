@@ -20,7 +20,7 @@ Feature: Frontpage Form
     When I fill "height" with <height>
     When I fill "weight" with <weight>
     When I fill "workouts" with <workouts>
-    When I select "sex" with <sex>
+    When I select "sex" <sex>
     When I press "Optimise my groceries"
     Then the page contains the text "Kai is computing your groceries" 
     Then the page contains the text "We've sent you an email" 

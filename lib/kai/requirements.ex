@@ -47,116 +47,116 @@ defmodule Kai.Requirements do
     end
   end
 
-    # http://lpi.oregonstate.edu/mic/vitamins/biotin
-    def biotin_ai(%{:age => age}) do
-      cond do
-        age > 0 and age < 4   -> 0.008
-        age > 3 and age < 9   -> 0.012
-        age > 8 and age < 14  -> 0.02
-        age > 13 and age < 19 -> 0.025
-        age > 18              -> 0.03
-      end
+  # http://lpi.oregonstate.edu/mic/vitamins/biotin
+  def biotin_ai(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.008
+      age > 3 and age < 9   -> 0.012
+      age > 8 and age < 14  -> 0.02
+      age > 13 and age < 19 -> 0.025
+      age > 18              -> 0.03
     end
+  end
 
-    def folate_dfe_rda(%{:age => age}) do
-      cond do
-        age > 0 and age < 4   -> 0.150
-        age > 3 and age < 9   -> 0.200
-        age > 8 and age < 14  -> 0.300
-        age > 13              -> 0.400
-      end
+  def folate_dfe_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.150
+      age > 3 and age < 9   -> 0.200
+      age > 8 and age < 14  -> 0.300
+      age > 13              -> 0.400
     end
+  end
 
-    def niacin_ne_rda(%{:age => age, :sex => sex}) do
-      cond do
-        age > 0 and age < 4   -> 6
-        age > 3 and age < 9   -> 8
-        age > 8 and age < 14  -> 9
-        age > 13              -> if age == "female", do: 14, else: 16
-      end
+  def niacin_ne_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 8
+      age > 8 and age < 14  -> 9
+      age > 13              -> if age == "female", do: 14, else: 16
     end
+  end
 
-    def pantothenic_acid_ai(%{:age => age}) do
-      cond do
-        age > 0 and age < 4   -> 2
-        age > 3 and age < 9   -> 3
-        age > 8 and age < 14  -> 4
-        age > 13              -> 5
-      end
+  def pantothenic_acid_ai(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 2
+      age > 3 and age < 9   -> 3
+      age > 8 and age < 14  -> 4
+      age > 13              -> 5
     end
-    
-    def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "male" do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.3
-        age > 18              -> 1.3
-      end
-    end
-    def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "female" do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.0
-        age > 18              -> 1.1
-      end
-    end
-    def riboflavin_rda(%{:age => age, :sex => sex}) do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.15
-        age > 18              -> 1.2
-      end
-    end
+  end
 
-    def thiamin_rda(%{:age => age, :sex => sex}) when sex == "male" do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.2
-      end
+  def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.3
+      age > 18              -> 1.3
     end
-    def thiamin_rda(%{:age => age, :sex => sex}) when sex == "female" do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.0
-        age > 18              -> 1.1
-      end
+  end
+  def riboflavin_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.0
+      age > 18              -> 1.1
     end
-    def thiamin_rda(%{:age => age, :sex => sex}) do
-      cond do
-        age > 0 and age < 4   -> 0.5
-        age > 3 and age < 9   -> 0.6
-        age > 8 and age < 14  -> 0.9
-        age > 13              -> 1.1
-        age > 18              -> 1.15
-      end
+  end
+  def riboflavin_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.15
+      age > 18              -> 1.2
     end
+  end
 
-    def vitamin_a_rae_rda(%{:age => age, :sex => sex}) do
-      cond do
-        age > 0 and age < 4   -> 0.3
-        age > 3 and age < 9   -> 0.4
-        age > 8 and age < 14  -> 0.6
-        age > 13              -> if age == "male", do: 0.9, else: 0.7
-      end
+  def thiamin_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.2
     end
+  end
+  def thiamin_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.0
+      age > 18              -> 1.1
+    end
+  end
+  def thiamin_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 0.9
+      age > 13              -> 1.1
+      age > 18              -> 1.15
+    end
+  end
 
-    #preformed vitamin A from supplements
-    def vitamin_a_rae_ul(%{:age => age}) do
-      cond do
-        age > 0 and age < 4   -> 0.6
-        age > 3 and age < 9   -> 0.9
-        age > 8 and age < 14  -> 1.7
-        age > 13              -> 2.8
-        age > 18              -> 3.0
-      end
+  def vitamin_a_rae_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.3
+      age > 3 and age < 9   -> 0.4
+      age > 8 and age < 14  -> 0.6
+      age > 13              -> if age == "male", do: 0.9, else: 0.7
     end
+  end
+
+  #preformed vitamin A from supplements
+  def vitamin_a_rae_ul(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.6
+      age > 3 and age < 9   -> 0.9
+      age > 8 and age < 14  -> 1.7
+      age > 13              -> 2.8
+      age > 18              -> 3.0
+    end
+  end
 end

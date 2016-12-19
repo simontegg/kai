@@ -24,12 +24,8 @@ defmodule Kai.Router do
     resources "/session", SessionController, only: [:delete], singleton: true
     resources "/receipts", ReceiptController
 
-    if Mix.env == :dev do
-      forward "sent-emails", Bamboo.EmailPreviewPlug
-    end
-  end
-  # Other scopes may use custom stacks.
-  # scope "/api", Kai do
-    #   pipe_through :api
+    # if Mix.env == :dev do
+    #   forward "/sent-emails", Bamboo.EmailPreviewPlug
     # end
+  end
 end

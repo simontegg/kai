@@ -24,7 +24,7 @@ defmodule Kai.SessionController do
     case Repo.insert_or_update(user_struct) do
       {:ok, user} ->
         Task.async(fn -> 
-          Email.login_email(user) |> Mailer.deliver_now 
+          user |> Email.login_email |> Mailer.deliver_now 
         end)
 
         conn

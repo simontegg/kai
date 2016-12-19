@@ -21,6 +21,18 @@ defmodule Kai.Factory do
     }
   end
 
+  def constraints_factory do
+    %{
+      biotin_ai: 0.03,
+      folate_dfe_rda: 0.4,
+      niacin_ne_rda: 16,
+      calories: 3083
+    }
+  end
+
+
+
+
 end
 
 
