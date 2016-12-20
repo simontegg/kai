@@ -5,9 +5,9 @@ defmodule Kai.Requirements do
   def nutrients(params) do 
     %{
       calories: calories(params),
-      biotin_ai: biotin_ai(params),
-      folate_dfe_rda: folate_dfe_rda(params),
-      niacin_ne_rda: niacin_ne_rda(params)
+      biotin: biotin_ai(params),
+      folate_dfe: folate_dfe_rda(params),
+      niacin_ne: niacin_ne_rda(params)
     }
   end
 
@@ -67,12 +67,28 @@ defmodule Kai.Requirements do
     end
   end
 
+  def niacin_ne_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 8
+      age > 8 and age < 14  -> 12
+      age > 13              -> 16
+    end
+  end
+  def niacin_ne_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 8
+      age > 8 and age < 14  -> 12
+      age > 13              -> 14
+    end
+  end
   def niacin_ne_rda(%{:age => age, :sex => sex}) do
     cond do
       age > 0 and age < 4   -> 6
       age > 3 and age < 9   -> 8
-      age > 8 and age < 14  -> 9
-      age > 13              -> if age == "female", do: 14, else: 16
+      age > 8 and age < 14  -> 12
+      age > 13              -> 15
     end
   end
 
@@ -156,6 +172,14 @@ defmodule Kai.Requirements do
       age > 13              -> 0.7
     end
   end
+  def vitamin_a_rae_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.3
+      age > 3 and age < 9   -> 0.4
+      age > 8 and age < 14  -> 0.6
+      age > 13              -> 0.8
+    end
+  end
 
   #preformed vitamin A from supplements
   def vitamin_a_rae_ul(%{:age => age}) do
@@ -168,7 +192,141 @@ defmodule Kai.Requirements do
     end
   end
   
-  def calcium_rda(%{:age => age, :sex => sex}) when sex = "male" do
+  def vitamin_b6_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 1.0
+      age > 13 and age < 51 -> 1.3
+      age > 50              -> 1.7
+    end
+  end
+  def vitamin_b6_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 1.0
+      age > 13 and age < 19 -> 1.2
+      age > 13 and age < 51 -> 1.3
+      age > 50              -> 1.5
+    end
+  end
+  def vitamin_b6_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.5
+      age > 3 and age < 9   -> 0.6
+      age > 8 and age < 14  -> 1.0
+      age > 13 and age < 19 -> 1.25
+      age > 13 and age < 51 -> 1.3
+      age > 50              -> 1.6
+    end
+  end
+  
+  def vitamin_b12_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.0009
+      age > 3 and age < 9   -> 0.0012
+      age > 8 and age < 14  -> 0.0018
+      age > 13              -> 0.0024
+    end
+  end
+
+  def vitamin_c_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 15
+      age > 3 and age < 9   -> 25
+      age > 8 and age < 14  -> 45
+      age > 13 and age < 19 -> 75
+      age > 18              -> 90
+    end
+  end
+  def vitamin_c_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 15
+      age > 3 and age < 9   -> 25
+      age > 8 and age < 14  -> 45
+      age > 13 and age < 19 -> 65
+      age > 18              -> 75
+    end
+  end
+  def vitamin_c_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 15
+      age > 3 and age < 9   -> 25
+      age > 8 and age < 14  -> 45
+      age > 13 and age < 19 -> 70
+      age > 18              -> 82.5
+    end
+  end
+
+  def vitamin_c_lp_recc(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 70
+      age > 3 and age < 9   -> 110
+      age > 8 and age < 14  -> 200
+      age > 13 and age < 19 -> 335
+      age > 18              -> 400
+    end
+  end
+  
+  def vit_e_a_tocopherl_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 7
+      age > 8 and age < 14  -> 11
+      age > 13              -> 15
+    end
+  end
+  def vit_e_a_tocoperol_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 7.5
+      age > 8 and age < 14  -> 11
+      age > 13              -> 15
+    end
+  end
+  def vit_e_a_tocoperol_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 6
+      age > 3 and age < 9   -> 7.25
+      age > 8 and age < 14  -> 11
+      age > 13              -> 15
+    end
+  end
+
+  #K1
+  def vitamin_k_ai(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 0.030
+      age > 3 and age < 9   -> 0.055
+      age > 8 and age < 14  -> 0.060
+      age > 13 and age < 19 -> 0.075
+      age > 18              -> 0.120
+    end
+  end
+  def vitamin_k_ai(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 0.030
+      age > 3 and age < 9   -> 0.055
+      age > 8 and age < 14  -> 0.060
+      age > 13 and age < 19 -> 0.075
+      age > 18              -> 0.090
+    end
+  end
+  def vitamin_k_ai(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 0.030
+      age > 3 and age < 9   -> 0.055
+      age > 8 and age < 14  -> 0.060
+      age > 13 and age < 19 -> 0.075
+      age > 18              -> 0.105
+    end
+  end
+ 
+
+  #minerals
+
+  def calcium_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 700
       age > 3 and age < 9   -> 1000
@@ -177,7 +335,7 @@ defmodule Kai.Requirements do
       age > 70              -> 1200
     end
   end
-  def calcium_rda(%{:age => age, :sex => sex}) when sex = "female" do
+  def calcium_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 700
       age > 3 and age < 9   -> 1000
@@ -197,7 +355,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def chromium_ai(%{:age => age, :sex => sex}) when sex = "male" do
+  def chromium_ai(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 0.011
       age > 3 and age < 9   -> 0.015
@@ -206,7 +364,7 @@ defmodule Kai.Requirements do
       age > 50              -> 0.03
     end
   end
-  def chromium_ai(%{:age => age, :sex => sex}) when sex = "female" do
+  def chromium_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 0.011
       age > 3 and age < 9   -> 0.015
@@ -227,7 +385,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def copper_rda(%{:age => age) do
+  def copper_rda(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 0.34
       age > 3 and age < 9   -> 0.44
@@ -237,7 +395,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def iodine_rda(%{:age => age) do
+  def iodine_rda(%{:age => age}) do
     cond do
       age > 0 and age < 9   -> 0.09
       age > 8 and age < 14  -> 0.12
@@ -245,7 +403,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def iron_rda(%{:age => age, :sex => sex}) when sex = "male" do
+  def iron_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 7
       age > 3 and age < 9   -> 10
@@ -254,7 +412,7 @@ defmodule Kai.Requirements do
       age > 18              -> 8
     end
   end
-  def iron_rda(%{:age => age, :sex => sex}) when sex = "female" do
+  def iron_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 7
       age > 3 and age < 9   -> 10
@@ -275,7 +433,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def magnesium_rda(%{:age => age, :sex => sex}) when sex = "male" do
+  def magnesium_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 80
       age > 3 and age < 9   -> 130
@@ -285,7 +443,7 @@ defmodule Kai.Requirements do
       age > 30              -> 420
     end
   end
-  def magnesium_rda(%{:age => age, :sex => sex}) when sex = "female" do
+  def magnesium_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 80
       age > 3 and age < 9   -> 130
@@ -306,7 +464,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def manganese_ai(%{:age => age, :sex => sex}) when sex = "male" do
+  def manganese_ai(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 1.2
       age > 3 and age < 9   -> 1.5
@@ -315,7 +473,7 @@ defmodule Kai.Requirements do
       age > 18              -> 2.3
     end
   end
-  def manganese_ai(%{:age => age, :sex => sex}) when sex = "female" do
+  def manganese_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 1.2
       age > 3 and age < 9   -> 1.5
@@ -408,13 +566,73 @@ defmodule Kai.Requirements do
       age > 18              -> 8
     end
   end
-  def zinc_rda(%{:age => age, :sex => sex}) do
+  def zinc_rda(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 3
       age > 3 and age < 9   -> 5
       age > 8 and age < 14  -> 8
       age > 13 and age < 19 -> 10
       age > 18              -> 9.5
+    end
+  end
+
+  
+  #Other nutrients
+
+
+  def choline_ai(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 200
+      age > 3 and age < 9   -> 250
+      age > 8 and age < 14  -> 375
+      age > 14              -> 550  
+    end
+  end
+  def choline_ai(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 200
+      age > 3 and age < 9   -> 250
+      age > 8 and age < 14  -> 375
+      age > 13 and age < 19 -> 400
+      age > 18              -> 425
+    end
+  end
+  def choline_ai(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 200
+      age > 3 and age < 9   -> 250
+      age > 8 and age < 14  -> 375
+      age > 13 and age < 19 -> 475
+      age > 18              -> 487.5
+    end
+  end
+
+  # Australian and NZ Health authorities
+  def o3_epa_dha_dpa_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 40
+      age > 3 and age < 9   -> 55
+      age > 8 and age < 14  -> 70
+      age > 14 and age < 19 -> 125
+      age > 18              -> 160
+    end
+  end
+  def o3_epa_dha_dpa_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 40
+      age > 3 and age < 9   -> 55
+      age > 8 and age < 14  -> 70
+      age > 13 and age < 19 -> 85
+      age > 18              -> 90
+    end
+  end
+  def o3_epa_dha_dpa_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 40
+      age > 3 and age < 9   -> 55
+      age > 8 and age < 14  -> 70
+      age > 13 and age < 19 -> 105
+      age > 18              -> 125
     end
   end
 end

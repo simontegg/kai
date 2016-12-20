@@ -26,7 +26,8 @@ defmodule Kai.PageController do
       |> decode 
       |> Requirements.nutrients
     
-    Toniq.enqueue(SolverWorker, [constraints: constraints, foods: foods])
+#Toniq.enqueue(SolverWorker, [constraints: constraints, foods: foods])
+    Toniq.enqueue(SolverWorker, [constraints: constraints])
 
     redirect(conn, to: "/preferences")
   end

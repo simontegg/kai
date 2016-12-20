@@ -13,9 +13,9 @@ defmodule Kai.Factory do
       access_token: "abc",
 
       #vitamin sufficiency
-      biotin_ai: 0.03,
-      folate_dfe_rda: 0.4,
-      niacin_ne_rda: 16,
+      biotin: 0.03,
+      folate_dfe: 0.4,
+      niacin_ne: 16,
 
       calories: 3083
     }
@@ -23,9 +23,9 @@ defmodule Kai.Factory do
 
   def constraints_factory do
     %{
-      biotin_ai: 0.03,
-      folate_dfe_rda: 0.4,
-      niacin_ne_rda: 16,
+      biotin: 0.03,
+      folate_dfe: 0.4,
+      niacin_ne: 16,
       calories: 3083
     }
   end

@@ -19,29 +19,32 @@ defmodule Kai.User do
     field :calories,              :integer
     
     #vitamin sufficiency
-    field :biotin_ai,             :float
-    field :folate_dfe_rda,        :float
-    field :niacin_ne_rda,         :float
-    field :pantothenic_acid_ai,   :float
-    field :riboflavin_rda,        :float
-    field :thiamin_rda,           :float
-    field :vitamin_a_rae_rda,     :float
-    field :vitamin_b6_rda,        :float
-    field :vitamin_b12_rda,       :float
-    field :vitamin_c_rda,         :float
-    field :vitamin_c_lp_recc,     :float #400mg/day
-    field :vitamin_d_rda,         :float 
-    field :vitamin_d_lp_recc,     :float #50mcg/day
-    field :vit_e_a_toceperol_rda, :float 
-    field :vitamin_k_ai,          :float 
+    field :biotin,            :float
+    field :folate_dfe,        :float
+    field :niacin_ne,         :float
+    field :pantothenic_acid,  :float
+    field :riboflavin,        :float
+    field :thiamin,           :float
+    field :vitamin_a,         :float
+    field :vitamin_b6,        :float
+    field :vitamin_b12,       :float
+    field :vitamin_c,         :float
+    field :vit_e_a_toceperol, :float 
+    field :vitamin_k1,        :float 
 
     #mineral sufficiency
-    field :calcium_rda,           :float
-    field :folate_dfe_rda,        :float
-    field :niacin_ne_rda,         :float
-    field :pantothenic_acid_ai,   :float
-    field :riboflavin_rda,        :float
-    field :thiamin_rda,           :float
+    field :calcium,           :float
+    field :chromium,          :float
+    field :copper,            :float
+    field :iodine,            :float
+    field :iron,              :float
+    field :magnesium,         :float
+    field :manganese,         :float
+    field :molybdenum,        :float
+    field :phosphorus,        :float
+    field :potassium,         :float
+    field :selenium,          :float
+    field :zinc,              :float
 
 
 
