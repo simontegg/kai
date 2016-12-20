@@ -140,12 +140,20 @@ defmodule Kai.Requirements do
     end
   end
 
-  def vitamin_a_rae_rda(%{:age => age, :sex => sex}) do
+  def vitamin_a_rae_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 0.3
       age > 3 and age < 9   -> 0.4
       age > 8 and age < 14  -> 0.6
-      age > 13              -> if age == "male", do: 0.9, else: 0.7
+      age > 13              -> 0.9
+    end
+  end
+  def vitamin_a_rae_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 0.3
+      age > 3 and age < 9   -> 0.4
+      age > 8 and age < 14  -> 0.6
+      age > 13              -> 0.7
     end
   end
 
@@ -155,8 +163,258 @@ defmodule Kai.Requirements do
       age > 0 and age < 4   -> 0.6
       age > 3 and age < 9   -> 0.9
       age > 8 and age < 14  -> 1.7
-      age > 13              -> 2.8
+      age > 13              -> 2.8 #???
       age > 18              -> 3.0
+    end
+  end
+  
+  def calcium_rda(%{:age => age, :sex => sex}) when sex = "male" do
+    cond do
+      age > 0 and age < 4   -> 700
+      age > 3 and age < 9   -> 1000
+      age > 8 and age < 19  -> 1300
+      age > 18 and age < 71 -> 1000
+      age > 70              -> 1200
+    end
+  end
+  def calcium_rda(%{:age => age, :sex => sex}) when sex = "female" do
+    cond do
+      age > 0 and age < 4   -> 700
+      age > 3 and age < 9   -> 1000
+      age > 8 and age < 19  -> 1300
+      age > 18 and age < 51 -> 1000
+      age > 50              -> 1200
+    end
+  end
+  def calcium_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 700
+      age > 3 and age < 9   -> 1000
+      age > 8 and age < 19  -> 1300
+      age > 18 and age < 51 -> 1000
+      age > 50 and age < 71 -> 1100
+      age > 70              -> 1200
+    end
+  end
+  
+  def chromium_ai(%{:age => age, :sex => sex}) when sex = "male" do
+    cond do
+      age > 0 and age < 4   -> 0.011
+      age > 3 and age < 9   -> 0.015
+      age > 8 and age < 19  -> 0.025
+      age > 18 and age < 51 -> 0.035
+      age > 50              -> 0.03
+    end
+  end
+  def chromium_ai(%{:age => age, :sex => sex}) when sex = "female" do
+    cond do
+      age > 0 and age < 4   -> 0.011
+      age > 3 and age < 9   -> 0.015
+      age > 8 and age < 14  -> 0.021
+      age > 13 and age < 19 -> 0.024
+      age > 18 and age < 51 -> 0.025
+      age > 50              -> 0.02
+    end
+  end
+  def chromium_ai(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.011
+      age > 3 and age < 9   -> 0.015
+      age > 8 and age < 14  -> 0.023
+      age > 13 and age < 19 -> 0.0245
+      age > 18 and age < 51 -> 0.03
+      age > 50              -> 0.025
+    end
+  end
+  
+  def copper_rda(%{:age => age) do
+    cond do
+      age > 0 and age < 4   -> 0.34
+      age > 3 and age < 9   -> 0.44
+      age > 8 and age < 14  -> 0.7
+      age > 13 and age < 19 -> 0.89
+      age > 18              -> 0.9
+    end
+  end
+  
+  def iodine_rda(%{:age => age) do
+    cond do
+      age > 0 and age < 9   -> 0.09
+      age > 8 and age < 14  -> 0.12
+      age > 13              -> 0.150
+    end
+  end
+  
+  def iron_rda(%{:age => age, :sex => sex}) when sex = "male" do
+    cond do
+      age > 0 and age < 4   -> 7
+      age > 3 and age < 9   -> 10
+      age > 8 and age < 14  -> 8
+      age > 13 and age < 19 -> 11
+      age > 18              -> 8
+    end
+  end
+  def iron_rda(%{:age => age, :sex => sex}) when sex = "female" do
+    cond do
+      age > 0 and age < 4   -> 7
+      age > 3 and age < 9   -> 10
+      age > 8 and age < 14  -> 8
+      age > 13 and age < 19 -> 15
+      age > 18 and age < 51 -> 18
+      age > 50              -> 8
+    end
+  end
+  def iron_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 7
+      age > 3 and age < 9   -> 10
+      age > 8 and age < 14  -> 8
+      age > 13 and age < 19 -> 13
+      age > 18 and age < 51 -> 15
+      age > 50              -> 8
+    end
+  end
+  
+  def magnesium_rda(%{:age => age, :sex => sex}) when sex = "male" do
+    cond do
+      age > 0 and age < 4   -> 80
+      age > 3 and age < 9   -> 130
+      age > 8 and age < 14  -> 240
+      age > 13 and age < 19 -> 410
+      age > 18 and age < 31 -> 400
+      age > 30              -> 420
+    end
+  end
+  def magnesium_rda(%{:age => age, :sex => sex}) when sex = "female" do
+    cond do
+      age > 0 and age < 4   -> 80
+      age > 3 and age < 9   -> 130
+      age > 8 and age < 14  -> 240
+      age > 13 and age < 19 -> 360
+      age > 18 and age < 31 -> 310
+      age > 30              -> 320
+    end
+  end
+  def magnesium_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 80
+      age > 3 and age < 9   -> 130
+      age > 8 and age < 14  -> 240
+      age > 13 and age < 19 -> 385
+      age > 18 and age < 31 -> 355
+      age > 30              -> 370
+    end
+  end
+  
+  def manganese_ai(%{:age => age, :sex => sex}) when sex = "male" do
+    cond do
+      age > 0 and age < 4   -> 1.2
+      age > 3 and age < 9   -> 1.5
+      age > 8 and age < 14  -> 1.9
+      age > 13 and age < 19 -> 2.2
+      age > 18              -> 2.3
+    end
+  end
+  def manganese_ai(%{:age => age, :sex => sex}) when sex = "female" do
+    cond do
+      age > 0 and age < 4   -> 1.2
+      age > 3 and age < 9   -> 1.5
+      age > 8 and age < 14  -> 1.6
+      age > 13 and age < 19 -> 1.6
+      age > 18              -> 1.8
+    end
+  end
+  def manganese_ai(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 1.2
+      age > 3 and age < 9   -> 1.5
+      age > 8 and age < 14  -> 1.75
+      age > 13 and age < 19 -> 1.9
+      age > 18              -> 2.05
+    end
+  end
+  
+  def molybdenum_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.017
+      age > 3 and age < 9   -> 0.022
+      age > 8 and age < 14  -> 0.034
+      age > 13 and age < 19 -> 0.043
+      age > 18              -> 0.045
+    end
+  end
+  
+  def phosphorus_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 460
+      age > 3 and age < 9   -> 500
+      age > 8 and age < 14  -> 1250
+      age > 13              -> 700
+    end
+  end
+
+  def potassium_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 3000
+      age > 3 and age < 9   -> 3800
+      age > 8 and age < 14  -> 4500
+      age > 13              -> 4700
+    end
+  end
+  
+  def selenium_rda(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.020
+      age > 3 and age < 9   -> 0.030
+      age > 8 and age < 14  -> 0.040
+      age > 13              -> 0.055
+    end
+  end
+  
+  def selenium_ul(%{:age => age}) do
+    cond do
+      age > 0 and age < 4   -> 0.090
+      age > 3 and age < 9   -> 0.150
+      age > 8 and age < 14  -> 0.280
+      age > 13              -> 0.400
+    end
+  end
+
+  #http://thepaleodiet.com/new-studies-on-salt-adverse-influence-upon-immunity-inflammation-and-autoimmunity/ 
+  # http://www.marksdailyapple.com/salt-what-is-it-good-for/
+  # def sodium_ul(%{:age => age}) do
+  #   cond do
+  #     age > 0 and age < 4   -> 1500
+  #     age > 3 and age < 9   -> 1900
+  #     age > 8 and age < 14  -> 2200
+  #     age > 13              -> 2300
+  #   end
+  # end
+  
+  def zinc_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> 3
+      age > 3 and age < 9   -> 5
+      age > 8 and age < 14  -> 8
+      age > 18              -> 11
+    end
+  end
+  def zinc_rda(%{:age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> 3
+      age > 3 and age < 9   -> 5
+      age > 8 and age < 14  -> 8
+      age > 13 and age < 19 -> 9
+      age > 18              -> 8
+    end
+  end
+  def zinc_rda(%{:age => age, :sex => sex}) do
+    cond do
+      age > 0 and age < 4   -> 3
+      age > 3 and age < 9   -> 5
+      age > 8 and age < 14  -> 8
+      age > 13 and age < 19 -> 10
+      age > 18              -> 9.5
     end
   end
 end

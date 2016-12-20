@@ -6,8 +6,15 @@ defmodule Kai.SolverWorker do
   alias Porcelain.Process
   alias Porcelain.Result
 
-  def perform(constraints) do
-    file_path = write_constraints(constraints)
+  def perform(user_id: user_id) do
+
+
+  end
+
+
+
+  def perform(constraints: constraints, foods: foods) do
+    file_path = write_input(constraints)
    
     result = Porcelain.exec("julia", ["web/workers/glue.jl", file_path])
 
@@ -18,7 +25,7 @@ defmodule Kai.SolverWorker do
 
   end
 
-  def write_constraints(constraints) do
+  def write_input(constraints) do
     headers = Map.keys(constraints)
     file_path = Path.join(__DIR__, "constraints.csv")
     file = File.open!(file_path, [:write, :utf8])
@@ -31,6 +38,7 @@ defmodule Kai.SolverWorker do
     file_path
   end
 
+    
 
 
 

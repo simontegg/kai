@@ -35,6 +35,16 @@ defmodule Kai.User do
     field :vit_e_a_toceperol_rda, :float 
     field :vitamin_k_ai,          :float 
 
+    #mineral sufficiency
+    field :calcium_rda,           :float
+    field :folate_dfe_rda,        :float
+    field :niacin_ne_rda,         :float
+    field :pantothenic_acid_ai,   :float
+    field :riboflavin_rda,        :float
+    field :thiamin_rda,           :float
+
+
+
     timestamps()
   end
 

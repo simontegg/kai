@@ -12,12 +12,11 @@ defmodule Kai.SolverWorkerTest do
     |> Enum.reduce("", fn(line, acc) -> acc <> line end)
   end
 
-
   test "constraints written to file " do
     constraints = build(:constraints)  
-
-    file_path = SolverWorker.write_constraints(constraints)
     expected_file = test_file(constraints)
+    
+    file_path = SolverWorker.write_input(constraints)
    
     assert(file_path)
     case File.read(file_path) do
