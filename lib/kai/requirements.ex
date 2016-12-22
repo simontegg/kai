@@ -2,12 +2,44 @@
 defmodule Kai.Requirements do
   alias Kai.User 
 
-  def nutrients(params) do 
+  # daily
+  def nutrients(params, days \\ 1) do 
     %{
-      calories: calories(params),
-      biotin: biotin_ai(params),
-      folate_dfe: folate_dfe_rda(params),
-      niacin_ne: niacin_ne_rda(params)
+      #macronutrients
+      calories:            days * calories(params),
+      protein:             days * protein_rdi(params),
+
+      #vitamins
+      biotin:              days * biotin_ai(params),
+      folate_dfe:          days * folate_dfe_rda(params),
+      niacin_ne:           days * niacin_ne_rda(params),
+      pantothenic_acid:    days * pantothenic_acid_ai(params),
+      riboflavin:          days * riboflavin_rda(params),
+      thiamin:             days * thiamin_rda(params),
+      vitamin_a_rae:           days * vitamin_a_rae_rda(params),
+      vitamin_b6:          days * vitamin_b6_rda(params),
+      vitamin_b12:         days * vitamin_b12_rda(params),
+      vitamin_c:           days * vitamin_c_rda(params),
+      vit_e_a_tocopherol:  days * vit_e_a_tocopherol_rda(params),
+      vitamin_k1:          days * vitamin_k1_ai(params),
+
+      #minerals
+      calcium:             days * calcium_rda(params),
+      chromium:            days * chromium_ai(params),
+      copper:              days * copper_rda(params),
+      iodine:              days * iodine_rda(params),
+      iron:                days * iron_rda(params),
+      magnesium:           days * magnesium_rda(params),
+      manganese:           days * manganese_ai(params),
+      molybdenum:          days * molybdenum_rda(params),
+      phosphorus:          days * phosphorus_rda(params),
+      potassium:           days * potassium_rda(params),
+      selenium:            days * selenium_rda(params),
+      zinc:                days * zinc_rda(params),
+
+      # other nutrients
+      choline:           days * choline_ai(params),
+      o3_epa_dha:        days * o3_epa_dha_dpa_rda(params)
     }
   end
 
@@ -21,12 +53,12 @@ defmodule Kai.Requirements do
   end
 
   def activity_multiplier(activity) do
-    case activity do
-      0         -> 1.2
-      {1, 2}    -> 1.375
-      {3, 4, 5} -> 1.55
-      {6, 7}    -> 1.725
-      _         -> 1.9
+    cond do 
+      activity == 0                 -> 1.2
+      activity > 0 and activity < 3 -> 1.375
+      activity > 2 and activity < 6 -> 1.55
+      activity > 5 and activity < 8 -> 1.725
+      activity > 7                  -> 1.9
     end
   end
 
@@ -41,11 +73,45 @@ defmodule Kai.Requirements do
 
   def modifier(sex) do
     case sex do
-     "female"  -> -161
-      "male"    -> 5
-       _         -> -76
+     "female" -> -161
+      "male"  -> 5
+       _      -> -76
     end
   end
+
+  # g/day
+  def protein_rdi(%{:weight => weight, :age => age, :sex => sex}) when sex == "male" do
+    cond do
+      age > 0 and age < 4   -> round(1.08 * weight)
+      age > 3 and age < 9   -> round(0.91 * weight)
+      age > 8 and age < 14  -> round(0.94 * weight)
+      age > 13 and age < 19 -> round(0.99 * weight)
+      age > 18 and age < 71 -> round(0.84 * weight)
+      age > 70              -> round(1.07 * weight)
+    end
+  end
+  def protein_rdi(%{:weight => weight, :age => age, :sex => sex}) when sex == "female" do
+    cond do
+      age > 0 and age < 4   -> round(1.08 * weight)
+      age > 3 and age < 9   -> round(0.91 * weight)
+      age > 8 and age < 14  -> round(0.87 * weight)
+      age > 13 and age < 19 -> round(0.77 * weight)
+      age > 18 and age < 71 -> round(0.75 * weight)
+      age > 70              -> round(0.94 * weight)
+    end
+  end
+  def protein_rdi(%{:weight => weight, :age => age}) do
+    cond do
+      age > 0 and age < 4   -> round(1.08 * weight)
+      age > 3 and age < 9   -> round(0.91 * weight)
+      age > 8 and age < 14  -> round(0.9 * weight)
+      age > 13 and age < 19 -> round(0.88 * weight)
+      age > 18 and age < 71 -> round(0.8 * weight)
+      age > 70              -> weight
+    end
+  end
+
+
 
   # http://lpi.oregonstate.edu/mic/vitamins/biotin
   def biotin_ai(%{:age => age}) do
@@ -211,7 +277,7 @@ defmodule Kai.Requirements do
       age > 50              -> 1.5
     end
   end
-  def vitamin_b6_rda(%{:age => age, :sex => sex}) do
+  def vitamin_b6_rda(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 0.5
       age > 3 and age < 9   -> 0.6
@@ -222,7 +288,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def vitamin_b12_rda(%{:age => age, :sex => sex}) do
+  def vitamin_b12_rda(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 0.0009
       age > 3 and age < 9   -> 0.0012
@@ -269,7 +335,7 @@ defmodule Kai.Requirements do
     end
   end
   
-  def vit_e_a_tocopherl_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def vit_e_a_tocopherol_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 6
       age > 3 and age < 9   -> 7
@@ -277,7 +343,7 @@ defmodule Kai.Requirements do
       age > 13              -> 15
     end
   end
-  def vit_e_a_tocoperol_rda(%{:age => age, :sex => sex}) when sex == "female" do
+  def vit_e_a_tocopherol_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 6
       age > 3 and age < 9   -> 7.5
@@ -285,7 +351,7 @@ defmodule Kai.Requirements do
       age > 13              -> 15
     end
   end
-  def vit_e_a_tocoperol_rda(%{:age => age, :sex => sex}) do
+  def vit_e_a_tocopherol_rda(%{:age => age, :sex => sex}) do
     cond do
       age > 0 and age < 4   -> 6
       age > 3 and age < 9   -> 7.25
@@ -295,7 +361,7 @@ defmodule Kai.Requirements do
   end
 
   #K1
-  def vitamin_k_ai(%{:age => age, :sex => sex}) when sex == "male" do
+  def vitamin_k1_ai(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
       age > 0 and age < 4   -> 0.030
       age > 3 and age < 9   -> 0.055
@@ -304,7 +370,7 @@ defmodule Kai.Requirements do
       age > 18              -> 0.120
     end
   end
-  def vitamin_k_ai(%{:age => age, :sex => sex}) when sex == "female" do
+  def vitamin_k1_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
       age > 0 and age < 4   -> 0.030
       age > 3 and age < 9   -> 0.055
@@ -313,7 +379,7 @@ defmodule Kai.Requirements do
       age > 18              -> 0.090
     end
   end
-  def vitamin_k_ai(%{:age => age, :sex => sex}) do
+  def vitamin_k1_ai(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 0.030
       age > 3 and age < 9   -> 0.055

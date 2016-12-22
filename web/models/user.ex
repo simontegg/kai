@@ -17,6 +17,7 @@ defmodule Kai.User do
     field :access_token,          :string
 
     field :calories,              :integer
+    field :protein,               :integer
     
     #vitamin sufficiency
     field :biotin,            :float
@@ -29,7 +30,7 @@ defmodule Kai.User do
     field :vitamin_b6,        :float
     field :vitamin_b12,       :float
     field :vitamin_c,         :float
-    field :vit_e_a_toceperol, :float 
+    field :vit_e_a_tocopherol,:float 
     field :vitamin_k1,        :float 
 
     #mineral sufficiency

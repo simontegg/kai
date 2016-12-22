@@ -2,68 +2,45 @@ defmodule Kai.Food do
   use Kai.Web, :model
 
   schema "foods" do
-    field :food_id, :string
-    field :category, :string
     field :name, :string
-    field :d3, :float
-    field :alcohol, :float
-    field :alpha_carotene, :float
-    field :alpha_tocepherol, :float
-    field :available_carbohydrate_fsanz, :float
-    field :available_carbohydrate_weight, :float
-    field :beta_carotene, :float
-    field :beta_tocepherol, :float
+    field :food_id, :string
+    field :data_source, :string
+    field :category, :string
+    
+    field :calories, :integer
+    field :protein, :integer
+
+    field :folate_dfe, :float
     field :biotin, :float
-    field :boron, :float
-    field :cadmium, :float
-    field :caffine, :float
     field :calcium, :float
-    field :cesium, :float
-    field :chloride, :float
-    field :cholecalciferol, :float
     field :cholesterol, :float
     field :chromium, :float
     field :copper, :float
-    field :folate, :float
-    field :energy_kcal, :integer
-    field :energy_kj, :integer
-    field :ergocalciferol, :float
     field :fat_total, :float
-    field :fatty_acid_18_3, :float
-    field :fatty_acid_20_5, :float
-    field :fatty_acid_22_6, :float
-    field :fatty_acids_total, :float
-    field :fatty_acids_total_o3, :float
-    field :fatty_acids_total_mono, :float
-    field :fatty_acids_total_mono_trans, :float
-    field :fatty_acids_total_poly, :float
-    field :fatty_acids_total_poly_o3, :float
-    field :fatty_acids_total_poly_o6, :float
-    field :fatty_acids_total_sat, :float
-    field :fatty_acids_total_trans, :float
-    field :fibre_total, :float
-    field :fibre_insoluble, :float
-    field :fibre_soluble, :float
-    field :fluoride, :float
-    field :folate_natural, :float
-    field :folate_total, :float
-    field :fructose, :float
-    field :gamma_tocopherol, :float
-    field :glucose, :float
-    field :glycine, :float
-    field :glycogen, :float
-    field :histidine, :float
-    field :iodide, :float
+    field :o3_epa, :float
+    field :o3_dha, :float
+    field :o3_dpa, :float
+    field :iodine, :float
     field :iron, :float
-    field :isoleucine, :float
-
-
-
-
-
-    field :weight, :integer
-    field :activity, :string
-    field :sex, :string
+    field :lithium, :float
+    field :magnesium, :float
+    field :manganese, :float
+    field :mercury, :float
+    field :molybdenum, :float
+    field :niacin_ne, :float
+    field :pantothenic_acid, :float
+    field :phosphorus, :float
+    field :potassium, :float
+    field :riboflavin, :float
+    field :selenium, :float
+    field :thiamin, :float
+    field :vitamin_a_rae, :float
+    field :vitamin_b12, :float
+    field :vitamin_b6, :float
+    field :vitamin_c, :float
+    field :vit_e_a_tocopherol, :float
+    field :vitamin_k1, :float
+    field :zinc, :float
 
     timestamps()
   end
@@ -72,9 +49,9 @@ defmodule Kai.Food do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:name, :age, :weight, :activity, :sex])
-    |> validate_required([:name, :age, :weight, :activity, :sex])
+    # struct
+    # |> cast(params, [:name, :age, :weight, :activity, :sex])
+    # |> validate_required([:name, :age, :weight, :activity, :sex])
   end
 end
 
