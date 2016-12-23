@@ -4,6 +4,8 @@ defmodule Seeds.Food do
   @nzff NutrientNameMap.nzff
   @multiplier NutrientNameMap.nzff_conversion
   @fields Map.keys(@nzff)
+
+  @non_numeric ["Food Name", "FoodID", "Chapter"]
   
   @doc "Imports nz foodfiles data to seed the database"
   def import_from_tsv(tsv_path) do
@@ -23,24 +25,27 @@ defmodule Seeds.Food do
     |> Stream.run
   end
 
-  def to_number(str) do
-    num = case str =~ "." do
-      true  -> Float.parse(str)
-      false -> Integer.parse(str)
-    end
-
-    case num do
-     :error   -> :error
-     {num, _} -> num
-    end
+  def format_number(number, multiplier) when is_float(multiplier) do
+    number|> Kernel.*(multiplier) |> Float.round(6)
+  end
+  def format_number(number, multiplier) do
+    number * multiplier
   end
 
-  def convert_value(_field, value) when value == "", do: 0
-  def convert_value(field, value) when field == "Food Name", do: value
-  def convert_value(field, value) do
-    case Map.get(@multiplier, field) do
-      nil -> to_number(value)
-      m   -> to_number(value) * m
+  def to_number(str) do
+    {num, _} = if str =~ ".", do: Float.parse(str), else: Integer.parse(str)
+    num 
+  end
+
+  def convert_value(_key, value) when value == "", do: 0
+  def convert_value(key, value) when key == "FoodID", do: "nzff_" <> value
+  def convert_value(key, value) when key in @non_numeric, do: value
+  def convert_value(key, value) do
+    number = to_number(value)
+
+    case Map.get(@multiplier, key) do
+      nil         -> number
+      multiplier  -> format_number(number, multiplier)
     end
   end
 

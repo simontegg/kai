@@ -3,6 +3,8 @@ defmodule Kai.NutrientNameMap do
   def nzff do 
     %{
       "Food Name" => :name,
+      "FoodID" => :food_id,
+      "Chapter" => :category,
       "Alpha-tocopherol" => :vit_e_a_tocopherol,
       "Biotin" => :biotin,
       "Calcium" => :calcium,
@@ -46,25 +48,25 @@ defmodule Kai.NutrientNameMap do
   def nzff_conversion do
     %{
       #mcg/100g
-      :biotin => 0.001,
-      :chromium => 0.001,
-      :edible_portion => 0.01,
-      :folate_dfe => 0.001,
-      :iodine => 0.001,
-      :lithium => 0.001,
-      :manganese => 0.001,
-      :mercury => 0.001,
-      :molybdenum => 0.001,
-      :selenium => 0.001,
-      :vitamin_a_rae => 0.001,
-      :vitamin_b12 => 0.001,
-      :vit_e_a_tocopherol => 0.001,
-      :vitamin_k1 => 0.001,
+      "Biotin" => 0.001,
+      "Chromium" => 0.001,
+      "Edible portion" => 0.01,
+      "Dietary folate equivalents" => 0.001,
+      "Iodine" => 0.001,
+      "Lithium" => 0.001,
+      "Manganese" => 0.001,
+      "Mercury" => 0.001,
+      "Molybdenum" => 0.001,
+      "Selenium" => 0.001,
+      "Vitamin A, retinol equivalents" => 0.001,
+      "Vitamin B12" => 0.001,
+      "Vitamin E, alpha-tocopherol equivalents" => 0.001,
+      "Vitamin K" => 0.001,
 
       #g/100g
-      :o3_epa => 1000,
-      :o3_dha => 1000, 
-      :o3_dpa => 1000
+      "Fatty acid 20:5 omega-3" => 1000,
+      "Fatty acid 22:5 omega-3" => 1000,
+      "Fatty acid 22:6 omega-3" => 1000,
     }
   end
 
