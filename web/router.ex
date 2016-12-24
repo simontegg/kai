@@ -1,5 +1,6 @@
 defmodule Kai.Router do
   use Kai.Web, :router
+  use ExAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -28,4 +29,10 @@ defmodule Kai.Router do
     #   forward "/sent-emails", Bamboo.EmailPreviewPlug
     # end
   end
+
+  scope "/admin", ExAdmin do
+    pipe_through :browser
+    admin_routes
+  end
+
 end

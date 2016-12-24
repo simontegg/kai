@@ -1,10 +1,9 @@
 defmodule Seeds.Food do
-  alias Kai.NutrientNameMap 
+  alias Kai.{NutrientNameMap, Food, Repo} 
 
   @nzff NutrientNameMap.nzff
   @multiplier NutrientNameMap.nzff_conversion
   @fields Map.keys(@nzff)
-
   @non_numeric ["Food Name", "FoodID", "Chapter"]
   
   @doc "Imports nz foodfiles data to seed the database"
@@ -14,16 +13,23 @@ defmodule Seeds.Food do
     |> File.stream!
     |> CSV.decode(separator: ?~, headers: true)
     |> Stream.each(fn row -> 
-      food = for {k, v} <- row,
-        (Enum.member?(@fields, k)),
-        into: %{}, 
-        do: {Map.get(@nzff, k), convert_value(k, v)}
-                
-
-        IO.inspect food
-    end)
+        params = for {k, v} <- row,
+          (Enum.member?(@fields, k)),
+          into: %{}, 
+          do: {Map.get(@nzff, k), convert_value(k, v)}
+        
+        food = Food.changeset(%Food{}, params)
+        Repo.insert!(food)
+        IO.inspect food.changes.name
+      end)
     |> Stream.run
   end
+
+  def row_to_params(row) do
+
+
+  end
+
 
   def format_number(number, multiplier) when is_float(multiplier) do
     number|> Kernel.*(multiplier) |> Float.round(6)

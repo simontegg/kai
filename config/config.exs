@@ -1,8 +1,3 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
 # General application configuration
@@ -57,5 +52,16 @@ config :ex_aws, :httpoison_opts,
 config :porcelain, driver: Porcelain.Driver.Basic
 config :toniq, redis_url: "redis://localhost:6379/0"
 # config :toniq, redis_url: System.get_env("REDIS_PROVIDER")
+#
+config :ex_admin,
+  repo: Kai.Repo,
+  module: Kai,
+  modules: [
+    Kai.ExAdmin.Dashboard,
+    Kai.ExAdmin.Food
+  ]
 
 import_config "#{Mix.env}.exs"
+
+config :xain, :after_callback, {Phoenix.HTML, :raw}
+

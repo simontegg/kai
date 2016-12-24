@@ -6,6 +6,12 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
+    "autoprefixer": "^6.6.0",
+    "cssnano": "^3.9.1",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-postcss": "^6.2.0",
+    "gulp-yuicompressor": "^0.0.3",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "postcss-brunch": "^2.0.5",

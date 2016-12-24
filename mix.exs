@@ -62,6 +62,7 @@ defmodule Kai.Mixfile do
 
       # Model helpers
       {:ecto_autoslug_field, "~> 0.2"},
+      {:ex_admin, "~> 0.8"},
 
       # Amazon image hosting
       {:arc, "~> 0.6.0-rc3"},
