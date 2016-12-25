@@ -1,5 +1,6 @@
 defmodule Kai.Food do
   use Kai.Web, :model
+  alias Kai.{Price, FoodsPrices}
 
   @fields [
     :id,
@@ -40,10 +41,11 @@ defmodule Kai.Food do
     :vitamin_k1, 
     :zinc ]
 
-
-
-  @primary_key {:id, :string, []}
   schema "foods" do
+    many_to_many :prices, Price, join_through: FoodsPrices
+
+    field :data_source_id, :string
+
     field :name, :string
     field :data_source, :string
     field :category, :string

@@ -3,7 +3,7 @@ defmodule Kai.NutrientNameMap do
   def nzff do 
     %{
       "Food Name" => :name,
-      "FoodID" => :id,
+      "FoodID" => :data_source_id,
       "Chapter" => :category,
       "Alpha-tocopherol" => :vit_e_a_tocopherol,
       "Biotin" => :biotin,

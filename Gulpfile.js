@@ -27,11 +27,9 @@ var otherAssetPaths = [
   'web/static/assets/**/*',
 ]
 
-
 function reportChange(event) {
   console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
 }
-
 
 //==================TASKS=====================
 
@@ -101,13 +99,9 @@ gulp.task('watch', function() {
   gulp.watch(vendorCssPaths, ['css-vendor']).on('change', reportChange)
   gulp.watch(appCssPaths, ['css-app']).on('change', reportChange)
 
-
-
   // JS
   gulp.watch(jsBeforePaths, ['js-before']).on('change', reportChange)
   gulp.watch(jsAfterPaths, ['js-after']).on('change', reportChange)
-
-
 
   // Other assets
   gulp.watch([

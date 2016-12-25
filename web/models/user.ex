@@ -47,8 +47,6 @@ defmodule Kai.User do
     field :selenium,          :float
     field :zinc,              :float
 
-
-
     timestamps()
   end
 
