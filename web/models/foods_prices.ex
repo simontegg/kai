@@ -5,6 +5,10 @@ defmodule Kai.FoodsPrices do
   schema "foods_prices" do
     belongs_to :food, Food
     belongs_to :price, Price
+    field :each_to_g, :float
+    field :raw_to_cooked, :float
+    field :edible_portion, :float
+
 
     timestamps()
   end
@@ -14,7 +18,7 @@ defmodule Kai.FoodsPrices do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:food_id, :price_id])
+    |> cast(params, [:food_id, :price_id, :each_to_g, :raw_to_cooked, :edible_portion])
     |> validate_required([:food_id, :price_id])
   end
 end

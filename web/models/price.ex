@@ -1,6 +1,6 @@
 defmodule Kai.Price do
   use Kai.Web, :model
-  alias Kai.{Conversion, Food, FoodsPrices, User}
+  alias Kai.{Food, FoodsPrices, User}
 
   @fields [
     :price,
@@ -19,7 +19,6 @@ defmodule Kai.Price do
 
     many_to_many :foods, Food, join_through: FoodsPrices
     belongs_to :user, User 
-    has_one :conversion, Conversion
 
     field :name, :string
     field :price, :float
@@ -42,6 +41,6 @@ defmodule Kai.Price do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @fields)
-    |> validate_required([:price, :food_description])
+    |> validate_required([:price, :name])
   end
 end

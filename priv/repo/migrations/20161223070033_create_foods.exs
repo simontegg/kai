@@ -7,6 +7,7 @@ defmodule Kai.Repo.Migrations.CreateFoods do
       add :name, :string
       add :data_source, :string
       add :category, :string
+      add :edible_portion, :float
       
       add :calories, :float
       add :protein, :float

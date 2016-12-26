@@ -8,6 +8,7 @@ defmodule Kai.Food do
     :data_source,
     :category,
     :calories,
+    :edible_portion,
     :protein, 
     :folate_dfe, 
     :biotin,
@@ -49,6 +50,7 @@ defmodule Kai.Food do
     field :name, :string
     field :data_source, :string
     field :category, :string
+    field :edible_portion, :float
     
     field :calories, :float
     field :protein, :float
