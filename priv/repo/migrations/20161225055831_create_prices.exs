@@ -3,13 +3,18 @@ defmodule Kai.Repo.Migrations.CreatePrices do
 
   def change do
     create table(:prices) do
+      add :user_id, references(:users)
+      add :name, :string
+      add :price, :float
+      add :quantity, :float
+      add :quantity_unit, :string
+      add :url, :string
+      
       add :company_id, :string
-      add :user_id, :string
-      add :food_description, :string
       add :currency, :string
       add :currency_unit, :string #cents
-      add :price, :float
-      add :quantity_unit, :string
+      add :longitude, :float
+      add :latitude, :float
 
       timestamps()
     end

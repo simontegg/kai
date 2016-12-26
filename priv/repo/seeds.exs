@@ -7,29 +7,30 @@ defmodule Seeds.Food do
   @non_numeric ["Food Name", "FoodID", "Chapter"]
   
   @doc "Imports nz foodfiles data to seed the database"
-  def import_from_tsv(tsv_path) do
+  def import_from_tsv(tsv_path, process) do
     tsv_path
     |> Path.expand
     |> File.stream!
-    |> CSV.decode(separator: ?~, headers: true)
-    |> Stream.each(fn row -> 
-        params = for {k, v} <- row,
-          (Enum.member?(@fields, k)),
-          into: %{}, 
-          do: {Map.get(@nzff, k), convert_value(k, v)}
-        
-        food = Food.changeset(%Food{}, params)
-        Repo.insert!(food)
-        IO.inspect food.changes.name
-      end)
+    |> CSV.decode(separator: ?,, headers: true)
+    |> Stream.each(process)
     |> Stream.run
   end
 
-  def row_to_params(row) do
+  def process_price(row) do
 
 
   end
 
+  def process_row(row) do
+    params = for {k, v} <- row,
+      (Enum.member?(@fields, k)),
+      into: %{}, 
+      do: {Map.get(@nzff, k), convert_value(k, v)}
+
+    %Food{}
+    |> Food.changeset(params)
+    |> Repo.insert!
+  end
 
   def format_number(number, multiplier) when is_float(multiplier) do
     number|> Kernel.*(multiplier) |> Float.round(6)
@@ -40,7 +41,7 @@ defmodule Seeds.Food do
 
   def to_number(str) do
     {num, _} = if str =~ ".", do: Float.parse(str), else: Integer.parse(str)
-    num 
+      num 
   end
 
   def convert_value(_key, value) when value == "", do: 0
@@ -57,7 +58,12 @@ defmodule Seeds.Food do
 
 end
 
-Seeds.Food.import_from_tsv("foods-abridged.csv")
+
+defmodule
+
+
+
+Seeds.Food.import_from_tsv("foods-abridged.csv", &Seeds.Food.process_row/1)
 
 
 

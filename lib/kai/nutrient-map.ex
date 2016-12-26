@@ -60,13 +60,12 @@ defmodule Kai.NutrientNameMap do
       "Selenium" => 0.001,
       "Vitamin A, retinol equivalents" => 0.001,
       "Vitamin B12" => 0.001,
-      "Vitamin E, alpha-tocopherol equivalents" => 0.001,
       "Vitamin K" => 0.001,
 
       #g/100g
-      "Fatty acid 20:5 omega-3" => 1000,
-      "Fatty acid 22:5 omega-3" => 1000,
-      "Fatty acid 22:6 omega-3" => 1000,
+      #"Fatty acid 20:5 omega-3" => 1000,
+      #"Fatty acid 22:5 omega-3" => 1000,
+      #"Fatty acid 22:6 omega-3" => 1000,
     }
   end
 

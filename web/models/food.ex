@@ -94,7 +94,7 @@ defmodule Kai.Food do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @fields)
-    |> validate_required([:name, :id])
+    |> validate_required([:name])
   end
 end
 

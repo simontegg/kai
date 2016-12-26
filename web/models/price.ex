@@ -1,29 +1,35 @@
-defmodule Kai.Prices do
+defmodule Kai.Price do
   use Kai.Web, :model
-  alias Kai.{Food, FoodsPrices, User}
+  alias Kai.{Conversion, Food, FoodsPrices, User}
 
   @fields [
     :price,
     :company_id,
-    :food_description,
+    :name,
     :currency,
     :currency_unit,
+    :quantity,
     :quantity_unit,
     :longitude,
-    :latitude
+    :latitude,
+    :url
   ]
 
   schema "prices" do
 
     many_to_many :foods, Food, join_through: FoodsPrices
     belongs_to :user, User 
+    has_one :conversion, Conversion
 
+    field :name, :string
     field :price, :float
+    field :quantity, :float
+    field :quantity_unit, :string #kg || each
+
+    field :url, :string
     field :company_id, :string
-    field :food_description, :string
     field :currency, :string
     field :currency_unit, :string #cents
-    field :quantity_unit, :string #kg || 100g || each
     field :longitude, :integer
     field :latitude, :integer
 
