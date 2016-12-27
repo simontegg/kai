@@ -12,7 +12,7 @@ constraints = readtable("$(pwd())/web/workers/intake.csv")
 
 
 foods = readtable("$(pwd())/web/workers/foods.csv")
-# food_id:string | food_name:string | cents_per_kg:int | edible_proportion:float | nutrient_a:int (mg/kg) ... | calories:int (kcal/week) | protein:int (g/week)
+# food_id:string | food_name:string | cents_per_g:int | edible_proportion:float | nutrient_a:int (mg/kg) ... | calories:int (kcal/week) | protein:int (g/week)
 #writetable("output.csv", intake)
 
 

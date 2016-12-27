@@ -18,6 +18,7 @@
     "postcss-import": "^9.0.0"
   },
   "devDependencies": {
+    "gulp-sourcemaps": "^1.9.1",
     "tachyons": "4.5.5"
   }
 }

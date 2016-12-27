@@ -100,8 +100,6 @@ defmodule Seeds.Price do
     num
   end
   def convert_value(_key, value), do: value
-
-
 end
 
 

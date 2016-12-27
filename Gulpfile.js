@@ -1,12 +1,16 @@
 var gulp = require('gulp')
 var concat = require('gulp-concat')
+var sourcemaps = require('gulp-sourcemaps')
 var compress = require('gulp-yuicompressor')
-var autoprefixer = require('autoprefixer')
-var cssnano = require('cssnano')
-var atImport = require('postcss-import')
+//var autoprefixer = require('autoprefixer')
+//var cssnano = require('cssnano')
+var postcss = require('gulp-postcss')
+//var atImport = require('postcss-import')
+
 
 var appCssPaths = [
-  'web/static/css/**/*.css*',
+  'web/static/css/**/tachyons.css*',
+  'web/static/css/**/app.css*'
 ]
 
 var vendorCssPaths = [
@@ -45,24 +49,23 @@ gulp.task('css-vendor', function() {
 
 gulp.task('css-app', function() {
   var processors = [
-    atImport(),
-    autoprefixer({browsers: ['last 1 version']}),
-    cssnano(),
+    require('postcss-import'),
+    require('autoprefixer'),
+    require('cssnano'),
   ]
 
   return gulp
     .src(appCssPaths)
+    .pipe(sourcemaps.init())
+    .pipe(concat('app.css'))
     .pipe(postcss(processors))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('priv/static/css'))
 })
 
 gulp.task('js-before', function() {
   return gulp
     .src(jsBeforePaths)
-    .pipe(concat('app-before.js'))
-    .pipe(compress({
-      type: 'js'
-    }))
     .pipe(gulp.dest('priv/static/js'))
 })
 

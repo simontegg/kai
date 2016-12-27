@@ -2,24 +2,30 @@ defmodule Kai.SolverWorker do
   use Toniq.Worker
   import Porcelain
   import CSV
+  import Ecto.Query
 
-  alias Porcelain.Process
-  alias Porcelain.Result
+  alias Porcelain.{Process, Result}
+  alias Kai.{FoodsPrices, Price, Repo, Requirements}
+
 
   def perform(user_id: user_id) do
+    #get user
+    #construct constraints
+    #get prices 
+    #get foods associated with prices
 
 
   end
 
 
 
-  def perform(constraints: constraints, foods: foods) do
-    file_path = write_input(constraints)
-   
-    result = Porcelain.exec("julia", ["web/workers/glue.jl", file_path])
+  def perform(constraints: constraints) do
+    foods_prices = Repo.all(from(Price, preload: :foods))
+    #file_path = write_input(constraints)
 
-    IO.inspect "result"
-    IO.inspect result
+    IO.inspect foods_prices   
+    #result = Porcelain.exec("julia", ["web/workers/glue.jl", file_path])
+
 
 
 
