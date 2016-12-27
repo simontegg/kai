@@ -16,7 +16,7 @@ defmodule Kai.Requirements do
       pantothenic_acid:    days * pantothenic_acid_ai(params),
       riboflavin:          days * riboflavin_rda(params),
       thiamin:             days * thiamin_rda(params),
-      vitamin_a_rae:           days * vitamin_a_rae_rda(params),
+      vitamin_a_rae:       days * vitamin_a_rae_rda(params),
       vitamin_b6:          days * vitamin_b6_rda(params),
       vitamin_b12:         days * vitamin_b12_rda(params),
       vitamin_c:           days * vitamin_c_rda(params),

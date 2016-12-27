@@ -1,14 +1,11 @@
 defmodule Kai.FoodsPrices do
   use Kai.Web, :model
-  alias Kai.{Food, Price} 
+  alias Kai.{Conversion, Food, Price} 
 
   schema "foods_prices" do
     belongs_to :food, Food
     belongs_to :price, Price
-    field :each_to_g, :float
-    field :raw_to_cooked, :float
-    field :edible_portion, :float
-
+    has_one :conversion, Conversion
 
     timestamps()
   end
@@ -18,7 +15,7 @@ defmodule Kai.FoodsPrices do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:food_id, :price_id, :each_to_g, :raw_to_cooked, :edible_portion])
+    |> cast(params, [:food_id, :price_id])
     |> validate_required([:food_id, :price_id])
   end
 end

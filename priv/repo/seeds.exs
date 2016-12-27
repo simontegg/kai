@@ -57,36 +57,49 @@ end
 
 
 defmodule Seeds.Price do
-  alias Kai.{Food, FoodsPrices, Price, Repo} 
+  alias Kai.{Conversion, Food, FoodsPrices, Price, Repo} 
   
   @integers ["price", "quantity", "each_to_g"]
   @floats ["raw_to_cooked"]
 
   def process_price(row) do
-    price_params = for {k, v} <- row,
+    price_data = for {k, v} <- row,
       into: %{},
       do: {String.to_atom(k), convert_value(k, v)}
 
-    food = Repo.get_by(Food, name: price_params.food_name)
-    price = %Price{} |> Price.changeset(price_params) |> Repo.insert!
+    food = Repo.get_by(Food, name: price_data.food_name)
+    price = %Price{} |> Price.changeset(price_data) |> Repo.insert!
 
-    food_price_params = get_food_price_params(price_params, price, food)
+    food_price =
+      %FoodsPrices{} 
+      |> FoodsPrices.changeset(%{food_id: food.id, price_id: price.id}) 
+      |> Repo.insert!
 
-    %FoodsPrices{} 
-    |> FoodsPrices.changeset(food_price_params) 
-    |> Repo.insert!
-
-    # IO.inspect food.id
+    insert_conversion(
+      food_price.id, 
+      price_data.each_to_g, 
+      price_data.raw_to_cooked
+    )
 
   end
 
-  def get_food_price_params(params, price, food) do
+  def insert_conversion(food_price_id, each_to_g, raw_to_cooked) when (each_to_g or raw_to_cooked) do
+    changeset = %{
+      food_price_id: food_price_id,
+      each_to_g: each_to_g,
+      raw_to_cooked: raw_to_cooked
+    }
+
+    %Conversion{} |> Conversion.changeset(changeset) |> Repo.insert!
+  end
+  def insert_conversion(food_price_id, each_to_g, raw_to_cooked), do: nil
+
+
+  def get_conversion_params(food_price, data) do
     %{
-      food_id: food.id,
-      price_id: price.id,
-      each_to_g: params.each_to_g,
-      raw_to_cooked: params.raw_to_cooked,
-      edible_portion: food.edible_portion
+      food_price_id: food_price.id,
+      each_to_g: data.each_to_g,
+      raw_to_cooked: data.raw_to_cooked,
     }
   end
 
