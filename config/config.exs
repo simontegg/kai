@@ -60,7 +60,8 @@ config :ex_admin,
     Kai.ExAdmin.Dashboard,
     Kai.ExAdmin.Food,
     Kai.ExAdmin.Price,
-    Kai.ExAdmin.FoodsPrices
+    Kai.ExAdmin.FoodsPrices,
+    Kai.ExAdmin.Conversion
   ]
 
 import_config "#{Mix.env}.exs"

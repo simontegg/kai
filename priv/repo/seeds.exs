@@ -59,48 +59,34 @@ end
 defmodule Seeds.Price do
   alias Kai.{Conversion, Food, FoodsPrices, Price, Repo} 
   
-  @integers ["price", "quantity", "each_to_g"]
+  @integers ["price", "quantity", "each_g"]
   @floats ["raw_to_cooked"]
 
   def process_price(row) do
-    price_data = for {k, v} <- row,
+    row_data = for {k, v} <- row,
       into: %{},
       do: {String.to_atom(k), convert_value(k, v)}
 
-    food = Repo.get_by(Food, name: price_data.food_name)
-    price = %Price{} |> Price.changeset(price_data) |> Repo.insert!
+    food = Repo.get_by(Food, name: row_data.food_name)
+    price = %Price{} |> Price.changeset(row_data) |> Repo.insert!
+    food_price_changeset = %{food_id: food.id, price_id: price.id}
+   
+    if (row_data.each_g || row_data.raw_to_cooked) do
+      conversion = 
+        %Conversion{} 
+        |> Conversion.changeset(row_data) 
+        |> Repo.insert!
 
-    food_price =
-      %FoodsPrices{} 
-      |> FoodsPrices.changeset(%{food_id: food.id, price_id: price.id}) 
-      |> Repo.insert!
-
-    insert_conversion(
-      food_price.id, 
-      price_data.each_to_g, 
-      price_data.raw_to_cooked
-    )
-
+      food_price_changeset 
+      |> Map.put_new(:conversion_id, conversion.id)
+      |> insert_food_price
+    else
+      insert_food_price(food_price_changeset)
+    end
   end
 
-  def insert_conversion(food_price_id, each_to_g, raw_to_cooked) when (each_to_g or raw_to_cooked) do
-    changeset = %{
-      food_price_id: food_price_id,
-      each_to_g: each_to_g,
-      raw_to_cooked: raw_to_cooked
-    }
-
-    %Conversion{} |> Conversion.changeset(changeset) |> Repo.insert!
-  end
-  def insert_conversion(food_price_id, each_to_g, raw_to_cooked), do: nil
-
-
-  def get_conversion_params(food_price, data) do
-    %{
-      food_price_id: food_price.id,
-      each_to_g: data.each_to_g,
-      raw_to_cooked: data.raw_to_cooked,
-    }
+  def insert_food_price(changeset) do 
+    %FoodsPrices{} |> FoodsPrices.changeset(changeset) |> Repo.insert!
   end
 
   def convert_value(_key, value) when value == "", do: nil

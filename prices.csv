@@ -1,4 +1,4 @@
-name,price,quantity,quantity_unit,company_id,url,food_name,raw_to_cooked,each_to_g
+name,price,quantity,quantity_unit,company_id,url,food_name,raw_to_cooked,each_g
 Chicken Liver,595,1,kg,freshchicken,http://freshchicken.co.nz/order-form/,Chicken; liver in flour; fried,,
 Countdown Peanuts Roasted Salted Imported,600,1,kg,countdown,https://shop.countdown.co.nz/Shop/ProductDetails?stockcode=290382#url=/Shop/ProductDetails%3Fstockcode%3D362412%26name%3Dcountdown-peanuts-roasted-salted-imported%26searchString%3Dpeanut,Nut; peanut; roasted; no salt added,,
 Sanitarium Peanut Butter Smooth 500g,470,500,g,countdown,https://shop.countdown.co.nz/Shop/ProductDetails?stockcode=290382#url=/Shop/ProductDetails%3Fstockcode%3D215949%26name%3Dsanitarium-peanut-butter-smooth%26searchString%3Dpeanut,Peanut butter; smooth & crunchy salt added; no sugar added,,
