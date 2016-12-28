@@ -5,10 +5,11 @@ defmodule Kai.SolverWorker do
   import Ecto.Query
 
   alias Porcelain.{Process, Result}
-  alias Kai.{Food, FoodsPrices, Price, Repo, Requirements}
+  alias Kai.{Conversion, Food, FoodsPrices, Price, Repo, Requirements}
 
   @food_field_list [ 
     :name,
+    :edible_portion,
     :calories,
     :protein, 
     :folate_dfe, 
@@ -41,7 +42,8 @@ defmodule Kai.SolverWorker do
     :zinc ]
 
   @price_field_list [:price, :quantity, :quantity_unit] 
-  @foods_prices_field_list [:each_to_g, :raw_to_cooked, :edible_portion] 
+  @conversion_field_list [:each_g, :raw_to_cooked] 
+  @headers @food_field_list ++ @price_field_list ++ @conversion_field_list
 
   def perform(user_id: user_id) do
     #get user
@@ -51,45 +53,48 @@ defmodule Kai.SolverWorker do
   end
 
   def perform(constraints: constraints) do
-    query = 
-      from price in Price,
-      join: fp in FoodsPrices, on: fp.price_id == price.id,
-      join: food in Food, on: food.id == fp.food_id,
-      select: [
-        map(price, ^@price_field_list),
-        map(food, ^@food_field_list),
-        map(fp, ^@foods_prices_field_list)
-      ]
+    foods = get_query |> Repo.all  |> merge_result |> set_100g_prices
+    
+    constraints_file = write_input([constraints], "constraints.csv")
+    foods_file = write_input(foods, "foods.csv")
 
-    foods = Repo.all(query) |> merge_result |> set_final_prices
-    #file_path = write_input(constraints)
-
-    IO.inspect "foods"
+    IO.inspect Enum.map(foods, fn (food) -> food.price_100g end)
     IO.inspect hd(foods)
 
   end
 
-  def set_final_prices(rows) do
-    Enum.map(rows, &set_final_price(&1)) 
+  def get_query do
+    price_query = from p in Price, select: map(p, ^@price_field_list)
+    food_query = from f in Food, select: map(f, ^@food_field_list)
+    conversion_query = from c in Conversion, select: map(c, ^@conversion_field_list)
+
+    from fp in FoodsPrices,
+    preload: [
+      price: ^price_query, 
+      food: ^food_query, 
+      conversion: ^conversion_query
+    ]  
   end
 
-  def set_final_price(row) do
-    Map.put_new(row, :final_price, price_per_edible_100g(row))
+  def set_100g_prices(rows) do
+    Enum.map(rows, &set_100g_price(&1))
   end
 
-
+  def set_100g_price(row) do
+    Map.put_new(row, :price_100g, price_per_edible_100g(row))
+  end
 
   @doc "cents per edible 100 grams of food"
   def price_per_edible_100g(%{
     :price => price,
     :quantity => quantity,
     :quantity_unit => quantity_unit,
-    :each_to_g => each_to_g,
+    :each_g => each_g,
     :edible_portion => edible_portion,
   }) when quantity_unit == "ea" do
 
     100
-    |> Kernel./(quantity * each_to_g)
+    |> Kernel./(quantity * each_g)
     |> Kernel.*(price) 
     |> Kernel./(edible_portion) 
     |> round
@@ -105,14 +110,37 @@ defmodule Kai.SolverWorker do
 
     price
     |> Kernel./(quantity / denominator)
-    |> Kernel./(edible_portion)
+    |> Kernel./(edible_portion || 1)
     |> Kernel./(raw_to_cooked || 1)
+    |> round
+  end
+  def price_per_edible_100g(%{
+    :price => price,
+    :quantity => quantity,
+    :quantity_unit => quantity_unit,
+    :edible_portion => edible_portion,
+  }) do
+    denominator = if quantity_unit in ["kg", "L"], do: 0.1, else: 100
+
+    price
+    |> Kernel./(quantity / denominator)
+    |> Kernel./(edible_portion || 1)
     |> round
   end
 
   def merge_result(rows) do
-    for row <- rows, do: Enum.reduce(row, fn(x, acc) -> Map.merge(acc, x) end)
+    Enum.map(rows, &filter_merge(&1))
   end
+
+  def filter_merge(row) do
+    row
+    |> Map.take([:price, :food, :conversion])
+    |> Enum.filter(fn {_, v} -> v != nil end)
+    |> Enum.map(fn {_, v} -> v end)
+    |> Enum.reduce(fn (x, acc) -> Map.merge(acc, x) end)
+  end
+
+
 
   def write_input(list, file_name) do
     headers = list |> hd |> Map.keys

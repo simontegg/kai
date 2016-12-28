@@ -35,7 +35,13 @@ defmodule Kai.SolverWorkerTest do
   end
 
   test "calculates final price (dozen eggs)" do
-    params = [price: 700, quantity: 12, each_to_g: 58, edible_portion: 1] 
+    params = [
+      price: 700, 
+      quantity: 12, 
+      quantity_unit: "ea",
+      each_g: 58, 
+      edible_portion: 1
+    ] 
     food_price = build(:price_conversion, params)
     expected_final_price =  round((100 / (58 * 12)) * 700)
     final_price = SolverWorker.price_per_edible_100g(food_price)
@@ -46,7 +52,7 @@ defmodule Kai.SolverWorkerTest do
   test "calculates final price (rice)" do
     params = [
       price: 289, 
-      each_to_g: nil, 
+      each_g: nil, 
       raw_to_cooked: 3, 
       quantity_unit: "kg",
       edible_portion: 1
@@ -63,7 +69,7 @@ defmodule Kai.SolverWorkerTest do
     params = [
       price: 399, 
       quantity: 400,
-      each_to_g: nil, 
+      each_g: nil, 
       quantity_unit: "g",
       edible_portion: 0.8692
     ] 
@@ -74,5 +80,34 @@ defmodule Kai.SolverWorkerTest do
 
     assert final_price == expected_final_price
   end
+
+  test "calculates final price (chicken liver) missing rows" do
+    params = %{
+      price: 595.0, 
+      quantity: 1.0,
+      quantity_unit: "kg",
+      edible_portion: 0.84
+    }
+
+    expected_final_price =  round((595.0 / (1 / 0.1)) / 0.84)
+    final_price = SolverWorker.price_per_edible_100g(params)
+
+    assert final_price == expected_final_price
+  end
+
+  test "merges row" do
+    row = %{
+      food: %{ a: 1, b: 2},
+      price: %{ c: 3},
+      conversion: nil,
+      other_key: 4
+    }
+
+    expected_row = %{ a: 1, b: 2, c: 3}
+    actual_row = SolverWorker.filter_merge(row)
+
+    assert expected_row == actual_row
+  end
+
 
 end

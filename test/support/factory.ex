@@ -30,12 +30,13 @@ defmodule Kai.Factory do
     }
   end
 
+  # avocado
   def price_conversion_factory do
     %{
       price: 179,
       quantity: 1,
       quantity_unit: "ea",
-      each_to_g: 170,
+      each_g: 170,
       edible_portion: 0.66,
       raw_to_cooked: nil
     }
