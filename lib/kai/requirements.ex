@@ -10,28 +10,28 @@ defmodule Kai.Requirements do
       protein:             days * protein_rdi(params),
 
       #vitamins
-      biotin:              days * biotin_ai(params),
-      folate_dfe:          days * folate_dfe_rda(params),
+      biotin:              Float.round(days * biotin_ai(params), 5),
+      folate_dfe:          Float.round(days * folate_dfe_rda(params), 5),
       niacin_ne:           days * niacin_ne_rda(params),
       pantothenic_acid:    days * pantothenic_acid_ai(params),
-      riboflavin:          days * riboflavin_rda(params),
-      thiamin:             days * thiamin_rda(params),
-      vitamin_a_rae:       days * vitamin_a_rae_rda(params),
-      vitamin_b6:          days * vitamin_b6_rda(params),
-      vitamin_b12:         days * vitamin_b12_rda(params),
+      riboflavin:          Float.round(days * riboflavin_rda(params), 5),
+      thiamin:             Float.round(days * thiamin_rda(params), 5),
+      vitamin_a_rae:       Float.round(days * vitamin_a_rae_rda(params), 5),
+      vitamin_b6:          Float.round(days * vitamin_b6_rda(params), 5),
+      vitamin_b12:         Float.round(days * vitamin_b12_rda(params), 5),
       vitamin_c:           days * vitamin_c_rda(params),
       vit_e_a_tocopherol:  days * vit_e_a_tocopherol_rda(params),
       vitamin_k1:          days * vitamin_k1_ai(params),
 
       #minerals
       calcium:             days * calcium_rda(params),
-      chromium:            days * chromium_ai(params),
-      copper:              days * copper_rda(params),
-      iodine:              days * iodine_rda(params),
+      chromium:            Float.round(days * chromium_ai(params), 5),
+      copper:              Float.round(days * copper_rda(params), 5),
+      iodine:              Float.round(days * iodine_rda(params), 5),
       iron:                days * iron_rda(params),
       magnesium:           days * magnesium_rda(params),
-      manganese:           days * manganese_ai(params),
-      molybdenum:          days * molybdenum_rda(params),
+      manganese:           Float.round(days * manganese_ai(params), 5),
+      molybdenum:          Float.round(days * molybdenum_rda(params), 5),
       phosphorus:          days * phosphorus_rda(params),
       potassium:           days * potassium_rda(params),
       selenium:            days * selenium_rda(params),
@@ -315,7 +315,7 @@ defmodule Kai.Requirements do
       age > 18              -> 75
     end
   end
-  def vitamin_c_rda(%{:age => age, :sex => sex}) do
+  def vitamin_c_rda(%{:age => age}) do
     cond do
       age > 0 and age < 4   -> 15
       age > 3 and age < 9   -> 25

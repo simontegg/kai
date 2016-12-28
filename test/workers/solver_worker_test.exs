@@ -109,5 +109,18 @@ defmodule Kai.SolverWorkerTest do
     assert expected_row == actual_row
   end
 
+  test "merges o3" do
+    food = %{
+      o3_dha: 1,
+      o3_epa: 2,
+      o3_dpa: 3,
+      other_key: 4
+    }
+
+    expected_row = %{ o3_epa_dha: 3, other_key: 4}
+    actual_row = Enum.reduce(food, %{}, &SolverWorker.aggregate_o3_epa_dha(&1, &2))
+
+    assert expected_row == actual_row
+  end
 
 end

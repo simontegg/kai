@@ -24,7 +24,7 @@ defmodule Kai.PageController do
     constraints =
       json 
       |> decode 
-      |> Requirements.nutrients
+      |> Requirements.nutrients(7)
     
 #Toniq.enqueue(SolverWorker, [constraints: constraints, foods: foods])
     Toniq.enqueue(SolverWorker, [constraints: constraints])

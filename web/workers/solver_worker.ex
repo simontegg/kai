@@ -1,5 +1,5 @@
 defmodule Kai.SolverWorker do 
-  use Toniq.Worker
+   use Toniq.Worker
   import Porcelain
   import CSV
   import Ecto.Query
@@ -46,27 +46,51 @@ defmodule Kai.SolverWorker do
   @headers @food_field_list ++ @price_field_list ++ @conversion_field_list
 
   def perform(user_id: user_id) do
-    #get user
-    #construct constraints
-    #get prices 
-    #get foods associated with prices
   end
 
   def perform(constraints: constraints) do
-    foods = get_query |> Repo.all  |> merge_result |> set_100g_prices
+    get_query
+    |> Repo.all 
+    |> merge_result 
+    |> set_100g_prices
+    |> aggregate_nutrients
+    |> write_input("foods.csv")
     
-    constraints_file = write_input([constraints], "constraints.csv")
-    foods_file = write_input(foods, "foods.csv")
+    constraints
+    |> Enum.map(&reshape(&1)) 
+    |> write_input("constraints.csv")
+    
 
-    IO.inspect Enum.map(foods, fn (food) -> food.price_100g end)
-    IO.inspect hd(foods)
+  end
 
+  def aggregate_nutrients(rows) do
+    for row <- rows,
+      do: Enum.reduce(row, %{}, &aggregate_o3_epa_dha(&1, &2))
+  end
+    
+  def aggregate_o3_epa_dha({key, value}, acc) do
+    case key do
+      :o3_epa -> 
+        Map.update(acc, :o3_epa_dha, value, &(&1 + value))
+      :o3_dha -> 
+        Map.update(acc, :o3_epa_dha, value, &(&1 + value))
+      :o3_dpa -> 
+        Map.delete(acc, :o3_dpa)
+      _ -> 
+        Map.put_new(acc, key, value)
+    end
+  end
+
+  def reshape({key, value}) do
+    %{nutrient: key, amount: value, constraint: "min"} 
   end
 
   def get_query do
     price_query = from p in Price, select: map(p, ^@price_field_list)
     food_query = from f in Food, select: map(f, ^@food_field_list)
-    conversion_query = from c in Conversion, select: map(c, ^@conversion_field_list)
+    conversion_query = 
+      from c in Conversion, 
+      select: map(c, ^@conversion_field_list)
 
     from fp in FoodsPrices,
     preload: [
@@ -140,8 +164,6 @@ defmodule Kai.SolverWorker do
     |> Enum.reduce(fn (x, acc) -> Map.merge(acc, x) end)
   end
 
-
-
   def write_input(list, file_name) do
     headers = list |> hd |> Map.keys
     file_path = Path.join(__DIR__, file_name)
@@ -150,11 +172,6 @@ defmodule Kai.SolverWorker do
 
     file_path
   end
-
-    
-
-
-
 
 end
 
