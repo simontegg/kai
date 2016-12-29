@@ -53,7 +53,7 @@ defmodule Kai.SessionController do
 
   def delete(conn, _params) do
     conn
-    |> Kai.Auth.logout()
+    |> Auth.logout()
     |> put_flash(:info, gettext "User logged out.")
     |> redirect(to: page_path(conn, :index))
   end
