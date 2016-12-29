@@ -1,4 +1,7 @@
 defmodule Kai.Auth do
+  @moduledoc """
+  Auth provides methods to attach and detach the current_user to the connection
+  """
   import Plug.Conn
   alias Kai.{Repo, User}
 

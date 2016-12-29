@@ -39,7 +39,8 @@ defmodule Kai.SolverWorker do
     :vitamin_c, 
     :vit_e_a_tocopherol, 
     :vitamin_k1, 
-    :zinc ]
+    :zinc 
+  ]
 
   @price_field_list [:price, :quantity, :quantity_unit] 
   @conversion_field_list [:each_g, :raw_to_cooked] 

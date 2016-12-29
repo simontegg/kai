@@ -499,11 +499,15 @@ defmodule Kai.Requirements do
     end
   end
   
-  def magnesium_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def magnesium_rda(%{:age => age}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 80
       age > 3 and age < 9   -> 130
-      age > 8 and age < 14  -> 240
+      age > 8               -> 240
+    end
+  end
+  def magnesium_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 13 and age < 19 -> 410
       age > 18 and age < 31 -> 400
       age > 30              -> 420
@@ -511,9 +515,6 @@ defmodule Kai.Requirements do
   end
   def magnesium_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 80
-      age > 3 and age < 9   -> 130
-      age > 8 and age < 14  -> 240
       age > 13 and age < 19 -> 360
       age > 18 and age < 31 -> 310
       age > 30              -> 320
@@ -521,9 +522,6 @@ defmodule Kai.Requirements do
   end
   def magnesium_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 80
-      age > 3 and age < 9   -> 130
-      age > 8 and age < 14  -> 240
       age > 13 and age < 19 -> 385
       age > 18 and age < 31 -> 355
       age > 30              -> 370

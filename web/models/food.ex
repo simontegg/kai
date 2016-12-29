@@ -41,7 +41,8 @@ defmodule Kai.Food do
     :vitamin_c, 
     :vit_e_a_tocopherol, 
     :vitamin_k1, 
-    :zinc ]
+    :zinc 
+  ]
 
   schema "foods" do
     many_to_many :prices, Price, join_through: FoodsPrices
