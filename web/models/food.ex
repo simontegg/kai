@@ -14,6 +14,7 @@ defmodule Kai.Food do
     :biotin,
     :calcium,
     :cholesterol,
+    :choline,
     :chromium,
     :copper,
     :fat_total,
@@ -59,6 +60,7 @@ defmodule Kai.Food do
     field :biotin, :float
     field :calcium, :float
     field :cholesterol, :float
+    field :choline, :float
     field :chromium, :float
     field :copper, :float
     field :fat_total, :float
