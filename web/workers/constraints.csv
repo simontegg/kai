@@ -12,7 +12,6 @@ amount,constraint,nutrient
 14.35,min,manganese
 0.315,min,molybdenum
 105,min,niacin_ne
-875,min,o3_epa_dha
 35,min,pantothenic_acid
 4900,min,phosphorus
 32900,min,potassium
