@@ -112,7 +112,7 @@ defmodule Kai.Requirements do
   end
 
   #https://www.ncbi.nlm.nih.gov/pubmed/16779921
-  def protein_ul(%{:weight => weight}) do: round(2.25 * weight)
+  def protein_ul(%{:weight => weight}), do: round(2.25 * weight)
 
   # http://lpi.oregonstate.edu/mic/vitamins/biotin
   def biotin_ai(%{:age => age}) do

@@ -3,6 +3,7 @@ defmodule Kai.SolverWorker do
   import Porcelain
   import CSV
   import Ecto.Query
+  import Kai.Utils
 
   alias Porcelain.{Process, Result}
   alias Kai.{Conversion, Food, FoodsPrices, Price, Repo, Requirements}
@@ -50,16 +51,19 @@ defmodule Kai.SolverWorker do
   end
 
   def perform(constraints: constraints) do
+    foods_filename = "foods-#{random_string(7)}.csv" 
+    constraints_filename = "constraints-#{random_string(7)}.csv" 
+
     get_query
     |> Repo.all 
     |> merge_result 
     |> set_100g_prices
     |> aggregate_nutrients
-    |> write_input("foods.csv")
+    |> write_input(foods_filename)
     
     constraints
     |> Enum.map(&reshape(&1)) 
-    |> write_input("constraints.csv")
+    |> write_input(constraints_filename)
   end
 
   def aggregate_nutrients(rows) do

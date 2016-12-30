@@ -2,8 +2,6 @@ defmodule Kai.ReceiptSlug do
   use EctoAutoslugField.Slug, from: :company, to: :slug
 end
 
-
-
 defmodule Kai.Receipt do
   use Kai.Web, :model
   use Arc.Ecto.Schema
