@@ -60,25 +60,18 @@ defmodule Kai.SolverWorker do
     constraints
     |> Enum.map(&reshape(&1)) 
     |> write_input("constraints.csv")
-    
-
   end
 
   def aggregate_nutrients(rows) do
     for row <- rows,
-      do: Enum.reduce(row, %{}, &aggregate_o3_epa_dha(&1, &2))
+      do: Enum.reduce(row, %{}, &aggregate_o3_epa_dha_dpa(&1, &2))
   end
     
-  def aggregate_o3_epa_dha({key, value}, acc) do
-    case key do
-      :o3_epa -> 
-        Map.update(acc, :o3_epa_dha, value, &(&1 + value))
-      :o3_dha -> 
-        Map.update(acc, :o3_epa_dha, value, &(&1 + value))
-      :o3_dpa -> 
-        Map.delete(acc, :o3_dpa)
-      _ -> 
-        Map.put_new(acc, key, value)
+  def aggregate_o3_epa_dha_dpa({key, value}, acc) do
+    if Enum.member?([:o3_epa, :o3_dha, :o3_dpa], key) do
+      Map.update(acc, :o3_epa_dha_dpa, value, &(&1 + value))
+    else 
+      Map.put_new(acc, key, value)
     end
   end
 
@@ -175,6 +168,3 @@ defmodule Kai.SolverWorker do
   end
 
 end
-
-# alternative implementation is pass constraints and foods as JSON in STDIN
-

@@ -38,8 +38,8 @@ defmodule Kai.Requirements do
       zinc:                days * zinc_rda(params),
 
       # other nutrients
-      choline:           days * choline_ai(params),
-      o3_epa_dha:        days * o3_epa_dha_dpa_rda(params)
+      choline:             days * choline_ai(params),
+      o3_epa_dha_dpa:      days * o3_epa_dha_dpa_rda(params)
     }
   end
 
@@ -80,10 +80,14 @@ defmodule Kai.Requirements do
   end
 
   # g/day
-  def protein_rdi(%{:weight => weight, :age => age, :sex => sex}) when sex == "male" do
+  def protein_rdi(%{:weight => weight, :age => age}) when age < 9 do
     cond do
       age > 0 and age < 4   -> round(1.08 * weight)
       age > 3 and age < 9   -> round(0.91 * weight)
+    end
+  end
+  def protein_rdi(%{:weight => weight, :age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 8 and age < 14  -> round(0.94 * weight)
       age > 13 and age < 19 -> round(0.99 * weight)
       age > 18 and age < 71 -> round(0.84 * weight)
@@ -92,8 +96,6 @@ defmodule Kai.Requirements do
   end
   def protein_rdi(%{:weight => weight, :age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> round(1.08 * weight)
-      age > 3 and age < 9   -> round(0.91 * weight)
       age > 8 and age < 14  -> round(0.87 * weight)
       age > 13 and age < 19 -> round(0.77 * weight)
       age > 18 and age < 71 -> round(0.75 * weight)
@@ -102,8 +104,6 @@ defmodule Kai.Requirements do
   end
   def protein_rdi(%{:weight => weight, :age => age}) do
     cond do
-      age > 0 and age < 4   -> round(1.08 * weight)
-      age > 3 and age < 9   -> round(0.91 * weight)
       age > 8 and age < 14  -> round(0.9 * weight)
       age > 13 and age < 19 -> round(0.88 * weight)
       age > 18 and age < 71 -> round(0.8 * weight)
@@ -111,7 +111,8 @@ defmodule Kai.Requirements do
     end
   end
 
-
+  #https://www.ncbi.nlm.nih.gov/pubmed/16779921
+  def protein_ul(%{:weight => weight}) do: round(2.25 * weight)
 
   # http://lpi.oregonstate.edu/mic/vitamins/biotin
   def biotin_ai(%{:age => age}) do
@@ -671,32 +672,34 @@ defmodule Kai.Requirements do
     end
   end
 
-  # Australian and NZ Health authorities
+  @doc """
+  ##Australian and NZ Health authorities reccomendations
+  http://www.goedomega3.com/index.php/files/download/304
+  EPA DHA and DPA Omega 3 Fatty Acids: grams/day
+  """
+  def o3_epa_dha_dpa_rda(%{:age => age}) when age < 14 do
+    cond do
+      age > 0 and age < 4   -> 0.040
+      age > 3 and age < 9   -> 0.055
+      age > 8               -> 0.070
+    end
+  end
   def o3_epa_dha_dpa_rda(%{:age => age, :sex => sex}) when sex == "male" do
     cond do
-      age > 0 and age < 4   -> 40
-      age > 3 and age < 9   -> 55
-      age > 8 and age < 14  -> 70
-      age > 14 and age < 19 -> 125
-      age > 18              -> 160
+      age > 13 and age < 19 -> 0.125
+      age > 18              -> 0.160
     end
   end
   def o3_epa_dha_dpa_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 40
-      age > 3 and age < 9   -> 55
-      age > 8 and age < 14  -> 70
-      age > 13 and age < 19 -> 85
-      age > 18              -> 90
+      age > 13 and age < 19 -> 0.085
+      age > 18              -> 0.090
     end
   end
   def o3_epa_dha_dpa_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 40
-      age > 3 and age < 9   -> 55
-      age > 8 and age < 14  -> 70
-      age > 13 and age < 19 -> 105
-      age > 18              -> 125
+      age > 13 and age < 19 -> 0.105
+      age > 18              -> 0.125
     end
   end
 end

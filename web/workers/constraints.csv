@@ -1,7 +1,7 @@
 amount,constraint,nutrient
 0.21,min,biotin
 7000,min,calcium
-16352,min,calories
+18690,min,calories
 3412.5,min,choline
 0.21,min,chromium
 6.3,min,copper
@@ -12,10 +12,11 @@ amount,constraint,nutrient
 14.35,min,manganese
 0.315,min,molybdenum
 105,min,niacin_ne
+0.875,min,o3_epa_dha_dpa
 35,min,pantothenic_acid
 4900,min,phosphorus
 32900,min,potassium
-490,min,protein
+448,min,protein
 8.05,min,riboflavin
 0.385,min,selenium
 7.7,min,thiamin

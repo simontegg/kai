@@ -38,16 +38,13 @@ defmodule Kai.NutrientNameMap do
       "Vitamin E; alpha-tocopherol equivalents" => :vit_e_a_tocopherol,
       "Vitamin K" => :vitamin_k1,
       "Zinc" => :zinc
-
-
-
       }
   end
 
   # -> mg/100g
   def nzff_conversion do
     %{
-      #mcg/100g
+      #mcg/100g => mg/100g
       "Biotin" => 0.001,
       "Chromium" => 0.001,
       "Edible portion" => 0.01,
@@ -63,9 +60,9 @@ defmodule Kai.NutrientNameMap do
       "Vitamin K" => 0.001,
 
       #g/100g
-      #"Fatty acid 20:5 omega-3" => 1000,
-      #"Fatty acid 22:5 omega-3" => 1000,
-      #"Fatty acid 22:6 omega-3" => 1000,
+      #"Fatty acid 20:5 omega-3"
+      #"Fatty acid 22:5 omega-3"
+      #"Fatty acid 22:6 omega-3"
     }
   end
 

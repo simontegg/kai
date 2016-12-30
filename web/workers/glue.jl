@@ -18,30 +18,23 @@ nutrients = intersect(food_nutrients, nutrients_raw)
 # main
 food_names = foods_raw[:name]
 prices = foods_raw[:price_100g]
-
 foods = foods_raw[:, nutrients]
 
 filtered = constraints_raw[findin(nutrients_raw, nutrients), :] 
 s = map(symbol, filtered[:nutrient])
 new_order = map((n) -> find(s .== n)[1], names(foods))
-
 constraints = filtered[new_order, :]
-
+sufficiencies = constraints[:amount]
 
 # set calories minimum at 90% of maintenance
-calories_index = find(constraints[:nutrient] .== "calories")
-calories = constraints[calories_index, :amount]
-constraints[calories_index, :amount] = round(calories * 0.9)
+#calories_index = find(constraints[:nutrient] .== "calories")
+#calories = constraints[calories_index, :amount]
+#constraints[calories_index, :amount] = round(calories * 0.9)
+#
+#calories_max = round(10 * calories[1])
+#calories_min = round(0.9 * calories[1])
 
-calories_max = round(10 * calories[1])
-calories_min = round(0.9 * calories[1])
-
-
-sufficiencies = constraints[:amount]
-println(calories_max)
-
-
-# reporting dataframe
+# TODO: reporting dataframe
 columns = [nutrients; [:name, :price_100g]]
 foods_info = foods_raw[:, columns]
 
@@ -57,8 +50,7 @@ quantities = fill(1, food_count)
 
 # setup model
 m = Model(solver = CbcSolver())
-@variable(m, quantities[1:length(food_names)] >= 0)
-#@variable(m, quantities[1:length(food_names)] >= 0)
+@variable(m, quantities[1:food_count] >= 0)
 
 # constraints 
 #i = column index (nutrient); j = row index (food)
@@ -76,19 +68,9 @@ end
     <= calories_max
 )
 
-##@constraint(
-##  m, 
-##  sum([foods[j, :calories] * quantities[j] for j in 1:food_count])
-##    >= calories_min
-##)
-#
-#
-#
-#
 # objective
 @objective(m, Min, sum([quantities[i] * prices[i] for i in 1:food_count]))
 
-#
 ## solve
 status = solve(m)
 println("Status = $status")
@@ -98,11 +80,8 @@ q = getvalue(quantities)
 p = q .* prices
 c = q .* foods[:, :calories]
 
-
 raw = DataFrame(foods = food_names, quantities = round(q * 100), price = round(p), calories = round(c))
-
 solution = raw[raw[:quantities] .> 0, :]
-
 showln(solution)
 
 n = []
