@@ -470,20 +470,21 @@ defmodule Kai.Requirements do
     end
   end
   
-  def iron_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def iron_rda(%{:age => age}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 7
       age > 3 and age < 9   -> 10
       age > 8 and age < 14  -> 8
+    end
+  end
+  def iron_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 13 and age < 19 -> 11
       age > 18              -> 8
     end
   end
   def iron_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 7
-      age > 3 and age < 9   -> 10
-      age > 8 and age < 14  -> 8
       age > 13 and age < 19 -> 15
       age > 18 and age < 51 -> 18
       age > 50              -> 8
@@ -491,9 +492,6 @@ defmodule Kai.Requirements do
   end
   def iron_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 7
-      age > 3 and age < 9   -> 10
-      age > 8 and age < 14  -> 8
       age > 13 and age < 19 -> 13
       age > 18 and age < 51 -> 15
       age > 50              -> 8
