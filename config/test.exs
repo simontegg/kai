@@ -24,3 +24,7 @@ config :kai, Kai.Repo,
 
 config :kai, Kai.Mailer,
   adapter: Bamboo.TestAdapter
+
+config :hound, driver: "phantomjs"
+
+config  :kai, sql_sandbox: true

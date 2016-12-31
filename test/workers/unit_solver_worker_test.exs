@@ -11,6 +11,23 @@ defmodule Kai.SolverWorkerTest do
     |> Enum.reduce("", fn(line, acc) -> acc <> line end)
   end
 
+  test "executes julia solver and recieves results" do
+    constraints = build(:constraints)  
+    {solution, levels} = SolverWorker.perform(constraints: constraints)
+  
+    
+    assert is_list(solution.foods)
+    assert is_list(solution.quantities)
+    assert is_list(solution.calories)
+    assert is_list(solution.prices)
+
+    assert is_list(levels.nutrient)
+    assert is_list(levels.total)
+    assert is_list(levels.level)
+
+  end
+
+  @tag :skip
   test "constraints written to file " do
     constraints = build(:constraints)  
     expected_file = test_file([constraints])

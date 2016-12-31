@@ -35,8 +35,8 @@ defmodule Kai.Mixfile do
       :arc_ecto,
       :ex_aws,
       :httpoison,
-      :timex,
-      :toniq
+      :timex
+      #      :toniq
     ]
   end
 

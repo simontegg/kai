@@ -27,7 +27,9 @@ defmodule Kai.PageController do
       |> Requirements.nutrients(7)
     
 #Toniq.enqueue(SolverWorker, [constraints: constraints, foods: foods])
-    Toniq.enqueue(SolverWorker, [constraints: constraints])
+    Task.async(fn ->
+      SolverWorker.perform(constraints: constraints)
+    end)
 
     redirect(conn, to: "/preferences")
   end

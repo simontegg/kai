@@ -1,12 +1,16 @@
 
-#odules
+# modules
 using DataArrays, DataFrames, JuMP, Cbc, ECOS, GLPK
 showln(x) = (show(x); println())
 
 
 # load data
-constraints_raw = readtable("$(pwd())/web/workers/constraints.csv")
-foods_raw = readtable("$(pwd())/web/workers/foods.csv")
+
+constraints_file = ARGS[1]
+foods_file = ARGS[2]
+
+constraints_raw = readtable(constraints_file)
+foods_raw = readtable(foods_file)
 
 
 # arrays
@@ -62,27 +66,28 @@ for i in 1:nutrient_count
   )
 end
 
-@constraint(
-  m, 
-  sum([foods[j, :calories] * quantities[j] for j in 1:food_count])
-    <= calories_max
-)
+#@constraint(
+#  m, 
+#  sum([foods[j, :calories] * quantities[j] for j in 1:food_count])
+#    <= calories_max
+#)
 
 # objective
 @objective(m, Min, sum([quantities[i] * prices[i] for i in 1:food_count]))
 
-## solve
+## Solve
+
 status = solve(m)
-println("Status = $status")
-println("Optimal Objective Function value: ", getobjectivevalue(m))
-println("Optimal Solutions:")
+#println("Status = $status")
+#println("Optimal Objective Function value: ", getobjectivevalue(m))
+#println("Optimal Solutions:")
 q = getvalue(quantities) 
 p = q .* prices
 c = q .* foods[:, :calories]
 
 raw = DataFrame(foods = food_names, quantities = round(q * 100), price = round(p), calories = round(c))
 solution = raw[raw[:quantities] .> 0, :]
-showln(solution)
+#showln(solution)
 
 n = []
 t = []
@@ -100,4 +105,18 @@ end
 
 levels = DataFrame(nutrients = n, totals = t, level = l)
 
-showall(levels)
+#showall(levels)
+
+
+# write results
+rand1 = randstring(6)
+rand2 = randstring(6)
+
+solution_file = "solution-$rand1.csv" 
+levels_file = "levels-$rand2.csv"
+
+writetable(solution_file, solution)
+writetable(levels_file, levels)
+
+write(STDOUT, string(solution_file, ";", levels_file))
+

@@ -1,5 +1,5 @@
 defmodule Kai.SolverWorker do 
-   use Toniq.Worker
+#   use Toniq.Worker
   import Porcelain
   import CSV
   import Ecto.Query
@@ -51,8 +51,46 @@ defmodule Kai.SolverWorker do
   end
 
   def perform(constraints: constraints) do
+
+
+    constraints_file = write_constraints(constraints)
+    foods_file = write_foods()
+   
+    IO.inspect constraints_file
+    IO.inspect foods_file
+
+
+    #    [solution_path, levels_path] = 
+    result = 
+      Porcelain.shell("julia web/workers/solver.jl #{constraints_file} #{foods_file}")
+
+    IO.inspect result
+
+    [solution_path, levels_path] = String.split(result.out, ";")
+
+    File.rm(constraints_file)
+    File.rm(foods_file)
+
+    solution = 
+      solution_path
+      |> File.stream!
+      |> CSV.decode(headers: true)
+      |> Enum.to_list
+
+    levels =
+      levels_path
+      |> File.stream!
+      |> CSV.decode(headers: true)
+      |> Enum.to_list
+    
+    File.rm(solution_path)
+    File.rm(levels_path)
+     
+    {solution, levels}  
+  end
+
+  def write_foods do
     foods_filename = "foods-#{random_string(7)}.csv" 
-    constraints_filename = "constraints-#{random_string(7)}.csv" 
 
     get_query
     |> Repo.all 
@@ -60,11 +98,17 @@ defmodule Kai.SolverWorker do
     |> set_100g_prices
     |> aggregate_nutrients
     |> write_input(foods_filename)
-    
+  end
+
+  def write_constraints(constraints) do
+    constraints_filename = "constraints-#{random_string(7)}.csv" 
+
     constraints
     |> Enum.map(&reshape(&1)) 
     |> write_input(constraints_filename)
   end
+
+
 
   def aggregate_nutrients(rows) do
     for row <- rows,
@@ -166,6 +210,7 @@ defmodule Kai.SolverWorker do
     headers = list |> hd |> Map.keys
     file_path = Path.join(__DIR__, file_name)
     file = File.open!(file_path, [:write, :utf8])
+    
     list |> CSV.encode(headers: headers) |> Enum.each(&IO.write(file, &1))
 
     file_path
