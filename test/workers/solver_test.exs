@@ -1,4 +1,4 @@
-defmodule Kai.SolverUnitTest do
+defmodule Kai.SolverTest do
   use ExUnit.Case
   import Kai.Factory
   alias Kai.SolverWorker

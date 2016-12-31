@@ -51,42 +51,28 @@ defmodule Kai.SolverWorker do
   end
 
   def perform(constraints: constraints) do
-
-
     constraints_file = write_constraints(constraints)
     foods_file = write_foods()
-   
-    IO.inspect constraints_file
-    IO.inspect foods_file
 
-
-    #    [solution_path, levels_path] = 
     result = 
       Porcelain.shell("julia web/workers/solver.jl #{constraints_file} #{foods_file}")
-
-    IO.inspect result
 
     [solution_path, levels_path] = String.split(result.out, ";")
 
     File.rm(constraints_file)
     File.rm(foods_file)
 
-    solution = 
-      solution_path
-      |> File.stream!
-      |> CSV.decode(headers: true)
-      |> Enum.to_list
+    solution = get_files_as_list(solution_path)
+    levels = get_files_as_list(levels_path)
 
-    levels =
-      levels_path
-      |> File.stream!
-      |> CSV.decode(headers: true)
-      |> Enum.to_list
-    
     File.rm(solution_path)
     File.rm(levels_path)
      
     {solution, levels}  
+  end
+
+  def get_files_as_list(path) do
+    path |> File.stream! |> CSV.decode(headers: true) |> Enum.to_list
   end
 
   def write_foods do

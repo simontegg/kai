@@ -1,4 +1,4 @@
-ExUnit.configure(exclude: [skip: true])
+ExUnit.configure(exclude: [skip: true, external: true])
 ExUnit.start
 
 Mix.Task.run "ecto.create", ["--quiet"]
