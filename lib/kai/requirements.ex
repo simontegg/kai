@@ -422,10 +422,14 @@ defmodule Kai.Requirements do
     end
   end
   
-  def chromium_ai(%{:age => age, :sex => sex}) when sex == "male" do
+  def chromium_ai(%{:age => age, :sex => sex}) when age < 9 do
     cond do
       age > 0 and age < 4   -> 0.011
       age > 3 and age < 9   -> 0.015
+    end
+  end
+  def chromium_ai(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 8 and age < 19  -> 0.025
       age > 18 and age < 51 -> 0.035
       age > 50              -> 0.03
@@ -433,8 +437,6 @@ defmodule Kai.Requirements do
   end
   def chromium_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 0.011
-      age > 3 and age < 9   -> 0.015
       age > 8 and age < 14  -> 0.021
       age > 13 and age < 19 -> 0.024
       age > 18 and age < 51 -> 0.025
@@ -443,8 +445,6 @@ defmodule Kai.Requirements do
   end
   def chromium_ai(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 0.011
-      age > 3 and age < 9   -> 0.015
       age > 8 and age < 14  -> 0.023
       age > 13 and age < 19 -> 0.0245
       age > 18 and age < 51 -> 0.03

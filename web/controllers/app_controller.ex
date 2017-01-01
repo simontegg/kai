@@ -44,7 +44,6 @@ defmodule Kai.AppController do
   end
   
   def index(conn, _params) do
-    IO.inspect "hitting it"
     render(
       conn, 
       "index.html", 
