@@ -1,4 +1,4 @@
-defmodule Kai.SolverWorker do 
+defmodule Kai.Solver do 
 #   use Toniq.Worker
   import Porcelain
   import CSV

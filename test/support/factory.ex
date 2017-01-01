@@ -1,6 +1,16 @@
 defmodule Kai.Factory do
   use ExMachina.Ecto, repo: Kai.Repo
 
+  def user_details_factory do
+    %{
+      age: 31,
+      weight: 76,
+      height: 175,
+      sex: "male",
+      activity: 2
+    }
+  end
+
   def user_factory do
     %Kai.User{
       name: "me",

@@ -28,6 +28,8 @@ defmodule Kai.Mixfile do
       :phoenix_slime,
       :bamboo,
       :cowboy, 
+      :gherkin,
+
       :logger, 
       :porcelain,
       :gettext, 
@@ -72,8 +74,10 @@ defmodule Kai.Mixfile do
 
       # Testing
       {:ex_machina, "~> 1.0", only: [:test]},
-      {:white_bread, "~> 2.5", only: [:dev, :test]},
+      {:cabbage, github: "mgwidmann/cabbage", only: [:dev, :test]},
+      #      {:white_bread, "~> 2.5", only: [:dev, :test]},
       {:hound, "~> 1.0"},
+      {:gherkin, "~> 0.1.0", github: "mgwidmann/gherkin"},
 
       # Linting
       {:credo, "~> 0.5", only: [:dev, :test]},

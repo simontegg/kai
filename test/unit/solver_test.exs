@@ -1,19 +1,19 @@
 defmodule Kai.SolverUnitTest do
   use ExUnit.Case
   import Kai.Factory
-  alias Kai.SolverWorker
+  alias Kai.Solver
 
   def test_file(list) do
     headers = list |> hd |> Map.keys
     
     list
     |> CSV.encode(headers: headers)
-    |> Enum.reduce("", fn(line, acc) -> acc <> line end)
+    |> Enum.reduce("", fn (line, acc) -> acc <> line end)
   end
 
   test "executes julia solver and recieves results" do
     constraints = build(:constraints)  
-    {solution, levels} = SolverWorker.perform(constraints: constraints)
+    {solution, levels} = Solver.perform(constraints: constraints)
   
     
     assert is_list(solution.foods)
@@ -32,7 +32,7 @@ defmodule Kai.SolverUnitTest do
     constraints = build(:constraints)  
     expected_file = test_file([constraints])
     
-    file_path = SolverWorker.write_input([constraints], "constraints.csv")
+    file_path = Solver.write_input([constraints], "constraints.csv")
    
     assert(file_path)
     case File.read(file_path) do
@@ -46,7 +46,7 @@ defmodule Kai.SolverUnitTest do
   test "calculates final price (avocado)" do
     food_price = build(:price_conversion) 
     expected_final_price =  round((179 * (100 / 170)) / 0.66)
-    final_price = SolverWorker.price_per_edible_100g(food_price)
+    final_price = Solver.price_per_edible_100g(food_price)
 
     assert final_price == expected_final_price
   end
@@ -61,7 +61,7 @@ defmodule Kai.SolverUnitTest do
     ] 
     food_price = build(:price_conversion, params)
     expected_final_price =  round((100 / (58 * 12)) * 700)
-    final_price = SolverWorker.price_per_edible_100g(food_price)
+    final_price = Solver.price_per_edible_100g(food_price)
 
     assert final_price == expected_final_price
   end
@@ -77,7 +77,7 @@ defmodule Kai.SolverUnitTest do
 
     food_price = build(:price_conversion, params)
     expected_final_price =  round(289 / 10 / 3 * 1)
-    final_price = SolverWorker.price_per_edible_100g(food_price)
+    final_price = Solver.price_per_edible_100g(food_price)
 
     assert final_price == expected_final_price
   end
@@ -93,7 +93,7 @@ defmodule Kai.SolverUnitTest do
 
     food_price = build(:price_conversion, params)
     expected_final_price =  round((399 / (400 / 100)) / 0.8692)
-    final_price = SolverWorker.price_per_edible_100g(food_price)
+    final_price = Solver.price_per_edible_100g(food_price)
 
     assert final_price == expected_final_price
   end
@@ -107,7 +107,7 @@ defmodule Kai.SolverUnitTest do
     }
 
     expected_final_price =  round((595.0 / (1 / 0.1)) / 0.84)
-    final_price = SolverWorker.price_per_edible_100g(params)
+    final_price = Solver.price_per_edible_100g(params)
 
     assert final_price == expected_final_price
   end
@@ -121,7 +121,7 @@ defmodule Kai.SolverUnitTest do
     }
 
     expected_row = %{ a: 1, b: 2, c: 3}
-    actual_row = SolverWorker.filter_merge(row)
+    actual_row = Solver.filter_merge(row)
 
     assert expected_row == actual_row
   end
@@ -135,7 +135,7 @@ defmodule Kai.SolverUnitTest do
     }
 
     expected_row = %{ o3_epa_dha_dpa: 6, other_key: 4}
-    actual_row = Enum.reduce(food, %{}, &SolverWorker.aggregate_o3_epa_dha_dpa(&1, &2))
+    actual_row = Enum.reduce(food, %{}, &Solver.aggregate_o3_epa_dha_dpa(&1, &2))
 
     assert expected_row == actual_row
   end

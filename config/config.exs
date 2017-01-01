@@ -50,7 +50,7 @@ config :ex_aws, :httpoison_opts,
   hackney: [recv_timeout: 120_000, pool: false]
 
 config :porcelain, driver: Porcelain.Driver.Basic
-config :toniq, redis_url: "redis://localhost:6379/0"
+#config :toniq, redis_url: "redis://localhost:6379/0"
 # config :toniq, redis_url: System.get_env("REDIS_PROVIDER")
 #
 config :ex_admin,

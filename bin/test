@@ -3,4 +3,4 @@ set -e
 phantomjs --wd > /dev/null &
 pid=$!
 trap "kill $pid" INT TERM EXIT
-MIX_ENV=test mix white_bread.run
+MIX_ENV=test mix test --only integration

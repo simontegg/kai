@@ -29,7 +29,7 @@ defmodule Kai.SessionController do
 
         conn
         |> put_flash(:info, gettext("sent link"))
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: app_path(conn, :index))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -41,13 +41,13 @@ defmodule Kai.SessionController do
       nil ->
         conn
         |> put_flash(:error, gettext("Access token not found or expired."))
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: app_path(conn, :index))
 
       user ->
         conn
         |> Auth.login(user)
         |> put_flash(:info, gettext("Welcome %{email}", email: user.email))
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: app_path(conn, :index))
     end
   end
 
@@ -55,7 +55,7 @@ defmodule Kai.SessionController do
     conn
     |> Auth.logout()
     |> put_flash(:info, gettext "User logged out.")
-    |> redirect(to: page_path(conn, :index))
+    |> redirect(to: app_path(conn, :index))
   end
 end
 
