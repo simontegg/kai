@@ -94,7 +94,6 @@ defmodule Kai.Mixfile do
       {:hackney, "~> 1.5"},
       {:hashids, "~> 2.0"},
       {:bamboo, github: "thoughtbot/bamboo"},
-      {:mailgun, "~> 0.1.2"},
       {:poison, "~> 2.1", override: true},
       {:postgrex, ">= 0.0.0"},
       {:secure_random, "~> 0.5"},

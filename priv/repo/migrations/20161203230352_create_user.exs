@@ -7,7 +7,7 @@ defmodule Kai.Repo.Migrations.CreateUser do
       add :age,               :integer
       add :weight,            :integer
       add :height,            :integer
-      add :activity,          :string
+      add :activity,          :integer
       add :sex,               :string
       add :email,             :string
       add :access_token,      :string

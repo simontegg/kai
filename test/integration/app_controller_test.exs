@@ -23,13 +23,16 @@ defmodule AppTest do
   end
 
   test "creates temp user on submit details and redirects" do
+    conn = build_conn()
     user_details = build(:user_details)
-    user_id = Hashids.encode(@salt, 1)
 
-    response = post(build_conn, app_path(build_conn, :create), user_details)
+    response = post(conn, app_path(conn, :create), user_details)
 
+    user = Repo.get_by(User, user_details)
+    assert user
+    
+    user_id = Hashids.encode(@salt, user.id)
     assert redirected_to(response) == "/users/#{user_id}/lists"
-    #    assert Repo.get_by(User, user_details)
   end
 
 

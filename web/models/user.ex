@@ -6,13 +6,50 @@ defmodule Kai.User do
   
   @salt Hashids.new(salt: System.get_env("SECRET_KEY_BASE"))
 
+  @fields [
+    :name,                  
+    :age,                   
+    :weight,                
+    :height,                
+    :activity,              
+    :sex,                   
+    :email,                 
+    :access_token,          
+    :calories,              
+    :protein,               
+    :biotin,            
+    :folate_dfe,        
+    :niacin_ne,         
+    :pantothenic_acid,  
+    :riboflavin,        
+    :thiamin,           
+    :vitamin_a,         
+    :vitamin_b6,        
+    :vitamin_b12,       
+    :vitamin_c,         
+    :vit_e_a_tocopherol, 
+    :vitamin_k1,         
+    :calcium,           
+    :chromium,          
+    :copper,            
+    :iodine,            
+    :iron,              
+    :magnesium,         
+    :manganese,         
+    :molybdenum,        
+    :phosphorus,        
+    :potassium,         
+    :selenium,          
+    :zinc,              
+  ]
+
   schema "users" do
     field :name,                  :string
     field :age,                   :integer
     field :weight,                :integer
     field :height,                :integer
+    field :activity,              :integer
     field :sex,                   :string
-    field :activity,              :string
     field :email,                 :string
     field :access_token,          :string
 
@@ -55,7 +92,7 @@ defmodule Kai.User do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email, :access_token])
+    |> cast(params, @fields)
     |> update_change(:email, &String.downcase/1)
     |> validate_required([])
     |> unique_constraint(:email)
