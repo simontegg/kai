@@ -20,8 +20,14 @@ defmodule Kai.Router do
     get "/", AppController, :index
     post "/biometrics", AppController, :create
     get "/preferences", AppController, :serve_preferences
-    
-    resources "/users", UserController
+
+    get "/users/:user/lists/:list", ListController, :show
+
+    resources "/users", UserController do
+      resources "/lists", ListController, only: [:show]
+    end
+
+
     resources "/session", SessionController, only: [:new, :create, :show]
     resources "/session", SessionController, only: [:delete], singleton: true
     resources "/receipts", ReceiptController

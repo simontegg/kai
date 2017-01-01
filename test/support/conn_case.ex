@@ -33,6 +33,8 @@ defmodule Kai.ConnCase do
   end
 
   setup tags do
+    IO.inspect "setup called"
+    
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Kai.Repo)
 
     unless tags[:async] do

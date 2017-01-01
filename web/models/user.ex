@@ -57,7 +57,7 @@ defmodule Kai.User do
     struct
     |> cast(params, [:email, :access_token])
     |> update_change(:email, &String.downcase/1)
-    |> validate_required([:email])
+    |> validate_required([])
     |> unique_constraint(:email)
   end
 

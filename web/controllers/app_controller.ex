@@ -6,7 +6,10 @@ defmodule Kai.AppController do
   @numbers ["age", "height", "weight", "activity"]
   @strings ["sex"]
 
-  def convert(k, v) when k in @numbers, do: {to_atom(k), to_integer(v)}
+  def convert(k, v) when k in @numbers do 
+    value = if is_integer(v), do: v, else: to_integer(v)
+    {to_atom(k), value}
+  end
   def convert(k, v) when k in @strings, do: {to_atom(k), to_atom(v)}
 
   def decode(json) do 
@@ -17,6 +20,7 @@ defmodule Kai.AppController do
   end
 
   def create(conn, biometrics) do
+    IO.inspect biometrics
     requirements =
       biometrics 
       |> decode 
@@ -27,16 +31,12 @@ defmodule Kai.AppController do
     Task.async(fn -> Solver.perform(constraints: requirements) end)
   
     case Repo.insert(changeset) do
-      {:ok, _user} ->
-       conn
-        |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :index))
+      {:ok, user} ->
+       conn |> redirect(to: "/users/#{user.id}/lists")
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        IO.inspect :error
+        IO.inspect changeset
     end
-    
-
-    redirect(conn, to: "/preferences")
   end
 
   def serve_preferences(conn, json) do
