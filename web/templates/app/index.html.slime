@@ -2,7 +2,7 @@ div.san-serif
   form.measure.ml5.mt5[accept-charset="UTF" action="/biometrics" method="POST"]
     input[type="hidden" name="_csrf_token" value="#{get_csrf_token()}"]
     fieldset#biometrics.ba.b--transparent.ph0.mh0
-      legend.f3.fw5.ph0.mh0.underline Your Details
+      legend.f3.fw5.ph0.mh0.underline Enter your details
       .mt3
         label.db.lh-copy.f5[for="age"] Age:
         input#age.pa2.input-reset.ba.bg-transparent[type="number" name="age" value="" required=true]

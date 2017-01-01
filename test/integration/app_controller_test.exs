@@ -8,13 +8,12 @@ defmodule AppTest do
   @salt Hashids.new(salt: System.get_env("SECRET_KEY_BASE"), 
                     min_len: 5)
 
-  @tag :skip
   test "root URL" do
-    # Create a test connection
-    response = get(build_conn, "/")
+    conn = build_conn()
+    response = get(conn, "/")
 
     # Invoke the plug
-    #conn = Kai.Router.call(conn, @opts)
+    #    conn = Kai.Router.call(conn, @opts)
 
     # Assert the response and status
     assert response.state == :sent
