@@ -2,11 +2,7 @@ var gulp = require('gulp')
 var concat = require('gulp-concat')
 var sourcemaps = require('gulp-sourcemaps')
 var compress = require('gulp-yuicompressor')
-//var autoprefixer = require('autoprefixer')
-//var cssnano = require('cssnano')
 var postcss = require('gulp-postcss')
-//var atImport = require('postcss-import')
-
 
 var appCssPaths = [
   'web/static/css/**/tachyons.css*',

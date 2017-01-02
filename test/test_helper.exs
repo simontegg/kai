@@ -1,4 +1,4 @@
-ExUnit.configure(exclude: [skip: true, external: true])
+ExUnit.configure(exclude: [skip: true, external: true, integration: true])
 ExUnit.start
 
 # Add this line:

@@ -34,6 +34,18 @@ defmodule AppTest do
     assert redirected_to(response) == "/users/#{user_id}/lists"
   end
 
+  #test "displays a users list" do
+  #  conn = build_conn()
+  #  user_details = build(:user_details)
+
+  #  response = post(conn, app_path(conn, :create), user_details)
+
+  #  user = Repo.get_by(User, user_details)
+  #  assert user
+  #  
+  #  user_id = Hashids.encode(@salt, user.id)
+  #  assert redirected_to(response) == "/users/#{user_id}/lists"
+  #end
 
 
 

@@ -3,13 +3,22 @@ defmodule Kai.ListController do
 
   alias Kai.List
 
-  def index(conn, _params) do
-    lists = Repo.all(List)
-    render(conn, "index.html", receipts: lists)
+  def index(conn, %{"user_id" => user_id}) do
+    #user = User |> Repo.get(user_id) |> Repo.preload(lists: :foods)
+    lists = [
+      %{
+        foods: [
+          %{:name => "ksksksk", test: "str"}  
+        ]
+      }
+    ]
+    
+    render(conn, "index.html", lists: lists)
   end
 
-  def show(conn, %{"id" => id}) do
-    list = Repo.get!(List, id)
+  def show(conn, %{"list_id" => list_id}) do
+    list = Repo.get!(List, list_id)
     render(conn, "show.html", list: list)
   end
+
 end

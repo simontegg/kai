@@ -1,22 +1,22 @@
 h2 Show user
-
-ul
-  li
-    strong Name:&nbsp;
-    = @user.name
-  li
-    strong Age:&nbsp;
-    = @user.age
-  li
-    strong Weight:&nbsp;
-    = @user.weight
-  li
-    strong Activity:&nbsp;
-    = @user.activity
-  li
-    strong Sex:&nbsp;
-    = @user.sex
-
-= link "Edit", to: user_path(@conn, :edit, @user)
-| &nbsp;
-= link "Back", to: user_path(@conn, :index)
+/
+/ul
+/  li
+/    strong Name:&nbsp;
+/    = @user.name
+/  li
+/    strong Age:&nbsp;
+/    = @user.age
+/  li
+/    strong Weight:&nbsp;
+/    = @user.weight
+/  li
+/    strong Activity:&nbsp;
+/    = @user.activity
+/  li
+/    strong Sex:&nbsp;
+/    = @user.sex
+/
+/= link "Edit", to: user_path(@conn, :edit, @user)
+/| &nbsp;
+/= link "Back", to: user_path(@conn, :index)

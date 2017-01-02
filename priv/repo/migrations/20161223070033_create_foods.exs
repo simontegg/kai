@@ -16,6 +16,7 @@ defmodule Kai.Repo.Migrations.CreateFoods do
       add :biotin, :float
       add :calcium, :float
       add :cholesterol, :float
+      add :choline, :float
       add :chromium, :float
       add :copper, :float
       add :fat_total, :float

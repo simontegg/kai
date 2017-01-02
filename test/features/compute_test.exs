@@ -1,40 +1,36 @@
 defmodule Kai.Features.ComputeTest do
 
-  use Cabbage.Feature, async: true, file: "compute-groceries.feature"
-  
-  use Hound.Helpers
-  alias Gherkin.Elements.Scenario
-  
-  @tag :integration
+  # use Cabbage.Feature, async: true, file: "compute-groceries.feature"
+  # 
+  # use Hound.Helpers
+  # 
+  # setup do
+  #   on_exit fn ->
+  #     Hound.end_session
+  #   end
 
- 
-  setup do
-    on_exit fn ->
-      Hound.end_session
-    end
+  #   Application.ensure_all_started(:hound)
+  #   Hound.start_session
 
-    Application.ensure_all_started(:hound)
-    Hound.start_session
+  #   {:ok, %{path: "/", title: ""}}
+  # end
 
-    {:ok, %{path: "/", title: ""}}
-  end
-
-  defgiven ~r/^I am not logged in/, state, _ do 
-    IO.inspect "not logged in"
-    %{test: true}
-  end
+  # defgiven ~r/^I am not logged in/, state, _ do 
+  #   IO.inspect "not logged in"
+  #   %{test: true}
+  # end
 
 
-  defwhen ~r/^I navigate to (?<path>[^"]+)/, state, %{path: path} do
-    navigate_to(path)
-  end
+  # defwhen ~r/^I navigate to (?<path>[^"]+)/, state, %{path: path} do
+  #   navigate_to(path)
+  # end
 
-  defthen ~r/I see the "(?<title>[^"]+)" page/, state, %{title: title} do
-    assert title == page_title() 
-  end
+  # defthen ~r/I see the "(?<title>[^"]+)" page/, state, %{title: title} do
+  #   assert title == page_title() 
+  # end
 
 
-  # defthen ~r/^I should see the "(?<title>[^"]+)" page$/, state, %{title: title} do
+  # # defthen ~r/^I should see the "(?<title>[^"]+)" page$/, state, %{title: title} do
   #   assert title == page_title()
   # end
 

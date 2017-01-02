@@ -1,1 +1,6 @@
-div Your List
+h1.f4.bold.center.mw5 Your Groceries
+= for list <- @lists do
+  h2.f4.bold.center.mw5 Groceries
+  ul.list.pl0.ml0.center.mw5.ba.b--light-silver.br3
+  = for food <- list do
+    li.ph3.pv2.bb.b--light-silver food.name

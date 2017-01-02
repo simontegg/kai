@@ -21,11 +21,9 @@ defmodule Kai.Router do
     post "/biometrics", AppController, :create
     get "/preferences", AppController, :serve_preferences
 
-    get "/users/:user/lists/:list", ListController, :show
+    get "/users/:user_id/lists/:list_id", ListController, :show
+    get "/users/:user_id/lists", ListController, :index
 
-    resources "/users", UserController do
-      resources "/lists", ListController, only: [:show]
-    end
 
 
     resources "/session", SessionController, only: [:new, :create, :show]

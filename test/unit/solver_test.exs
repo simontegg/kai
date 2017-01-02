@@ -139,5 +139,4 @@ defmodule Kai.SolverUnitTest do
 
     assert expected_row == actual_row
   end
-
 end

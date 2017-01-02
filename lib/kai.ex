@@ -14,6 +14,7 @@ defmodule Kai do
       supervisor(Kai.Endpoint, []),
       # Start your own worker by calling: Kai.Worker.start_link(arg1, arg2, arg3)
       # worker(Kai.Worker, [arg1, arg2, arg3]),
+      supervisor(Task.Supervisor, [[name: Kai.TaskSupervisor]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

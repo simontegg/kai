@@ -28,6 +28,7 @@ defmodule Kai.Mixfile do
       :phoenix_slime,
       :bamboo,
       :cowboy, 
+      :std_json_io,
       :gherkin,
 
       :logger, 
@@ -98,6 +99,7 @@ defmodule Kai.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:secure_random, "~> 0.5"},
       {:sweet_xml, "~> 0.5"},
+      {:std_json_io, "~> 0.1.0"},
       {:timex, "~> 3.0"}
     ]
   end

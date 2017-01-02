@@ -71,6 +71,7 @@
   "slime": {:hex, :slime, "0.16.0", "4f9c677ca37b2817cd10422ecb42c524fe904d3630acf242b81dfe189900272a", [:mix], []},
   "slugger": {:hex, :slugger, "0.1.0", "04a0f2da7e0770d41eb15e166aa2b1f8fcd26a80f43ed96d56b1b1d4bc5075df", [:mix], []},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], []},
+  "std_json_io": {:hex, :std_json_io, "0.1.0", "e099eeb8b62048cfff2c4d0edc6ea69f3d31e95f1d2df88657500f8109c183ed", [:mix], [{:fs, "~> 0.9.1", [hex: :fs, optional: false]}, {:poison, "~> 1.5.0", [hex: :poison, optional: false]}, {:poolboy, "~> 1.5.1", [hex: :poolboy, optional: false]}, {:porcelain, "~> 2.0", [hex: :porcelain, optional: false]}]},
   "sweet_xml": {:hex, :sweet_xml, "0.6.2", "8f8aadd902dcc62fb85b7a308bb6a083874e97eb51ccddaf855d97c8ffad7d64", [:mix], []},
   "timex": {:hex, :timex, "3.1.5", "413d6d8d6f0162a5d47080cb8ca520d790184ac43e097c95191c7563bf25b428", [:mix], [{:combine, "~> 0.7", [hex: :combine, optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, optional: false]}]},
   "toniq": {:hex, :toniq, "1.2.0", "9fbbc6fa30eb1cb0315160f6ea375eed6ce47102e9f575baf7f5c1cb5f2e6dbd", [:mix], [{:exredis, ">= 0.1.1", [hex: :exredis, optional: false]}, {:uuid, "~> 1.0", [hex: :uuid, optional: false]}]},

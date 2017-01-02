@@ -7,10 +7,10 @@ defmodule Kai.Solver do
 
   alias Porcelain.{Process, Result}
   alias Kai.{Conversion, Food, FoodsPrices, Price, Repo, Requirements}
+  
+  @food_excl [:name, :edible_portion]
 
-  @food_field_list [ 
-    :name,
-    :edible_portion,
+  @nutrients [ 
     :calories,
     :protein, 
     :folate_dfe, 
@@ -42,20 +42,17 @@ defmodule Kai.Solver do
     :vitamin_k1, 
     :zinc 
   ]
-
+  
+  @food_field_list @food_excl ++ @nutrients
   @price_field_list [:price, :quantity, :quantity_unit] 
   @conversion_field_list [:each_g, :raw_to_cooked] 
   @headers @food_field_list ++ @price_field_list ++ @conversion_field_list
 
-  def perform(user_id: user_id) do
-  end
-
-  def perform(constraints: constraints) do
-    constraints_file = write_constraints(constraints)
+  def solve(user) do
+    constraints_file = user |> get_constraints |> write_constraints
     foods_file = write_foods()
 
-    result = 
-      Porcelain.shell("julia web/workers/solver.jl #{constraints_file} #{foods_file}")
+    result = julia_command(constraints_file, foods_file) |> Porcelain.shell
 
     [solution_path, levels_path] = String.split(result.out, ";")
 
@@ -70,6 +67,29 @@ defmodule Kai.Solver do
      
     {solution, levels}  
   end
+
+  def update_list(solution, list) do
+
+
+
+  end
+
+
+  def output(result) do
+    result.out
+  end
+
+  def julia_command(constraints_file, foods_file) do
+    "julia web/workers/solver.jl #{constraints_file} #{foods_file}"
+  end
+
+  def get_constraints(user) do
+    for {k, v} <- user, 
+      when Enum.member?(@nutrients, k), 
+      into: %{},
+      do: v
+  end
+
 
   def get_files_as_list(path) do
     path |> File.stream! |> CSV.decode(headers: true) |> Enum.to_list

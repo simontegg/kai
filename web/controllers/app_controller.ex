@@ -15,6 +15,7 @@ defmodule Kai.AppController do
   end
   def convert(k, v) when k in @strings, do: {to_atom(k), v}
 
+  @spec decode(map) :: map
   def decode(json) do 
     for {k, v} <- json, 
       k in @numbers or k in @strings, 
@@ -29,20 +30,26 @@ defmodule Kai.AppController do
     user_params = Map.merge(biometrics, requirements)
     changeset = User.changeset(%User{}, user_params)
     
-    # Task.async(fn -> Solver.perform(constraints: requirements) end)
     case Repo.insert(changeset) do
       {:ok, user} ->
+        Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
+          Solver.solve(user)
+        end)
+
        conn |> redirect(to: list_user_path(user.id))
       {:error, changeset} ->
         IO.inspect changeset
-        conn
+        render(conn, "/")
     end
   end
-
-  def list_user_path(id) do
+  
+  @spec list_user_path(number) :: String.t
+  defp list_user_path(id) do
     hashed_id = Hashids.encode(@salt, id)
     "/users/#{hashed_id}/lists"
   end
+
+
 
 
   def serve_preferences(conn, json) do
