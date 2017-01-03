@@ -13,7 +13,7 @@ defmodule Kai.SolverUnitTest do
 
   test "executes julia solver and recieves results" do
     constraints = build(:constraints)  
-    {solution, levels} = Solver.perform(constraints: constraints)
+    {solution, levels} = Solver.solve(constraints: constraints)
   
     
     assert is_list(solution.foods)

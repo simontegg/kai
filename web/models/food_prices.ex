@@ -1,9 +1,9 @@
-defmodule Kai.FoodsPrices do
+defmodule Kai.FoodPrice do
   use Kai.Web, :model
   alias Kai.{Conversion, Food, Price} 
 
 
-  schema "foods_prices" do
+  schema "food_prices" do
     belongs_to :food, Food
     belongs_to :price, Price
     belongs_to :conversion, Conversion

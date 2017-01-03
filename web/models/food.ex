@@ -45,7 +45,7 @@ defmodule Kai.Food do
   ]
 
   schema "foods" do
-    many_to_many :prices, Price, join_through: FoodsPrices
+    many_to_many :prices, Price, join_through: FoodPrices
 
     field :data_source_id, :string
 

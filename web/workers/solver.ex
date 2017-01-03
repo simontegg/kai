@@ -6,7 +6,16 @@ defmodule Kai.Solver do
   import Kai.Utils
 
   alias Porcelain.{Process, Result}
-  alias Kai.{Conversion, Food, FoodsPrices, Price, Repo, Requirements}
+  alias Kai.{
+    Conversion, 
+    Food, 
+    FoodsPrices, 
+    FoodQuantity,
+    List, 
+    Price, 
+    Repo, 
+    Requirements
+  }
   
   @food_excl [:name, :edible_portion]
 
@@ -48,13 +57,21 @@ defmodule Kai.Solver do
   @conversion_field_list [:each_g, :raw_to_cooked] 
   @headers @food_field_list ++ @price_field_list ++ @conversion_field_list
 
-  def solve(user) do
-    constraints_file = user |> get_constraints |> write_constraints
-    foods_file = write_foods()
+  def solve(user_id, constraints) do
+    constraints_file = write_constraints(constraints)
+    IO.inspect "constraints_file"
+    IO.inspect constraints_file
+    foods_extended = get_foods_prices()
+    IO.inspect "foods_extended"
+    IO.inspect foods_extended
+    foods_file = write_foods(foods_extended)
 
-    result = julia_command(constraints_file, foods_file) |> Porcelain.shell
-
-    [solution_path, levels_path] = String.split(result.out, ";")
+    # TODO: error handling
+    [solution_path, levels_path] = 
+      julia_command(constraints_file, foods_file) 
+      |> Porcelain.shell
+      |> out
+      |> String.split(";")
 
     File.rm(constraints_file)
     File.rm(foods_file)
@@ -69,13 +86,21 @@ defmodule Kai.Solver do
   end
 
   def update_list(solution, list) do
+    # need food_id and price_id for each food in solution
+    #food_quantities 
 
+
+    # %List{}
+    # |> change
+    # |> put_assoc(:food_quantities, food_quantities)
+    # |> Repo.insert!
+    
 
 
   end
 
 
-  def output(result) do
+  def out(result) do
     result.out
   end
 
@@ -83,27 +108,20 @@ defmodule Kai.Solver do
     "julia web/workers/solver.jl #{constraints_file} #{foods_file}"
   end
 
-  def get_constraints(user) do
-    for {k, v} <- user, 
-      when Enum.member?(@nutrients, k), 
-      into: %{},
-      do: v
-  end
-
-
   def get_files_as_list(path) do
     path |> File.stream! |> CSV.decode(headers: true) |> Enum.to_list
   end
 
-  def write_foods do
-    foods_filename = "foods-#{random_string(7)}.csv" 
-
+  def get_foods_prices do
     get_query
     |> Repo.all 
     |> merge_result 
     |> set_100g_prices
     |> aggregate_nutrients
-    |> write_input(foods_filename)
+  end
+
+  def write_foods(foods_extended) do
+    write_input(foods_extended, "foods-#{random_string(7)}.csv")
   end
 
   def write_constraints(constraints) do
@@ -133,6 +151,8 @@ defmodule Kai.Solver do
     %{nutrient: key, amount: value, constraint: "min"} 
   end
 
+
+  # TODO: query by user, location, time
   def get_query do
     price_query = from p in Price, select: map(p, ^@price_field_list)
     food_query = from f in Food, select: map(f, ^@food_field_list)
@@ -213,6 +233,8 @@ defmodule Kai.Solver do
   end
 
   def write_input(list, file_name) do
+    IO.inspect list
+    IO.inspect file_name
     headers = list |> hd |> Map.keys
     file_path = Path.join(__DIR__, file_name)
     file = File.open!(file_path, [:write, :utf8])

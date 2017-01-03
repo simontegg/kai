@@ -1,6 +1,6 @@
 defmodule Kai.Price do
   use Kai.Web, :model
-  alias Kai.{Food, FoodsPrices, User}
+  alias Kai.{Food, FoodPrices, User}
 
   @fields [
     :price,
@@ -17,7 +17,7 @@ defmodule Kai.Price do
 
   schema "prices" do
 
-    many_to_many :foods, Food, join_through: FoodsPrices
+    many_to_many :foods, Food, join_through: FoodPrices
     belongs_to :user, User 
 
     field :name, :string

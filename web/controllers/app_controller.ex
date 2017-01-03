@@ -33,7 +33,7 @@ defmodule Kai.AppController do
     case Repo.insert(changeset) do
       {:ok, user} ->
         Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
-          Solver.solve(user)
+          Solver.solve(user.id, requirements)
         end)
 
        conn |> redirect(to: list_user_path(user.id))

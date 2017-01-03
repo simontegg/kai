@@ -4,7 +4,7 @@ defmodule Kai.Repo.Migrations.CreateList do
   def change do
     create table(:lists) do
       add :user_id, references(:users, on_delete: :nothing)
-      add :foods, references(:foods)
+      add :food_quantities, references(:food_quantities)
 
       timestamps()
     end

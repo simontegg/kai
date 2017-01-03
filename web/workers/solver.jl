@@ -39,8 +39,8 @@ sufficiencies = constraints[:amount]
 #calories_min = round(0.9 * calories[1])
 
 # TODO: reporting dataframe
-columns = [nutrients; [:name, :price_100g]]
-foods_info = foods_raw[:, columns]
+#columns = [nutrients; [:name, :price_100g]]
+#foods_info = foods_raw[:, columns]
 
 
 # constants
