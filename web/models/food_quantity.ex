@@ -5,7 +5,7 @@ defmodule Kai.FoodQuantity do
   schema "food_quantity" do
     field :quantity, :integer
     belongs_to :list, List
-    belongs_to :food_prices, FoodPrice
+    belongs_to :food_price, FoodPrice
 
     timestamps()
   end

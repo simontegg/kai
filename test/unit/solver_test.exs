@@ -11,6 +11,7 @@ defmodule Kai.SolverUnitTest do
     |> Enum.reduce("", fn (line, acc) -> acc <> line end)
   end
 
+  @tag :skip
   test "executes julia solver and recieves results" do
     constraints = build(:constraints)  
     {solution, levels} = Solver.solve(constraints: constraints)
@@ -120,7 +121,7 @@ defmodule Kai.SolverUnitTest do
       other_key: 4
     }
 
-    expected_row = %{ a: 1, b: 2, c: 3}
+    expected_row = %{ a: 1, b: 2, c: 3, other_key: 4}
     actual_row = Solver.filter_merge(row)
 
     assert expected_row == actual_row

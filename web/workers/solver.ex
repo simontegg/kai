@@ -9,7 +9,7 @@ defmodule Kai.Solver do
   alias Kai.{
     Conversion, 
     Food, 
-    FoodsPrices, 
+    FoodPrice, 
     FoodQuantity,
     List, 
     Price, 
@@ -52,18 +52,14 @@ defmodule Kai.Solver do
     :zinc 
   ]
   
-  @food_field_list @food_excl ++ @nutrients
-  @price_field_list [:price, :quantity, :quantity_unit] 
-  @conversion_field_list [:each_g, :raw_to_cooked] 
-  @headers @food_field_list ++ @price_field_list ++ @conversion_field_list
+  @food_fields @food_excl ++ @nutrients
+  @price_fields [:price, :quantity, :quantity_unit] 
+  @conversion_fields [:each_g, :raw_to_cooked] 
+  @headers @food_fields ++ @price_fields ++ @conversion_fields
 
   def solve(user_id, constraints) do
     constraints_file = write_constraints(constraints)
-    IO.inspect "constraints_file"
-    IO.inspect constraints_file
     foods_extended = get_foods_prices()
-    IO.inspect "foods_extended"
-    IO.inspect foods_extended
     foods_file = write_foods(foods_extended)
 
     # TODO: error handling
@@ -85,10 +81,28 @@ defmodule Kai.Solver do
     {solution, levels}  
   end
 
-  def update_list(solution, list) do
+  @spec save_list(Integer, list(map), list(map)) :: tuple
+  def save_list(user_id, solution, foods) do
+    IO.inspect hd(solution)
+    IO.inspect hd(foods)
     # need food_id and price_id for each food in solution
     #food_quantities 
 
+    # %Kai.List{
+    #   name: "a list",
+    #   user: build(:user),
+    #   food_quantities: build_list(3, :food_quantity)
+    # }
+
+      
+    # %Kai.FoodQuantity{
+    #   quantity: 200,
+    #   food_price: build(:food_price),
+    #   list: %Kai.List{
+    #     name: "a list",
+    #     user: build(:user)
+    #   }
+    # }
 
     # %List{}
     # |> change
@@ -114,7 +128,7 @@ defmodule Kai.Solver do
 
   def get_foods_prices do
     get_query
-    |> Repo.all 
+    |> Repo.all
     |> merge_result 
     |> set_100g_prices
     |> aggregate_nutrients
@@ -131,8 +145,6 @@ defmodule Kai.Solver do
     |> Enum.map(&reshape(&1)) 
     |> write_input(constraints_filename)
   end
-
-
 
   def aggregate_nutrients(rows) do
     for row <- rows,
@@ -154,25 +166,25 @@ defmodule Kai.Solver do
 
   # TODO: query by user, location, time
   def get_query do
-    price_query = from p in Price, select: map(p, ^@price_field_list)
-    food_query = from f in Food, select: map(f, ^@food_field_list)
-    conversion_query = 
-      from c in Conversion, 
-      select: map(c, ^@conversion_field_list)
-
-    from fp in FoodsPrices,
-    preload: [
-      price: ^price_query, 
-      food: ^food_query, 
-      conversion: ^conversion_query
-    ]  
+    from(fp in FoodPrice,
+         left_join: p in assoc(fp, :price),
+         left_join: f in assoc(fp, :food),
+         left_join: c in assoc(fp, :conversion),
+         select: %{
+           id: fp.id, 
+           price: map(p, ^@price_fields),
+           food: map(f, ^@food_fields),
+           conversion: map(c, ^@conversion_fields)
+         })
   end
 
   def set_100g_prices(rows) do
+    IO.inspect(rows)
     Enum.map(rows, &set_100g_price(&1))
   end
-
   def set_100g_price(row) do
+    IO.inspect "row!!"
+    IO.inspect row
     Map.put_new(row, :price_100g, price_per_edible_100g(row))
   end
 
@@ -221,20 +233,15 @@ defmodule Kai.Solver do
   end
 
   def merge_result(rows) do
-    Enum.map(rows, &filter_merge(&1))
+    Enum.map(rows, fn (t) -> flatten(t, %{}) end)
   end
 
-  def filter_merge(row) do
-    row
-    |> Map.take([:price, :food, :conversion])
-    |> Enum.filter(fn {_, v} -> v != nil end)
-    |> Enum.map(fn {_, v} -> v end)
-    |> Enum.reduce(fn (x, acc) -> Map.merge(acc, x) end)
-  end
+  def flatten({_, v}, _) when is_nil(v), do: %{}
+  def flatten(%{} = o, acc), do: Enum.reduce(o, acc, &flatten(&1, &2))
+  def flatten({k, v}, acc) when is_map(v), do: flatten(v, acc)
+  def flatten({k, v}, acc), do: Map.put_new(acc, k, v)
 
   def write_input(list, file_name) do
-    IO.inspect list
-    IO.inspect file_name
     headers = list |> hd |> Map.keys
     file_path = Path.join(__DIR__, file_name)
     file = File.open!(file_path, [:write, :utf8])

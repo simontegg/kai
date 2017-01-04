@@ -85,8 +85,8 @@ q = getvalue(quantities)
 p = q .* prices
 c = q .* foods[:, :calories]
 
-raw = DataFrame(foods = food_names, quantities = round(q * 100), price = round(p), calories = round(c))
-solution = raw[raw[:quantities] .> 0, :]
+raw = DataFrame(name = food_names, quantity = round(q * 100), price = round(p), calories = round(c))
+solution = raw[raw[:quantity] .> 0, :]
 #showln(solution)
 
 n = []

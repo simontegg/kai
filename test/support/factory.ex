@@ -1,6 +1,31 @@
 defmodule Kai.Factory do
   use ExMachina.Ecto, repo: Kai.Repo
 
+  def solution_food_factory do
+    %{
+      "name" => "Nut; peanut; roasted; no salt added",
+      "price" => "14.0",
+      "quantity" => "23.0"
+    }
+  end
+
+
+
+  def food_factory do
+    %Kai.Food{
+      data_source_id: 'nz-ff',
+      name: "avocados",
+      category: "B",
+      edible_portion: 0.56,
+      calories: 300,
+      protein: 20,
+      folate_dfe: 0.2,
+      biotin: 0.2,
+      calcium: 0.2,
+      chromium: 0.2,
+      copper: 0.2
+    }
+  end
 
   def user_factory do
     %Kai.User{
@@ -12,8 +37,6 @@ defmodule Kai.Factory do
       sex: "no answer",
       activity: 2,
       access_token: "abc",
-
-      #vitamin sufficiency
       biotin: 0.03,
       folate_dfe: 0.4,
       niacin_ne: 16.0,
@@ -26,7 +49,7 @@ defmodule Kai.Factory do
     %Kai.List{
       name: "a list",
       user: build(:user),
-      foods_quantities: build(3, :foods_quantity)
+      food_quantities: build_list(3, :food_quantity)
     }
   end
 
@@ -34,7 +57,10 @@ defmodule Kai.Factory do
     %Kai.FoodQuantity{
       quantity: 200,
       food_price: build(:food_price),
-      list: build(:list)
+      list: %Kai.List{
+        name: "a list",
+        user: build(:user)
+      }
     }
   end
 
