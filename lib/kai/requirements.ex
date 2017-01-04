@@ -393,29 +393,27 @@ defmodule Kai.Requirements do
 
   #minerals
 
-  def calcium_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def calcium_rda(%{:age => age}) when age < 19 do
     cond do
       age > 0 and age < 4   -> 700
       age > 3 and age < 9   -> 1000
       age > 8 and age < 19  -> 1300
+    end
+  end
+  def calcium_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 18 and age < 71 -> 1000
       age > 70              -> 1200
     end
   end
   def calcium_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 700
-      age > 3 and age < 9   -> 1000
-      age > 8 and age < 19  -> 1300
       age > 18 and age < 51 -> 1000
       age > 50              -> 1200
     end
   end
   def calcium_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 700
-      age > 3 and age < 9   -> 1000
-      age > 8 and age < 19  -> 1300
       age > 18 and age < 51 -> 1000
       age > 50 and age < 71 -> 1100
       age > 70              -> 1200
