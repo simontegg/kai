@@ -4,7 +4,7 @@ defmodule Kai.List do
 
   schema "lists" do
     field :name, :string
-    belongs_to :users, User
+    belongs_to :user, User
     has_many :food_quantities, FoodQuantity
 
     timestamps()

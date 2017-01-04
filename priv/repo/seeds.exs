@@ -57,7 +57,7 @@ end
 
 
 defmodule Seeds.Price do
-  alias Kai.{Conversion, Food, FoodsPrices, Price, Repo} 
+  alias Kai.{Conversion, Food, FoodPrice, Price, Repo} 
   
   @integers ["price", "quantity", "each_g"]
   @floats ["raw_to_cooked"]
@@ -86,7 +86,7 @@ defmodule Seeds.Price do
   end
 
   def insert_food_price(changeset) do 
-    %FoodsPrices{} |> FoodsPrices.changeset(changeset) |> Repo.insert!
+    %FoodPrice{} |> FoodPrice.changeset(changeset) |> Repo.insert!
   end
 
   def convert_value(_key, value) when value == "", do: nil

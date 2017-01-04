@@ -3,12 +3,11 @@ defmodule Kai.Repo.Migrations.CreateList do
 
   def change do
     create table(:lists) do
+      add :name, :string
       add :user_id, references(:users, on_delete: :nothing)
-      add :food_quantities, references(:food_quantities)
-
+      
       timestamps()
     end
-    create index(:lists, [:user_id])
 
   end
 end

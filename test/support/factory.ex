@@ -24,7 +24,7 @@ defmodule Kai.Factory do
 
   def list_factory do
     %Kai.List{
-      name: "a list"
+      name: "a list",
       user: build(:user),
       foods_quantities: build(3, :foods_quantity)
     }
@@ -33,19 +33,38 @@ defmodule Kai.Factory do
   def food_quantity_factory do
     %Kai.FoodQuantity{
       quantity: 200,
-      food_price: build(:food_price)
-      list:, build(:list)
+      food_price: build(:food_price),
+      list: build(:list)
     }
   end
 
   def food_price_factory do
     %Kai.FoodPrice{
       food: build(:food),
-      price: build(:price)
+      price: build(:price),
       conversion: build(:conversion)
     }
   end
 
+  def price_factory do
+    %Kai.Price{
+      user: build(:user),
+      name: "Apple at the market",
+      price: 123,
+      quantity: 1,
+      quantity_unit: 'kg',
+      url: nil,
+      company_id: "the market"
+    }
+  end
+
+  def conversion_factory do
+    %Kai.Conversion{
+      name: "Avocados",
+      each_g: 170,
+      raw_to_cooked: nil
+    }
+  end
 
   def constraints_factory do
     %{

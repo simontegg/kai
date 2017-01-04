@@ -60,7 +60,7 @@ config :ex_admin,
     Kai.ExAdmin.Dashboard,
     Kai.ExAdmin.Food,
     Kai.ExAdmin.Price,
-    Kai.ExAdmin.FoodsPrices,
+    Kai.ExAdmin.FoodPrice,
     Kai.ExAdmin.Conversion
   ]
 

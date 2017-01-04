@@ -21,6 +21,8 @@ defmodule Kai.SolverIntegrationTest do
 
     list = build(:list)
 
+    IO.inspect list
+
     case Solver.save_list(user.id, list) do
       {:ok, saved_list} ->
         food_quantities = assoc(saved_list, :food_quantities) |> Repo.all

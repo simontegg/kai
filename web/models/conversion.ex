@@ -1,9 +1,9 @@
 defmodule Kai.Conversion do
   use Kai.Web, :model
-  alias Kai.{FoodsPrices} 
+  alias Kai.FoodPrice
 
   schema "conversions" do
-    has_many :food_price, FoodsPrices
+    has_many :food_price, FoodPrice
     field :each_g, :float
     field :raw_to_cooked, :float
 
