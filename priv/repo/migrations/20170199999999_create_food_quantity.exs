@@ -4,12 +4,12 @@ defmodule Kai.Repo.Migrations.CreateFoodQuantities do
   def change do
     create table(:food_quantities) do
       add :quantity, :integer
-      add :food_prices_id, references(:food_prices, on_delete: :nothing)
+      add :food_price_id, references(:food_prices, on_delete: :nothing)
       add :list_id, references(:lists, on_delete: :nothing)
 
       timestamps()
     end
-    create index(:food_quantities, [:food_prices_id])
+    create index(:food_quantities, [:food_price_id])
     create index(:food_quantities, [:list_id])
 
   end

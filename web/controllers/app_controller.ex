@@ -49,9 +49,6 @@ defmodule Kai.AppController do
     "/users/#{hashed_id}/lists"
   end
 
-
-
-
   def serve_preferences(conn, json) do
     render(conn, "preferences.html")
   end

@@ -16,6 +16,8 @@ defmodule Kai.List do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name])
-    |> validate_required([:name])
+    |> Ecto.Changeset.put_assoc(:user, params.user)
+    |> Ecto.Changeset.put_assoc(:food_quantities, params.food_quantities)
+    |> validate_required([:food_quantities])
   end
 end

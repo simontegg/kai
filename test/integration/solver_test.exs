@@ -26,9 +26,9 @@ defmodule Kai.SolverIntegrationTest do
     foods = Solver.get_foods_prices()
 
 
-    case Solver.save_list(user.id, solution, foods) do
+    case Solver.save_list(user, solution, foods) do
       {:ok, list} ->
-        food_quantities = assoc(list, :food_quantities) |> Repo.all
+        food_quantities = Ecto.assoc(list, :food_quantities) |> Repo.all
 
         assert length(food_quantities) > 0
         Enum.each(food_quantities, fn (food_quantity) ->

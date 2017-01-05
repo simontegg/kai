@@ -4,9 +4,9 @@ defmodule Kai.Conversion do
 
   schema "conversions" do
     field :name, :string
-    has_many :food_price, FoodPrice
     field :each_g, :float
     field :raw_to_cooked, :float
+    has_many :food_price, FoodPrice
 
     timestamps()
   end

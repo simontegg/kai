@@ -82,9 +82,31 @@ defmodule Kai.Solver do
   end
 
   @spec save_list(Integer, list(map), list(map)) :: tuple
-  def save_list(user_id, solution, foods) do
-    IO.inspect hd(solution)
-    IO.inspect hd(foods)
+  def save_list(user, solution, foods) do
+    foods_by_name = for food <- foods, into: %{}, do: {food.name, food}
+      
+    food_quantities = 
+      solution
+      |> Enum.reduce([], fn (food, acc) -> 
+            food_quantity = %{
+              food_price: Repo.get(FoodPrice, foods_by_name[food["name"]].id),
+              quantity: String.to_integer(food["quantity"])
+            }
+
+            acc ++ [food_quantity]
+          end) 
+      |> Enum.map(fn (params) -> 
+            %FoodQuantity{} |> FoodQuantity.changeset(params) |> Repo.insert!
+          end)
+
+    params = %{
+      name: "first", 
+      food_quantities: food_quantities,
+      user: user 
+    }
+
+    %List{} |> List.changeset(params) |> Repo.insert
+  
     # need food_id and price_id for each food in solution
     #food_quantities 
 
@@ -179,12 +201,9 @@ defmodule Kai.Solver do
   end
 
   def set_100g_prices(rows) do
-    IO.inspect(rows)
     Enum.map(rows, &set_100g_price(&1))
   end
   def set_100g_price(row) do
-    IO.inspect "row!!"
-    IO.inspect row
     Map.put_new(row, :price_100g, price_per_edible_100g(row))
   end
 
