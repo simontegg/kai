@@ -638,29 +638,23 @@ defmodule Kai.Requirements do
   
   #Other nutrients
 
-
-  def choline_ai(%{:age => age, :sex => sex}) when sex == "male" do
+  @spec choline_ai(map) :: integer
+  def choline_ai(%{:age => age, :sex => sex}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 200
       age > 3 and age < 9   -> 250
       age > 8 and age < 14  -> 375
-      age > 14              -> 550  
     end
   end
+  def choline_ai(%{:age => age, :sex => sex}) when sex == "male", do: 550  
   def choline_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 200
-      age > 3 and age < 9   -> 250
-      age > 8 and age < 14  -> 375
       age > 13 and age < 19 -> 400
       age > 18              -> 425
     end
   end
   def choline_ai(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 200
-      age > 3 and age < 9   -> 250
-      age > 8 and age < 14  -> 375
       age > 13 and age < 19 -> 475
       age > 18              -> 487.5
     end
