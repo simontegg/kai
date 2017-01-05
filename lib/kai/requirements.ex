@@ -259,20 +259,21 @@ defmodule Kai.Requirements do
     end
   end
   
-  def vitamin_b6_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def vitamin_b6_rda(%{:age => age}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 0.5
       age > 3 and age < 9   -> 0.6
       age > 8 and age < 14  -> 1.0
+    end
+  end
+  def vitamin_b6_rda(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 13 and age < 51 -> 1.3
       age > 50              -> 1.7
     end
   end
   def vitamin_b6_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 0.5
-      age > 3 and age < 9   -> 0.6
-      age > 8 and age < 14  -> 1.0
       age > 13 and age < 19 -> 1.2
       age > 13 and age < 51 -> 1.3
       age > 50              -> 1.5
@@ -280,9 +281,6 @@ defmodule Kai.Requirements do
   end
   def vitamin_b6_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 0.5
-      age > 3 and age < 9   -> 0.6
-      age > 8 and age < 14  -> 1.0
       age > 13 and age < 19 -> 1.25
       age > 13 and age < 51 -> 1.3
       age > 50              -> 1.6

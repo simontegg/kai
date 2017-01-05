@@ -3,9 +3,9 @@ defmodule Kai.Factory do
 
   def solution_food_factory do
     %{
-      "name" => "Nut; peanut; roasted; no salt added",
-      "price" => "14",
-      "quantity" => "23"
+      "name" => "Avocado; flesh; raw; combined varieties",
+      "price" => "150",
+      "quantity" => "170"
     }
   end
 

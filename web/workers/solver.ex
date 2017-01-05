@@ -106,32 +106,6 @@ defmodule Kai.Solver do
     }
 
     %List{} |> List.changeset(params) |> Repo.insert
-  
-    # need food_id and price_id for each food in solution
-    #food_quantities 
-
-    # %Kai.List{
-    #   name: "a list",
-    #   user: build(:user),
-    #   food_quantities: build_list(3, :food_quantity)
-    # }
-
-      
-    # %Kai.FoodQuantity{
-    #   quantity: 200,
-    #   food_price: build(:food_price),
-    #   list: %Kai.List{
-    #     name: "a list",
-    #     user: build(:user)
-    #   }
-    # }
-
-    # %List{}
-    # |> change
-    # |> put_assoc(:food_quantities, food_quantities)
-    # |> Repo.insert!
-    
-
 
   end
 

@@ -25,7 +25,6 @@ defmodule Kai.SolverIntegrationTest do
     solution = build_list(3, :solution_food)
     foods = Solver.get_foods_prices()
 
-
     case Solver.save_list(user, solution, foods) do
       {:ok, list} ->
         food_quantities = Ecto.assoc(list, :food_quantities) |> Repo.all
