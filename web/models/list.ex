@@ -21,8 +21,6 @@ defmodule Kai.List do
     |> validate_required([:food_quantities])
   end
 
-  @conversion_fields [:each_g, :raw_to_cooked] 
-
   @spec get_by_user(integer) :: list
   def get_by_user (user_id) do
     query = from(l in List,
@@ -37,14 +35,28 @@ defmodule Kai.List do
                    price: p.price,
                    price_name: p.name, 
                    food_name: f.name,
-                   conversion: map(c, ^@conversion_fields)
+                   each_g: c.each_g,
+                   raw_to_cooked: c.raw_to_cooked
                  })
 
     lists = 
       query
       |> Repo.all
+      |> Enum.map(&convert(&1))
 
   end
 
-
+  @spec convert(map) :: map
+  def convert(%{:quantity => quantity, :each_g => each_g} = food_quantity) do 
+    Map.put_new(food_quantity, 
+                :item_quantity, 
+                Float.round(quantity / each_g, 1))
+  end
+  def convert(%{:quantity => quantity, 
+                :raw_to_cooked => raw_to_cooked} = food_quantity) do 
+    Map.put_new(food_quantity, 
+                :raw_quantity, 
+                Float.round(quantity / raw_to_cooked, 1))
+  end
+  def convert(food_quantity), do: food_quantity 
 end
