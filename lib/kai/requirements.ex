@@ -523,10 +523,13 @@ defmodule Kai.Requirements do
     end
   end
   
-  def manganese_ai(%{:age => age, :sex => sex}) when sex == "male" do
+  def manganese_ai(%{:age => age, :sex => sex}) when age < 9 do
     cond do
       age > 0 and age < 4   -> 1.2
       age > 3 and age < 9   -> 1.5
+  end
+  def manganese_ai(%{:age => age, :sex => sex}) when sex == "male" do
+    cond do
       age > 8 and age < 14  -> 1.9
       age > 13 and age < 19 -> 2.2
       age > 18              -> 2.3
@@ -534,8 +537,6 @@ defmodule Kai.Requirements do
   end
   def manganese_ai(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 1.2
-      age > 3 and age < 9   -> 1.5
       age > 8 and age < 14  -> 1.6
       age > 13 and age < 19 -> 1.6
       age > 18              -> 1.8
@@ -543,8 +544,6 @@ defmodule Kai.Requirements do
   end
   def manganese_ai(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 1.2
-      age > 3 and age < 9   -> 1.5
       age > 8 and age < 14  -> 1.75
       age > 13 and age < 19 -> 1.9
       age > 18              -> 2.05
