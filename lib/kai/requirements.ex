@@ -608,28 +608,22 @@ defmodule Kai.Requirements do
   #   end
   # end
   
-  def zinc_rda(%{:age => age, :sex => sex}) when sex == "male" do
+  def zinc_rda(%{:age => age}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 3
       age > 3 and age < 9   -> 5
       age > 8 and age < 14  -> 8
-      age > 18              -> 11
     end
   end
+  def zinc_rda(%{:sex => sex}) when sex == "male", do: 11
   def zinc_rda(%{:age => age, :sex => sex}) when sex == "female" do
     cond do
-      age > 0 and age < 4   -> 3
-      age > 3 and age < 9   -> 5
-      age > 8 and age < 14  -> 8
       age > 13 and age < 19 -> 9
       age > 18              -> 8
     end
   end
   def zinc_rda(%{:age => age}) do
     cond do
-      age > 0 and age < 4   -> 3
-      age > 3 and age < 9   -> 5
-      age > 8 and age < 14  -> 8
       age > 13 and age < 19 -> 10
       age > 18              -> 9.5
     end
