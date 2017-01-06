@@ -47,16 +47,15 @@ defmodule Kai.List do
   end
 
   @spec convert(map) :: map
-  def convert(%{:quantity => quantity, :each_g => each_g} = food_quantity) do 
+  def convert(%{:quantity => quantity, 
+                :each_g => each_g} = food_quantity) when not is_nil(each_g) do
     Map.put_new(food_quantity, 
                 :item_quantity, 
                 Float.round(quantity / each_g, 1))
   end
   def convert(%{:quantity => quantity, 
-                :raw_to_cooked => raw_to_cooked} = food_quantity) do 
-    Map.put_new(food_quantity, 
-                :raw_quantity, 
-                Float.round(quantity / raw_to_cooked, 1))
+                :raw_to_cooked => r} = food_quantity) when not is_nil(r) do 
+    Map.put_new(food_quantity, :raw_quantity, round(quantity / r))
   end
   def convert(food_quantity), do: food_quantity 
 end

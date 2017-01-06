@@ -82,6 +82,8 @@ defmodule Kai.Mixfile do
 
       # Linting
       {:credo, "~> 0.5", only: [:dev, :test]},
+      {:dialyxir, "~> 0.4", only: [:dev], runtime: false},
+      {:dialyze, "~> 0.2.0"},
 
       # Networks
       {:porcelain, "~> 2.0"},
