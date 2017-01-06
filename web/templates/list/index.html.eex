@@ -3,8 +3,8 @@
   <article class="pa3 pa5-ns">
     <h2 class="f4 bold center mw5">Groceries</h1>
     <ul class="list pl0 ml0 center mw5 ba b--light-silver br3">
-    <%= for food <- list.foods do %>
-      <li class="ph3 pv2 bb b--light-silver"><%= food.name %></li>
-    <% end %>
+    <%#= for food <- list.foods do %>
+      <%#li class="ph3 pv2 bb b--light-silver"><%= food.name %></li>
+    <%# end %>
   </article>
 <% end %>

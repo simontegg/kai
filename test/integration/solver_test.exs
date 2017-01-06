@@ -1,25 +1,22 @@
 defmodule Kai.SolverIntegrationTest do
   use Kai.IntegrationCase, async: true
   import Kai.Factory
-  alias Kai.{FoodQuantity, List, User, Solver}
+  alias Kai.{Food, FoodQuantity, List, User, Solver}
 
   @tag external: true
   test "executes julia solver and recieves results" do
     user = insert(:user)  
+    foods = Food.get_foods_prices()
     constraints = build(:constraints)
 
-    {solution, levels} = Solver.solve(user.id, constraints)
-    food = hd(solution)
-    assert food["name"] 
+    solution = Solver.solve(user: user, 
+                            foods: foods, 
+                            constraints: constraints)
 
-    IO.inspect food
-
+    IO.inspect hd(solution)
     assert is_list(solution)
-    assert is_list(levels)
     assert length(solution) > 0
   end
-
-
 end
 
 

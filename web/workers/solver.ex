@@ -57,7 +57,7 @@ defmodule Kai.Solver do
   @conversion_fields [:each_g, :raw_to_cooked] 
   @headers @food_fields ++ @price_fields ++ @conversion_fields
 
-  def solve(user_id, foods, constraints) do
+  def solve(user: user, foods: foods, constraints: constraints) do
     constraints_file = write_constraints(constraints)
     foods = Food.get_foods_prices()
     foods_file = write_foods(foods)
@@ -73,12 +73,13 @@ defmodule Kai.Solver do
     File.rm(foods_file)
 
     solution = get_files_as_list(solution_path)
-    levels = get_files_as_list(levels_path)
+    #TODO: use levels somehow?
+    #levels = get_files_as_list(levels_path)
 
     File.rm(solution_path)
     File.rm(levels_path)
      
-    {solution, foods, levels}  
+    solution  
   end
 
 

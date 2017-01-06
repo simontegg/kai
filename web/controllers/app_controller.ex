@@ -2,7 +2,7 @@ defmodule Kai.AppController do
   use Kai.Web, :controller
   import String
   import Hashids
-  alias Kai.{Food, Requirements, Solver, User}
+  alias Kai.{Food, List, Requirements, Solver, User}
 
   @numbers ["age", "height", "weight", "activity"]
   @strings ["sex"]
@@ -32,12 +32,14 @@ defmodule Kai.AppController do
     
     case Repo.insert(changeset) do
       {:ok, user} ->
-        Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
+        task = Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
           foods = Food.get_foods_prices()
           
-          user
-          |> Solver.solve(requirements, foods)
-          |> List.save_list(foods, user)
+          solution = Solver.solve(user: user, 
+                                  foods: foods, 
+                                  constraints: requirements)
+
+          List.save_list(solution, foods, user)
         end)
 
        conn |> redirect(to: list_user_path(user.id))

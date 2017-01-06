@@ -4,17 +4,15 @@ defmodule Kai.ListIntegrationTest do
   alias Kai.{Food, FoodQuantity, List, User, Solver}
 
   # TODO: decouple from List methods
-  test "gets lists by user id in nice format " do
+  test "gets lists by user in nice format " do
     solution = build_list(3, :solution_food)
     foods = Food.get_foods_prices()
     user = insert(:user)
     {_, list} = List.save_list(solution, foods, user)
   
-    lists = List.get_by_user(user.id) 
+    lists = List.get_by_user_id(user.id) 
 
-    IO.inspect lists
-
-    assert lists
+    lists |> hd |> Map.get(:list_id) |> Kernel.==(list.id) |> assert
   end
   
   test "saves solution as a list associated to a user" do

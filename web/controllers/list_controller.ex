@@ -4,7 +4,9 @@ defmodule Kai.ListController do
   alias Kai.{FoodQuantity, List}
 
   def index(conn, %{"user_id" => user_id}) do
-    lists = List.get_by_user(user_id)
+    lists = List.get_by_user_id(user_id)
+
+
 
     IO.inspect lists
         
