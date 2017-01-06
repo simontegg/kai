@@ -20,26 +20,6 @@ defmodule Kai.SolverIntegrationTest do
   end
 
 
-  test "saves solution as a list associated to a user" do
-    user = insert(:user)
-    solution = build_list(3, :solution_food)
-    foods = Solver.get_foods_prices()
-
-    case Solver.save_list(user, solution, foods) do
-      {:ok, list} ->
-        food_quantities = Ecto.assoc(list, :food_quantities) |> Repo.all
-
-        assert length(food_quantities) > 0
-        Enum.each(food_quantities, fn (food_quantity) ->
-          assert food_quantity.food_price_id
-          assert is_integer(food_quantity.quantity)
-        end)
-      {:error, _} ->
-        flunk
-      _ -> 
-        flunk
-    end
-  end
 end
 
 

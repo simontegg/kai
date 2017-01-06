@@ -608,6 +608,7 @@ defmodule Kai.Requirements do
   #   end
   # end
   
+  @spec zinc_rda(map) :: integer
   def zinc_rda(%{:age => age}) when age < 14 do
     cond do
       age > 0 and age < 4   -> 3

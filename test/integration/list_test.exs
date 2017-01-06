@@ -1,20 +1,41 @@
 defmodule Kai.ListIntegrationTest do
   use Kai.IntegrationCase, async: true
   import Kai.Factory
-  alias Kai.{FoodQuantity, List, User, Solver}
+  alias Kai.{Food, FoodQuantity, List, User, Solver}
 
-  # TODO: decouple from Solver
-  test "saves solution as a list associated to a user" do
-    user = insert(:user)
+  # TODO: decouple from List methods
+  test "gets lists by user id in nice format " do
     solution = build_list(3, :solution_food)
-    foods = Solver.get_foods_prices()
-    {_, list} = Solver.save_list(user, solution, foods)
+    foods = Food.get_foods_prices()
+    user = insert(:user)
+    {_, list} = List.save_list(solution, foods, user)
   
     lists = List.get_by_user(user.id) 
 
     IO.inspect lists
 
     assert lists
+  end
+  
+  test "saves solution as a list associated to a user" do
+    solution = build_list(3, :solution_food)
+    foods = Food.get_foods_prices()
+    user = insert(:user)
+
+    case List.save_list(solution, foods, user) do
+      {:ok, list} ->
+        food_quantities = Ecto.assoc(list, :food_quantities) |> Repo.all
+
+        assert length(food_quantities) > 0
+        Enum.each(food_quantities, fn (food_quantity) ->
+          assert food_quantity.food_price_id
+          assert is_integer(food_quantity.quantity)
+        end)
+      {:error, _} ->
+        flunk
+      _ -> 
+        flunk
+    end
   end
 end
 

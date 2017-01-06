@@ -1,6 +1,6 @@
 defmodule Kai.List do
   use Kai.Web, :model
-  alias Kai.{User, FoodQuantity, Repo, List}
+  alias Kai.{User, FoodPrice, FoodQuantity, Repo, List}
 
   schema "lists" do
     field :name, :string
@@ -39,11 +39,34 @@ defmodule Kai.List do
                    raw_to_cooked: c.raw_to_cooked
                  })
 
-    lists = 
-      query
-      |> Repo.all
-      |> Enum.map(&convert(&1))
+    Repo.all(query) |> Enum.map(&convert(&1))
+  end
 
+  @spec save_list(list(map), list(map), struct) :: tuple
+  def save_list(solution, foods, user) do
+    foods_by_name = for food <- foods, into: %{}, do: {food.name, food}
+      
+    food_quantities = 
+      solution
+      |> Enum.reduce([], fn (food, acc) -> 
+            food_quantity = %{
+              food_price: Repo.get(FoodPrice, foods_by_name[food["name"]].id),
+              quantity: String.to_integer(food["quantity"])
+            }
+
+            acc ++ [food_quantity]
+          end) 
+      |> Enum.map(fn (params) -> 
+            %FoodQuantity{} |> FoodQuantity.changeset(params) |> Repo.insert!
+          end)
+
+    params = %{
+      name: "first", 
+      food_quantities: food_quantities,
+      user: user 
+    }
+
+    %List{} |> List.changeset(params) |> Repo.insert
   end
 
   @spec convert(map) :: map

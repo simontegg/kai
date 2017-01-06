@@ -1,7 +1,46 @@
 defmodule Kai.Food do
   use Kai.Web, :model
-  alias Kai.{Price, FoodsPrices}
+  alias Kai.{Price, Repo, FoodPrice}
 
+  @food_excl [:name, :edible_portion]
+
+  @nutrients [ 
+    :calories,
+    :protein, 
+    :folate_dfe, 
+    :biotin,
+    :calcium,
+    :chromium,
+    :copper,
+    :o3_epa,
+    :o3_dha,
+    :o3_dpa,
+    :iodine,
+    :iron,
+    :magnesium,
+    :manganese, 
+    :mercury, 
+    :molybdenum, 
+    :niacin_ne, 
+    :pantothenic_acid, 
+    :phosphorus, 
+    :potassium, 
+    :riboflavin, 
+    :selenium, 
+    :thiamin, 
+    :vitamin_a_rae, 
+    :vitamin_b12, 
+    :vitamin_b6, 
+    :vitamin_c, 
+    :vit_e_a_tocopherol, 
+    :vitamin_k1, 
+    :zinc 
+  ]
+  
+  @food_fields @food_excl ++ @nutrients
+  @price_fields [:price, :quantity, :quantity_unit] 
+  @conversion_fields [:each_g, :raw_to_cooked] 
+  @headers @food_fields ++ @price_fields ++ @conversion_fields
   @fields [
     :id,
     :name,
@@ -100,6 +139,105 @@ defmodule Kai.Food do
     struct
     |> cast(params, @fields)
     |> validate_required([:name])
+  end
+  
+  @spec get_foods_prices() :: list
+  def get_foods_prices do
+    get_query
+    |> Repo.all
+    |> merge_result 
+    |> set_100g_prices
+    |> aggregate_nutrients
+  end
+  
+  # TODO: query by user, location, time
+  def get_query do
+    from(fp in FoodPrice,
+         left_join: p in assoc(fp, :price),
+         left_join: f in assoc(fp, :food),
+         left_join: c in assoc(fp, :conversion),
+         select: %{
+           id: fp.id, 
+           price: map(p, ^@price_fields),
+           food: map(f, ^@food_fields),
+           conversion: map(c, ^@conversion_fields)
+         })
+  end
+
+  def merge_result(rows) do
+    Enum.map(rows, fn (t) -> flatten(t, %{}) end)
+  end
+
+  @spec set_100g_prices(list) :: list
+  def set_100g_prices(rows) do
+    Enum.map(rows, &set_100g_price(&1))
+  end
+
+  @spec set_100g_prices(map) :: map
+  def set_100g_price(row) do
+    Map.put_new(row, :price_100g, price_per_edible_100g(row))
+  end
+
+  @doc "cents per edible 100 grams of food"
+  def price_per_edible_100g(%{
+    :price => price,
+    :quantity => quantity,
+    :quantity_unit => quantity_unit,
+    :each_g => each_g,
+    :edible_portion => edible_portion,
+  }) when quantity_unit == "ea" do
+
+    100
+    |> Kernel./(quantity * each_g)
+    |> Kernel.*(price) 
+    |> Kernel./(edible_portion) 
+    |> round
+  end
+  def price_per_edible_100g(%{
+    :price => price,
+    :quantity => quantity,
+    :quantity_unit => quantity_unit,
+    :edible_portion => edible_portion,
+    :raw_to_cooked => raw_to_cooked
+  }) do
+    denominator = if quantity_unit in ["kg", "L"], do: 0.1, else: 100
+
+    price
+    |> Kernel./(quantity / denominator)
+    |> Kernel./(edible_portion || 1)
+    |> Kernel./(raw_to_cooked || 1)
+    |> round
+  end
+  def price_per_edible_100g(%{
+    :price => price,
+    :quantity => quantity,
+    :quantity_unit => quantity_unit,
+    :edible_portion => edible_portion,
+  }) do
+    denominator = if quantity_unit in ["kg", "L"], do: 0.1, else: 100
+
+    price
+    |> Kernel./(quantity / denominator)
+    |> Kernel./(edible_portion || 1)
+    |> round
+  end
+  
+  def flatten({_, v}, _) when is_nil(v), do: %{}
+  def flatten(%{} = o, acc), do: Enum.reduce(o, acc, &flatten(&1, &2))
+  def flatten({k, v}, acc) when is_map(v), do: flatten(v, acc)
+  def flatten({k, v}, acc), do: Map.put_new(acc, k, v)
+
+  def aggregate_nutrients(rows) do
+    for row <- rows,
+      do: Enum.reduce(row, %{}, &aggregate_o3_epa_dha_dpa(&1, &2))
+  end
+    
+  def aggregate_o3_epa_dha_dpa({key, value}, acc) do
+    if Enum.member?([:o3_epa, :o3_dha, :o3_dpa], key) do
+      Map.update(acc, :o3_epa_dha_dpa, value, &(&1 + value))
+    else 
+      Map.put_new(acc, key, value)
+    end
   end
 end
 
