@@ -46,15 +46,4 @@ defmodule Kai.ListTest do
     refute Map.has_key?(converted, :item_quantity)
   end
   
-  test "group into lists" do
-    groups = %{
-      1 => [%{a: 1, b: 2}],
-      2 => [%{a: 2, b: 3}]
-    }
-
-    lists = List.group_by(groups)
-
-    assert is_list(lists)
-    lists |> hd |> is_list |> assert
-  end
 end

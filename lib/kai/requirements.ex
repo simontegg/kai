@@ -527,6 +527,7 @@ defmodule Kai.Requirements do
     cond do
       age > 0 and age < 4   -> 1.2
       age > 3 and age < 9   -> 1.5
+    end
   end
   def manganese_ai(%{:age => age, :sex => sex}) when sex == "male" do
     cond do

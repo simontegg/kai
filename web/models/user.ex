@@ -98,6 +98,9 @@ defmodule Kai.User do
     |> unique_constraint(:email)
   end
 
+  @spec decode(string) :: integer
+  def decode(hashed_id), do: @salt |> Hashids.decode!(hashed_id) |> hd
+
   def registration_changeset(struct, params \\ %{}) do
     struct
     |> changeset(params)
