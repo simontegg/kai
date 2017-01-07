@@ -360,34 +360,18 @@ defmodule Kai.Requirements do
   end
 
   #K1
-  def vitamin_k1_ai(%{:age => age, :sex => sex}) when sex == "male" do
+  @spec vitamin_k1_ai(map) :: float
+  def vitamin_k1_ai(%{:age => age}) when age < 19 do
     cond do
       age > 0 and age < 4   -> 0.030
       age > 3 and age < 9   -> 0.055
       age > 8 and age < 14  -> 0.060
       age > 13 and age < 19 -> 0.075
-      age > 18              -> 0.120
     end
   end
-  def vitamin_k1_ai(%{:age => age, :sex => sex}) when sex == "female" do
-    cond do
-      age > 0 and age < 4   -> 0.030
-      age > 3 and age < 9   -> 0.055
-      age > 8 and age < 14  -> 0.060
-      age > 13 and age < 19 -> 0.075
-      age > 18              -> 0.090
-    end
-  end
-  def vitamin_k1_ai(%{:age => age}) do
-    cond do
-      age > 0 and age < 4   -> 0.030
-      age > 3 and age < 9   -> 0.055
-      age > 8 and age < 14  -> 0.060
-      age > 13 and age < 19 -> 0.075
-      age > 18              -> 0.105
-    end
-  end
- 
+  def vitamin_k1_ai(%{:sex => sex}) when sex == "male", do: 0.120
+  def vitamin_k1_ai(%{:sex => sex}) when sex == "female", do: 0.090
+  def vitamin_k1_ai(_), do: 0.105
 
   #minerals
 
