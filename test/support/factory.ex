@@ -5,7 +5,8 @@ defmodule Kai.Factory do
     %{
       "name" => "Avocado; flesh; raw; combined varieties",
       "price" => "150",
-      "quantity" => "170"
+      "quantity" => "170",
+      "cost" => "150"
     }
   end
 

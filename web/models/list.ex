@@ -23,39 +23,43 @@ defmodule Kai.List do
 
   @spec get_by_user_id(integer) :: list
   def get_by_user_id(user_id) do
-    query = from(l in List,
-                 left_join: u in assoc(l, :user),
-                 left_join: fq in assoc(l, :food_quantities),
-                 left_join: fp in assoc(fq, :food_price),
-                 left_join: p in assoc(fp, :price),
-                 left_join: f in assoc(fp, :food),
-                 left_join: c in assoc(fp, :conversion),
-                 where: u.id == ^user_id,
-                 group_by: [:id, 
-                            fq.quantity, 
-                            fq.cost,
-                            p.price, 
-                            p.quantity_unit,
-                            p.name, 
-                            f.name, 
-                            c.each_g, 
-                            c.raw_to_cooked],
-                 select: %{
-                   list_id: l.id,
-                   cost: fq.cost, 
-                   quantity: fq.quantity,
-                   quantity_unit: p.quantity_unit,
-                   unit_price: p.price,
-                   price_name: p.name, 
-                   food_name: f.name,
-                   each_g: c.each_g,
-                   raw_to_cooked: c.raw_to_cooked
-                 })
-
-    query 
+    user_id
+    |> by_user_id_query
     |> Repo.all 
     |> Enum.map(&convert(&1)) 
     |> group_by
+  end
+
+  @macrocallback by_user_id_query(integer) :: Macro.t
+  def by_user_id_query(user_id) do
+    from(l in List,
+         left_join: u in assoc(l, :user),
+         left_join: fq in assoc(l, :food_quantities),
+         left_join: fp in assoc(fq, :food_price),
+         left_join: p in assoc(fp, :price),
+         left_join: f in assoc(fp, :food),
+         left_join: c in assoc(fp, :conversion),
+         where: u.id == ^user_id,
+         group_by: [:id, 
+                    fq.quantity, 
+                    fq.cost,
+                    p.price, 
+                    p.quantity_unit,
+                    p.name, 
+                    f.name, 
+                    c.each_g, 
+                    c.raw_to_cooked],
+         select: %{
+           list_id: l.id,
+           cost: fq.cost, 
+           quantity: fq.quantity,
+           quantity_unit: p.quantity_unit,
+           unit_price: p.price,
+           price_name: p.name, 
+           food_name: f.name,
+           each_g: c.each_g,
+           raw_to_cooked: c.raw_to_cooked
+         })
   end
 
   @spec group_by(list(map)) :: list(%{foods: list(map)})
@@ -71,7 +75,7 @@ defmodule Kai.List do
   @spec save_list(list(map), list(map), struct) :: tuple
   def save_list(solution, foods, user) do
     foods_by_name = for food <- foods, into: %{}, do: {food.name, food}
-      
+
     food_quantities = 
       solution
       |> Enum.reduce([], fn (food, acc) -> 
