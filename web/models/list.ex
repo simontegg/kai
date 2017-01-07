@@ -33,15 +33,19 @@ defmodule Kai.List do
                  where: u.id == ^user_id,
                  group_by: [:id, 
                             fq.quantity, 
+                            fq.cost,
                             p.price, 
+                            p.quantity_unit,
                             p.name, 
                             f.name, 
                             c.each_g, 
                             c.raw_to_cooked],
                  select: %{
                    list_id: l.id,
+                   cost: fq.cost, 
                    quantity: fq.quantity,
-                   price: p.price,
+                   quantity_unit: p.quantity_unit,
+                   unit_price: p.price,
                    price_name: p.name, 
                    food_name: f.name,
                    each_g: c.each_g,
@@ -64,7 +68,6 @@ defmodule Kai.List do
     end)
   end
 
-
   @spec save_list(list(map), list(map), struct) :: tuple
   def save_list(solution, foods, user) do
     foods_by_name = for food <- foods, into: %{}, do: {food.name, food}
@@ -74,7 +77,8 @@ defmodule Kai.List do
       |> Enum.reduce([], fn (food, acc) -> 
             food_quantity = %{
               food_price: Repo.get(FoodPrice, foods_by_name[food["name"]].id),
-              quantity: String.to_integer(food["quantity"])
+              quantity: String.to_integer(food["quantity"]),
+              cost: String.to_integer(food["cost"])
             }
 
             acc ++ [food_quantity]

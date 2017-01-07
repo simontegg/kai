@@ -82,10 +82,10 @@ status = solve(m)
 #println("Optimal Objective Function value: ", getobjectivevalue(m))
 #println("Optimal Solutions:")
 q = getvalue(quantities) 
-p = q .* prices
-c = q .* foods[:, :calories]
+cost = q .* prices
+calories = q .* foods[:, :calories]
 
-raw = DataFrame(name = food_names, quantity = trunc(Int, q * 100), price = trunc(Int, p), calories = trunc(Int, c))
+raw = DataFrame(name = food_names, quantity = trunc(Int, q * 100), cost = trunc(Int, cost), calories = trunc(Int, calories))
 solution = raw[raw[:quantity] .> 0, :]
 #showln(solution)
 

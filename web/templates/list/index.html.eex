@@ -4,11 +4,27 @@
   <p> refresh this page in 20 seconds to see your grocert list </p>
 <% end %>
 <%= for list <- @lists do %>
-  <article class="pa3 pa5-ns">
+  <article class="pa4 pa5-ns">
     <h2 class="f4 bold center mw5">Groceries</h1>
-    <ul class="list pl0 ml0 center mw5 ba b--light-silver br3">
-    <%= for food <- list.foods do %>
-      <li class="ph3 pv2 bb b--light-silver"><%= food.price_name %></li>
-    <% end %>
+    <div class="overflow auto">
+    <table class="f6 w-100 mw8 center" cellspacing="0">
+      <thead>
+        <tr>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Item</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Quantity</th>
+          <th class="fw6 bb b--black-20 tl pb3 pr3 bg-white">Price</th>
+        </tr>
+      </thead>
+      <tbody class="lh-copy">
+        <%= for food <- list.foods do %>
+          <tr>
+          <td class="pv3 pr3 bb b--black-20"><%= food.price_name %></li>
+          <td class="pv3 pr3 bb b--black-20"><%= food.quantity %> grams</li>
+          <td class="pv3 pr3 bb b--black-20"><%= render_money(food.cost) %></li>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
   </article>
 <% end %>

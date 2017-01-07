@@ -4,6 +4,7 @@ defmodule Kai.FoodQuantity do
 
   schema "food_quantities" do
     field :quantity, :integer
+    field :cost, :integer
     belongs_to :list, List
     belongs_to :food_price, FoodPrice
 
@@ -15,8 +16,8 @@ defmodule Kai.FoodQuantity do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:quantity])
+    |> cast(params, [:quantity, :cost])
     |> Ecto.Changeset.put_assoc(:food_price, params.food_price)
-    |> validate_required([:quantity])
+    |> validate_required([:quantity, :cost])
   end
 end

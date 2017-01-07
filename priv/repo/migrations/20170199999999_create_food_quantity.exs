@@ -4,6 +4,7 @@ defmodule Kai.Repo.Migrations.CreateFoodQuantities do
   def change do
     create table(:food_quantities) do
       add :quantity, :integer
+      add :cost, :integer
       add :food_price_id, references(:food_prices, on_delete: :nothing)
       add :list_id, references(:lists, on_delete: :nothing)
 

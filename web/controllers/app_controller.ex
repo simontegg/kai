@@ -32,7 +32,7 @@ defmodule Kai.AppController do
     
     case Repo.insert(changeset) do
       {:ok, user} ->
-        task = Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
+        Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn ->
           foods = Food.get_foods_prices()
           
           solution = Solver.solve(user: user, 
