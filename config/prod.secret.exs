@@ -13,8 +13,3 @@ config :kai, Kai.Endpoint,
 
 # Configure your database
 config :kai, Kai.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "kai_prod",
-  pool_size: 20

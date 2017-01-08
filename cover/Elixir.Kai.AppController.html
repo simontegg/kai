@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.AppController.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/controllers/app_controller.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+     2..|  defmodule Kai.AppController do
+        |    use Kai.Web, :controller
+        |    import String
+        |    import Hashids
+        |    alias Kai.{Food, List, Requirements, Solver, User}
+        |  
+        |    @numbers ["age", "height", "weight", "activity"]
+        |    @strings ["sex"]
+        |    @salt Hashids.new(salt: System.get_env("SECRET_KEY_BASE"), 
+        |                      min_len: 5)
+        |  
+        |    def convert(k, v) when k in @numbers do 
+        |      value = if is_integer(v), do: v, else: to_integer(v)
+        |      {to_atom(k), value}
+        |    end
+        |    def convert(k, v) when k in @strings, do: {to_atom(k), v}
+        |  
+        |    @spec decode(map) :: map
+        |    def decode(json) do 
+        |      for {k, v} &lt;- json, 
+        |        k in @numbers or k in @strings, 
+        |        into: %{}, 
+        |        do: convert(k, v)
+        |    end
+        |  
+        |    def create(conn, json) do
+        |      biometrics = decode(json)
+        |      requirements = Requirements.nutrients(biometrics, 7)
+        |  
+        |      user_params = Map.merge(biometrics, requirements)
+        |      changeset = User.changeset(%User{}, user_params)
+        |      
+        |      case Repo.insert(changeset) do
+        |        {:ok, user} -&gt;
+        |          Task.Supervisor.async_nolink(Kai.TaskSupervisor, fn -&gt;
+        |            foods = Food.get_foods_prices()
+        |            
+        |            solution = Solver.solve(user: user, 
+        |                                    foods: foods, 
+        |                                    constraints: requirements)
+        |  
+        |            List.save_list(solution, foods, user)
+        |          end)
+        |  
+        |         conn |&gt; redirect(to: list_user_path(user.id))
+        |        {:error, changeset} -&gt;
+        |          IO.inspect changeset
+        |          render(conn, "/")
+        |      end
+        |    end
+        |    
+        |    @spec list_user_path(number) :: String.t
+        |    defp list_user_path(id) do
+        |      hashed_id = Hashids.encode(@salt, id)
+        |      "/users/#{hashed_id}/lists"
+        |    end
+        |  
+        |    def serve_preferences(conn, json) do
+        |      render(conn, "preferences.html")
+        |    end
+        |    
+        |    def index(conn, _params) do
+        |      render(
+        |        conn, 
+        |        "index.html", 
+        |        state: :sent,
+        |        current_user: get_session(conn, :current_user)
+        |      )
+        |    end
+        |  end
+</pre>
+</body>
+</html>

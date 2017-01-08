@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Utils.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/lib/kai/utils.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.Utils do
+        |    def validate_extension(allowed, file) do
+<font color=red>     0..|      file_extension =</font>
+<font color=red>     0..|        file.file_name</font>
+        |        |&gt; Path.extname
+        |        |&gt; String.downcase
+        |  
+<font color=red>     0..|      Enum.member?(allowed, file_extension)</font>
+        |    end
+        |  
+        |    def is_numeric(str) do
+<font color=red>     0..|      case Float.parse(str) do</font>
+        |        {_num, ""} -&gt; true
+        |        {_num, _r} -&gt; false               # _r : remainder_of_bianry
+        |        :error     -&gt; false
+        |      end
+        |    end
+        |  
+        |    def random_string(length) do
+        |      length
+        |      |&gt; :crypto.strong_rand_bytes
+        |      |&gt; Base.url_encode64 
+     2..|      |&gt; binary_part(0, length)
+        |    end
+        |  end
+</pre>
+</body>
+</html>

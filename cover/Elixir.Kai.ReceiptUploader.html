@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.ReceiptUploader.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/uploaders/receipt.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+        |  defmodule Kai.ReceiptUploader do
+<font color=red>     0..|    use Arc.Definition</font>
+        |  
+        |    # Include ecto support (requires package arc_ecto installed):
+        |    use Arc.Ecto.Definition
+        |  
+        |    alias Kai.Utils
+        |  
+        |    @versions [:original]
+        |    @extension_whitelist ~w(.jpg .jpeg .png)
+        |    @acl :public_read
+        |  
+        |    def validate({file, _}) do
+        |      Utils.validate_extension(@extension_whitelist, file)
+        |    end
+        |  
+        |    def storage_dir(_version, {_file, scope}) do
+        |      "#{Mix.env}/uploads/receipts/#{scope.slug}"
+        |    end
+        |  
+        |    # Provide a default URL if there hasn't been a file uploaded
+        |    def default_url(_version, _scope) do
+        |      "http://placehold.it/200x200"
+        |    end
+        |  
+        |    def s3_object_headers(_version, {file, _scope}) do
+        |      # For "image.png", would produce: "image/png"
+        |      [content_type: Plug.MIME.path(file.file_name)]
+        |    end
+        |  
+        |  end
+</pre>
+</body>
+</html>

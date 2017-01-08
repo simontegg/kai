@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Price.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/models/price.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.Price do
+        |    use Kai.Web, :model
+        |    alias Kai.{Food, FoodPrices, User}
+        |  
+        |    @fields [
+        |      :price,
+        |      :company_id,
+        |      :name,
+        |      :currency,
+        |      :currency_unit,
+        |      :quantity,
+        |      :quantity_unit,
+        |      :longitude,
+        |      :latitude,
+        |      :url
+        |    ]
+        |  
+   312..|    schema "prices" do
+        |  
+        |      many_to_many :foods, Food, join_through: FoodPrices
+        |      belongs_to :user, User 
+        |  
+        |      field :name, :string
+        |      field :price, :float
+        |      field :quantity, :float
+        |      field :quantity_unit, :string #kg || each
+        |  
+        |      field :url, :string
+        |      field :company_id, :string
+        |      field :currency, :string
+        |      field :currency_unit, :string #cents
+        |      field :longitude, :integer
+        |      field :latitude, :integer
+        |  
+        |      timestamps()
+        |    end
+        |  
+        |    @doc """
+        |    Builds a changeset based on the `struct` and `params`.
+        |    """
+        |    def changeset(struct, params \\ %{}) do
+        |      struct
+        |      |&gt; cast(params, @fields)
+        |      |&gt; validate_required([:price, :name])
+        |    end
+        |  end
+</pre>
+</body>
+</html>

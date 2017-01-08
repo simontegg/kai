@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Router.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/router.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+<font color=red>     0..|  defmodule Kai.Router do</font>
+        |    use Kai.Web, :router
+        |    use ExAdmin.Router
+        |  
+        |    pipeline :browser do
+        |      plug :accepts, ["html"]
+        |      plug :fetch_session
+        |      plug :fetch_flash
+        |      plug :protect_from_forgery
+        |      plug :put_secure_browser_headers
+        |    end
+        |  
+        |    pipeline :api do
+        |      plug :accepts, ["json"]
+        |    end
+        |  
+        |    scope "/", Kai do
+        |      pipe_through [:browser, Kai.Auth] 
+        |  
+        |      get "/", AppController, :index
+        |      post "/biometrics", AppController, :create
+        |      get "/preferences", AppController, :serve_preferences
+        |  
+        |  
+        |      get "/users/:user_id/lists/:list_id", ListController, :show
+        |      get "/users/:user_id/lists", ListController, :index
+        |  
+        |  
+        |  
+        |      resources "/session", SessionController, only: [:new, :create, :show]
+        |      resources "/session", SessionController, only: [:delete], singleton: true
+        |      resources "/receipts", ReceiptController
+        |  
+        |      # if Mix.env == :dev do
+        |      #   forward "/sent-emails", Bamboo.EmailPreviewPlug
+        |      # end
+        |    end
+        |  
+        |    scope "/admin", ExAdmin do
+        |      pipe_through :browser
+        |      admin_routes
+        |    end
+        |  
+        |  end
+</pre>
+</body>
+</html>

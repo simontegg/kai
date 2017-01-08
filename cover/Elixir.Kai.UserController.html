@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.UserController.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/controllers/user_controller.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+<font color=red>     0..|  defmodule Kai.UserController do</font>
+        |    use Kai.Web, :controller
+        |  
+        |    alias Kai.User
+        |  
+        |    def index(conn, _params) do
+        |      users = Repo.all(User)
+        |      render(conn, "index.html", users: users)
+        |    end
+        |  
+        |    def new(conn, _params) do
+        |      changeset = User.changeset(%User{})
+        |      render(conn, "new.html", changeset: changeset)
+        |    end
+        |  
+        |  
+        |    #  def create(conn, %V{"user" =&gt; user_params}) do
+        |    #    changeset = User.changeset(%User{}, user_params)
+        |    #
+        |    #    case Repo.insert(changeset) do
+        |    #      {:ok, _user} -&gt;
+        |    #        conn
+        |    #        |&gt; put_flash(:info, "User created successfully.")
+        |    #        |&gt; redirect(to: user_path(conn, :index))
+        |    #{:error, changeset} -&gt;
+        |    #  render(conn, "new.html", changeset: changeset)
+        |    #    end
+        |    #  end
+        |  
+        |    def show(conn, %{"id" =&gt; id}) do
+        |      user = Repo.get!(User, id)
+        |      render(conn, "show.html", user: user)
+        |    end
+        |  
+        |    def edit(conn, %{"id" =&gt; id}) do
+        |      user = Repo.get!(User, id)
+        |      changeset = User.changeset(user)
+        |      render(conn, "edit.html", user: user, changeset: changeset)
+        |    end
+        |  
+        |    #  def update(conn, %{"id" =&gt; id, "user" =&gt; user_params}) do
+        |    #    user = Repo.get!(User, id)
+        |    #    changeset = User.changeset(user, user_params)
+        |    #
+        |    #    case Repo.update(changeset) do
+        |    #      {:ok, user} -&gt;
+        |    #        conn
+        |    #        |&gt; put_flash(:info, "User updated successfully.")
+        |    #        |&gt; redirect(to: user_path(conn, :show, user))
+        |    #{:error, changeset} -&gt;
+        |    #  render(conn, "edit.html", user: user, changeset: changeset)
+        |    #    end
+        |    #  end
+        |  
+        |    #  def delete(conn, %{"id" =&gt; id}) do
+        |    #    user = Repo.get!(User, id)
+        |    #
+        |    #    # Here we use delete! (with a bang) because we expect
+        |    #    # it to always work (and if it does not, it will raise).
+        |    #    Repo.delete!(user)
+        |    #
+        |    #    conn
+        |    #    |&gt; put_flash(:info, "User deleted successfully.")
+        |    #    |&gt; redirect(to: user_path(conn, :index))
+        |    #  end
+        |  end
+</pre>
+</body>
+</html>

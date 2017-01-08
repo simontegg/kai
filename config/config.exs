@@ -7,7 +7,7 @@ config :kai,
 # Configures the endpoint
 config :kai, Kai.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "/TXJ3BNnLQSzsw+HhAxfBE4iCbdGcgL7CRHU3arr2tXVQqvAJu7SgJWdtOtgKVFq",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: Kai.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Kai.PubSub, adapter: Phoenix.PubSub.PG2]
 

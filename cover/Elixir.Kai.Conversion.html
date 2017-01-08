@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Conversion.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/models/conversion.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.Conversion do
+        |    use Kai.Web, :model
+        |    alias Kai.FoodPrice
+        |  
+<font color=red>     0..|    schema "conversions" do</font>
+        |      field :name, :string
+        |      field :each_g, :float
+        |      field :raw_to_cooked, :float
+        |      has_many :food_price, FoodPrice
+        |  
+        |      timestamps()
+        |    end
+        |  
+        |    @doc """
+        |    Builds a changeset based on the `struct` and `params`.
+        |    """
+        |    def changeset(struct, params \\ %{}) do
+        |      struct
+        |      |&gt; cast(params, [:each_g, :raw_to_cooked])
+        |    end
+        |  end
+</pre>
+</body>
+</html>

@@ -9,7 +9,8 @@ defmodule Kai.ListIntegrationTest do
     foods = Food.get_foods_prices()
     user = insert(:user)
     {_, list} = List.save_list(solution, foods, user)
-  
+
+        
     lists = List.get_by_user_id(user.id) 
 
     lists |> hd |> Map.get(:list_id) |> Kernel.==(list.id) |> assert

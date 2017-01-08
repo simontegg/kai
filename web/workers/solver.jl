@@ -1,6 +1,6 @@
 
 # modules
-using DataArrays, DataFrames, JuMP, Cbc, ECOS, GLPK
+using DataArrays, DataFrames, JuMP, Cbc
 showln(x) = (show(x); println())
 
 

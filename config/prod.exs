@@ -24,10 +24,11 @@ config :kai, Kai.Endpoint,
 config :kai, Kai.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
+  username: System.get_env("PGUSER")
+  password: System.get_env("PGPASSWORD")
+  database: System.get_env("PGDATABASE")
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
-
-
 
 # ## SSL Support
 #

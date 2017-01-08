@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.FoodQuantity.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/models/food_quantity.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.FoodQuantity do
+        |    use Kai.Web, :model
+        |    alias Kai.{FoodPrice, List}
+        |  
+     2..|    schema "food_quantities" do
+        |      field :quantity, :integer
+        |      field :cost, :integer
+        |      belongs_to :list, List
+        |      belongs_to :food_price, FoodPrice
+        |  
+        |      timestamps()
+        |    end
+        |  
+        |    @doc """
+        |    Builds a changeset based on the `struct` and `params`.
+        |    """
+        |    def changeset(struct, params \\ %{}) do
+        |      struct
+        |      |&gt; cast(params, [:quantity, :cost])
+        |      |&gt; Ecto.Changeset.put_assoc(:food_price, params.food_price)
+        |      |&gt; validate_required([:quantity, :cost])
+        |    end
+        |  end
+</pre>
+</body>
+</html>

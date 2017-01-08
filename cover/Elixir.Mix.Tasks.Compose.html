@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Mix.Tasks.Compose.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/lib/mix/tasks/compose.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+        |  defmodule Mix.Tasks.Compose do
+        |    use Mix.Task
+        |  
+        |    @shortdoc "Run Docker Compose to start up an orchestrated multi-container runtime of this project. Options: up, down, release, build"
+        |  
+        |    def run(args) do
+<font color=red>     0..|      case Mix.shell.cmd("docker-compose version", [quiet: true]) do</font>
+        |        0 -&gt;
+<font color=red>     0..|          compose(args)</font>
+<font color=red>     0..|        _err -&gt; Mix.shell.error "docker-compose executable not found. Installation page: https://docs.docker.com/compose/install"</font>
+        |      end
+        |    end
+        |  
+        |    def compose(["up"]) do
+        |    # Mix.shell.cmd("sudo docker-compose up")
+<font color=red>     0..|      Mix.shell.cmd("docker-compose up")</font>
+        |    end
+        |  
+        |    def compose(["down"]) do
+        |    #  Mix.shell.cmd("sudo docker-compose down")
+<font color=red>     0..|      Mix.shell.cmd("docker-compose down")</font>
+        |    end
+        |  
+        |    def compose(["release", env]) do
+<font color=red>     0..|      System.put_env("MIX_ENV", env)</font>
+<font color=red>     0..|      Mix.shell.cmd "mix compile"</font>
+<font color=red>     0..|      Mix.shell.cmd "mix release"</font>
+<font color=red>     0..|      Mix.shell.cmd "mix compose build"</font>
+        |    end
+        |  
+        |    def compose(["build"]) do
+<font color=red>     0..|      version = Keyword.fetch!(Mix.Project.config, :version)</font>
+<font color=red>     0..|      Mix.shell.info "Version: #{version}"</font>
+<font color=red>     0..|      Mix.shell.cmd "sudo -E VERSION=#{version} docker-compose build"</font>
+        |    end 
+        |  
+        |  end
+</pre>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Auth.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/controllers/auth_controller.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.Auth do
+        |    @moduledoc """
+        |    Auth provides methods to attach and detach the current_user to the connection
+        |    """
+        |    import Plug.Conn
+        |    alias Kai.{Repo, User}
+        |  
+<font color=red>     0..|    def init(opts), do: opts</font>
+        |  
+        |    def call(conn, _opts) do
+     2..|      user_id = get_session(conn, :user_id)
+     2..|      assign_current_user(conn, user_id)
+        |    end
+        |  
+        |    defp assign_current_user(conn, nil) do
+     2..|      assign(conn, :current_user, nil)
+        |    end
+        |  
+        |    defp assign_current_user(conn, user_id) do
+<font color=red>     0..|      user = Repo.get(User, user_id)</font>
+<font color=red>     0..|      assign(conn, :current_user, user)</font>
+        |    end
+        |  
+        |    def login(conn, user) do
+<font color=red>     0..|      conn |&gt; put_session(:user_id, user.id) |&gt; configure_session(renew: true)</font>
+        |    end
+        |  
+        |    def logout(conn) do
+<font color=red>     0..|      conn |&gt; configure_session(drop: true)</font>
+        |    end
+        |  
+        |  end
+</pre>
+</body>
+</html>

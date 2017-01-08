@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Email.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/lib/kai/email.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+        |  defmodule Kai.Email do
+        |    alias Kai.{Endpoint, Router, User}
+        |    import Bamboo.Email
+        |  
+        |    def login_email(%User{email: email, access_token: token}) do
+        |      new_email
+        |      |&gt; to(email)
+        |      |&gt; from("me@example.com")
+        |      |&gt; subject("Your token")
+     1..|      |&gt; text_body("Access your account #{token_url(token)}")
+        |    end
+        |  
+        |    defp token_url(token) do
+     1..|      Router.Helpers.session_url(Endpoint, :show, token)
+        |    end
+        |    
+        |    def welcome_email do
+        |    end
+        |  end
+</pre>
+</body>
+</html>

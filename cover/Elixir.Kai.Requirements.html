@@ -1,0 +1,686 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Requirements.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/lib/kai/requirements.ex by COVER 2017-01-08 at 09:02:57
+
+****************************************************************************
+
+        |  
+        |  defmodule Kai.Requirements do
+        |    alias Kai.User 
+        |  
+        |    # daily
+     3..|    def nutrients(params, days \\ 1) do 
+     4..|      %{
+        |        #macronutrients
+        |        calories:            days * calories(params),
+        |        protein:             days * protein_rdi(params),
+        |  
+        |        #vitamins
+        |        biotin:              Float.round(days * biotin_ai(params), 5),
+        |        folate_dfe:          Float.round(days * folate_dfe_rda(params), 5),
+        |        niacin_ne:           days * niacin_ne_rda(params),
+        |        pantothenic_acid:    days * pantothenic_acid_ai(params),
+        |        riboflavin:          Float.round(days * riboflavin_rda(params), 5),
+        |        thiamin:             Float.round(days * thiamin_rda(params), 5),
+        |        vitamin_a_rae:       Float.round(days * vitamin_a_rae_rda(params), 5),
+        |        vitamin_b6:          Float.round(days * vitamin_b6_rda(params), 5),
+        |        vitamin_b12:         Float.round(days * vitamin_b12_rda(params), 5),
+        |        vitamin_c:           days * vitamin_c_rda(params),
+        |        vit_e_a_tocopherol:  days * vit_e_a_tocopherol_rda(params),
+        |        vitamin_k1:          days * vitamin_k1_ai(params),
+        |  
+        |        #minerals
+        |        calcium:             days * calcium_rda(params),
+        |        chromium:            Float.round(days * chromium_ai(params), 5),
+        |        copper:              Float.round(days * copper_rda(params), 5),
+        |        iodine:              Float.round(days * iodine_rda(params), 5),
+        |        iron:                days * iron_rda(params),
+        |        magnesium:           days * magnesium_rda(params),
+        |        manganese:           Float.round(days * manganese_ai(params), 5),
+        |        molybdenum:          Float.round(days * molybdenum_rda(params), 5),
+        |        phosphorus:          days * phosphorus_rda(params),
+        |        potassium:           days * potassium_rda(params),
+        |        selenium:            days * selenium_rda(params),
+        |        zinc:                days * zinc_rda(params),
+        |  
+        |        # other nutrients
+        |        choline:             days * choline_ai(params),
+        |        o3_epa_dha_dpa:      days * o3_epa_dha_dpa_rda(params)
+        |      }
+        |    end
+        |  
+        |    def calories(params) do
+     4..|      multipier = activity_multiplier(params.activity)
+        |  
+        |      params 
+        |      |&gt; baseline_metabolic_rate 
+        |      |&gt; Kernel.*(multipier)
+     4..|      |&gt; round
+        |    end
+        |  
+        |    def activity_multiplier(activity) do
+     4..|      cond do 
+        |        activity == 0                 -&gt; 1.2
+     4..|        activity &gt; 0 and activity &lt; 3 -&gt; 1.375
+<font color=red>     0..|        activity &gt; 2 and activity &lt; 6 -&gt; 1.55</font>
+<font color=red>     0..|        activity &gt; 5 and activity &lt; 8 -&gt; 1.725</font>
+<font color=red>     0..|        activity &gt; 7                  -&gt; 1.9</font>
+        |      end
+        |    end
+        |  
+        |    # https://en.wikipedia.org/wiki/Harris%E2%80%93Benedict_equation
+        |    def baseline_metabolic_rate(%{
+        |      :weight =&gt; weight,
+        |      :height =&gt; height,
+        |      :age =&gt; age,
+        |      :sex =&gt; sex}) do 
+     4..|        (10 * weight) + (6.25 * height) - (5 * age) + modifier(sex) 
+        |    end
+        |  
+        |    def modifier(sex) do
+     4..|      case sex do
+     1..|       "female" -&gt; -161
+        |        "male"  -&gt; 5
+     1..|         _      -&gt; -76
+        |      end
+        |    end
+        |  
+        |    # g/day
+        |    def protein_rdi(%{:weight =&gt; weight, :age =&gt; age}) when age &lt; 9 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; round(1.08 * weight)</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; round(0.91 * weight)</font>
+        |      end
+        |    end
+        |    def protein_rdi(%{:weight =&gt; weight, :age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 8 and age &lt; 14  -&gt; round(0.94 * weight)
+     2..|        age &gt; 13 and age &lt; 19 -&gt; round(0.99 * weight)
+     2..|        age &gt; 18 and age &lt; 71 -&gt; round(0.84 * weight)
+<font color=red>     0..|        age &gt; 70              -&gt; round(1.07 * weight)</font>
+        |      end
+        |    end
+        |    def protein_rdi(%{:weight =&gt; weight, :age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; round(0.87 * weight)
+     1..|        age &gt; 13 and age &lt; 19 -&gt; round(0.77 * weight)
+     1..|        age &gt; 18 and age &lt; 71 -&gt; round(0.75 * weight)
+<font color=red>     0..|        age &gt; 70              -&gt; round(0.94 * weight)</font>
+        |      end
+        |    end
+        |    def protein_rdi(%{:weight =&gt; weight, :age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; round(0.9 * weight)
+     1..|        age &gt; 13 and age &lt; 19 -&gt; round(0.88 * weight)
+     1..|        age &gt; 18 and age &lt; 71 -&gt; round(0.8 * weight)
+<font color=red>     0..|        age &gt; 70              -&gt; weight</font>
+        |      end
+        |    end
+        |  
+        |    #https://www.ncbi.nlm.nih.gov/pubmed/16779921
+<font color=red>     0..|    def protein_ul(%{:weight =&gt; weight}), do: round(2.25 * weight)</font>
+        |  
+        |    # http://lpi.oregonstate.edu/mic/vitamins/biotin
+        |    def biotin_ai(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.008
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.012
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.02
+     4..|        age &gt; 13 and age &lt; 19 -&gt; 0.025
+     4..|        age &gt; 18              -&gt; 0.03
+        |      end
+        |    end
+        |  
+        |    def folate_dfe_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.150
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.200
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.300
+     4..|        age &gt; 13              -&gt; 0.400
+        |      end
+        |    end
+        |  
+        |    def niacin_ne_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 8
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 12
+     2..|        age &gt; 13              -&gt; 16
+        |      end
+        |    end
+        |    def niacin_ne_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 8
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 12
+     1..|        age &gt; 13              -&gt; 14
+        |      end
+        |    end
+        |    def niacin_ne_rda(%{:age =&gt; age, :sex =&gt; sex}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 8
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 12
+     1..|        age &gt; 13              -&gt; 15
+        |      end
+        |    end
+        |  
+        |    def pantothenic_acid_ai(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 2
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 3
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 4
+     4..|        age &gt; 13              -&gt; 5
+        |      end
+        |    end
+        |  
+        |    def riboflavin_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     2..|        age &gt; 13              -&gt; 1.3
+<font color=red>     0..|        age &gt; 18              -&gt; 1.3</font>
+        |      end
+        |    end
+        |    def riboflavin_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     1..|        age &gt; 13              -&gt; 1.0
+<font color=red>     0..|        age &gt; 18              -&gt; 1.1</font>
+        |      end
+        |    end
+        |    def riboflavin_rda(%{:age =&gt; age, :sex =&gt; sex}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     1..|        age &gt; 13              -&gt; 1.15
+<font color=red>     0..|        age &gt; 18              -&gt; 1.2</font>
+        |      end
+        |    end
+        |  
+        |    def thiamin_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     2..|        age &gt; 13              -&gt; 1.2
+        |      end
+        |    end
+        |    def thiamin_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     1..|        age &gt; 13              -&gt; 1.0
+<font color=red>     0..|        age &gt; 18              -&gt; 1.1</font>
+        |      end
+        |    end
+        |    def thiamin_rda(%{:age =&gt; age, :sex =&gt; sex}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.5
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.6
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.9
+     1..|        age &gt; 13              -&gt; 1.1
+<font color=red>     0..|        age &gt; 18              -&gt; 1.15</font>
+        |      end
+        |    end
+        |  
+        |    def vitamin_a_rae_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 0.3
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 0.4
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 0.6
+     2..|        age &gt; 13              -&gt; 0.9
+        |      end
+        |    end
+        |    def vitamin_a_rae_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.3
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.4
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.6
+     1..|        age &gt; 13              -&gt; 0.7
+        |      end
+        |    end
+        |    def vitamin_a_rae_rda(%{:age =&gt; age, :sex =&gt; sex}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 0.3
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 0.4
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.6
+     1..|        age &gt; 13              -&gt; 0.8
+        |      end
+        |    end
+        |  
+        |    #preformed vitamin A from supplements
+        |    def vitamin_a_rae_ul(%{:age =&gt; age}) do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.6</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.9</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 1.7</font>
+<font color=red>     0..|        age &gt; 13              -&gt; 2.8 #???</font>
+<font color=red>     0..|        age &gt; 18              -&gt; 3.0</font>
+        |      end
+        |    end
+        |    
+        |    def vitamin_b6_rda(%{:age =&gt; age}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.5</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.6</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 1.0</font>
+        |      end
+        |    end
+        |    def vitamin_b6_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 13 and age &lt; 51 -&gt; 1.3
+     1..|        age &gt; 50              -&gt; 1.7
+        |      end
+        |    end
+        |    def vitamin_b6_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 1.2
+     1..|        age &gt; 13 and age &lt; 51 -&gt; 1.3
+<font color=red>     0..|        age &gt; 50              -&gt; 1.5</font>
+        |      end
+        |    end
+        |    def vitamin_b6_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 1.25
+     1..|        age &gt; 13 and age &lt; 51 -&gt; 1.3
+<font color=red>     0..|        age &gt; 50              -&gt; 1.6</font>
+        |      end
+        |    end
+        |    
+        |    def vitamin_b12_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.0009
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.0012
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.0018
+     4..|        age &gt; 13              -&gt; 0.0024
+        |      end
+        |    end
+        |  
+        |    def vitamin_c_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 15
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 25
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 45
+     2..|        age &gt; 13 and age &lt; 19 -&gt; 75
+     2..|        age &gt; 18              -&gt; 90
+        |      end
+        |    end
+        |    def vitamin_c_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 15
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 25
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 45
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 65
+     1..|        age &gt; 18              -&gt; 75
+        |      end
+        |    end
+        |    def vitamin_c_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 15
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 25
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 45
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 70
+     1..|        age &gt; 18              -&gt; 82.5
+        |      end
+        |    end
+        |  
+        |    def vitamin_c_lp_recc(%{:age =&gt; age, :sex =&gt; sex}) do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 70</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 110</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 200</font>
+<font color=red>     0..|        age &gt; 13 and age &lt; 19 -&gt; 335</font>
+<font color=red>     0..|        age &gt; 18              -&gt; 400</font>
+        |      end
+        |    end
+        |    
+        |    def vit_e_a_tocopherol_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     2..|        age &gt; 3 and age &lt; 9   -&gt; 7
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 11
+     2..|        age &gt; 13              -&gt; 15
+        |      end
+        |    end
+        |    def vit_e_a_tocopherol_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 7.5
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 11
+     1..|        age &gt; 13              -&gt; 15
+        |      end
+        |    end
+        |    def vit_e_a_tocopherol_rda(%{:age =&gt; age, :sex =&gt; sex}) do
+     1..|      cond do
+     1..|        age &gt; 0 and age &lt; 4   -&gt; 6
+     1..|        age &gt; 3 and age &lt; 9   -&gt; 7.25
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 11
+     1..|        age &gt; 13              -&gt; 15
+        |      end
+        |    end
+        |  
+        |    #K1
+        |    @spec vitamin_k1_ai(map) :: float
+        |    def vitamin_k1_ai(%{:age =&gt; age}) when age &lt; 19 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.030</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.055</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 0.060</font>
+<font color=red>     0..|        age &gt; 13 and age &lt; 19 -&gt; 0.075</font>
+        |      end
+        |    end
+        |    def vitamin_k1_ai(%{:sex =&gt; sex}) when sex == "male", do: 0.120
+        |    def vitamin_k1_ai(%{:sex =&gt; sex}) when sex == "female", do: 0.090
+        |    def vitamin_k1_ai(_), do: 0.105
+        |  
+        |    #minerals
+        |  
+        |    def calcium_rda(%{:age =&gt; age}) when age &lt; 19 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 700</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 1000</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 19  -&gt; 1300</font>
+        |      end
+        |    end
+        |    def calcium_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 18 and age &lt; 71 -&gt; 1000
+<font color=red>     0..|        age &gt; 70              -&gt; 1200</font>
+        |      end
+        |    end
+        |    def calcium_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 1000
+<font color=red>     0..|        age &gt; 50              -&gt; 1200</font>
+        |      end
+        |    end
+        |    def calcium_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 1000
+<font color=red>     0..|        age &gt; 50 and age &lt; 71 -&gt; 1100</font>
+<font color=red>     0..|        age &gt; 70              -&gt; 1200</font>
+        |      end
+        |    end
+        |    
+        |    def chromium_ai(%{:age =&gt; age, :sex =&gt; sex}) when age &lt; 9 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.011</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.015</font>
+        |      end
+        |    end
+        |    def chromium_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 8 and age &lt; 19  -&gt; 0.025
+     2..|        age &gt; 18 and age &lt; 51 -&gt; 0.035
+     1..|        age &gt; 50              -&gt; 0.03
+        |      end
+        |    end
+        |    def chromium_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.021
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 0.024
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 0.025
+<font color=red>     0..|        age &gt; 50              -&gt; 0.02</font>
+        |      end
+        |    end
+        |    def chromium_ai(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 0.023
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 0.0245
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 0.03
+<font color=red>     0..|        age &gt; 50              -&gt; 0.025</font>
+        |      end
+        |    end
+        |    
+        |    def copper_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.34
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.44
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.7
+     4..|        age &gt; 13 and age &lt; 19 -&gt; 0.89
+     4..|        age &gt; 18              -&gt; 0.9
+        |      end
+        |    end
+        |    
+        |    def iodine_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 9   -&gt; 0.09
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.12
+     4..|        age &gt; 13              -&gt; 0.150
+        |      end
+        |    end
+        |    
+        |    def iron_rda(%{:age =&gt; age}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 7</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 10</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 8</font>
+        |      end
+        |    end
+        |    def iron_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 13 and age &lt; 19 -&gt; 11
+     2..|        age &gt; 18              -&gt; 8
+        |      end
+        |    end
+        |    def iron_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 15
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 18
+<font color=red>     0..|        age &gt; 50              -&gt; 8</font>
+        |      end
+        |    end
+        |    def iron_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 13
+     1..|        age &gt; 18 and age &lt; 51 -&gt; 15
+<font color=red>     0..|        age &gt; 50              -&gt; 8</font>
+        |      end
+        |    end
+        |    
+        |    def magnesium_rda(%{:age =&gt; age}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 80</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 130</font>
+<font color=red>     0..|        age &gt; 8               -&gt; 240</font>
+        |      end
+        |    end
+        |    def magnesium_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 13 and age &lt; 19 -&gt; 410
+     2..|        age &gt; 18 and age &lt; 31 -&gt; 400
+     2..|        age &gt; 30              -&gt; 420
+        |      end
+        |    end
+        |    def magnesium_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 360
+     1..|        age &gt; 18 and age &lt; 31 -&gt; 310
+     1..|        age &gt; 30              -&gt; 320
+        |      end
+        |    end
+        |    def magnesium_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 385
+     1..|        age &gt; 18 and age &lt; 31 -&gt; 355
+<font color=red>     0..|        age &gt; 30              -&gt; 370</font>
+        |      end
+        |    end
+        |    
+        |    def manganese_ai(%{:age =&gt; age, :sex =&gt; sex}) when age &lt; 9 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 1.2</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 1.5</font>
+        |      end
+        |    end
+        |    def manganese_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 8 and age &lt; 14  -&gt; 1.9
+     2..|        age &gt; 13 and age &lt; 19 -&gt; 2.2
+     2..|        age &gt; 18              -&gt; 2.3
+        |      end
+        |    end
+        |    def manganese_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 1.6
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 1.6
+     1..|        age &gt; 18              -&gt; 1.8
+        |      end
+        |    end
+        |    def manganese_ai(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 8 and age &lt; 14  -&gt; 1.75
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 1.9
+     1..|        age &gt; 18              -&gt; 2.05
+        |      end
+        |    end
+        |    
+        |    def molybdenum_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.017
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.022
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.034
+     4..|        age &gt; 13 and age &lt; 19 -&gt; 0.043
+     4..|        age &gt; 18              -&gt; 0.045
+        |      end
+        |    end
+        |    
+        |    def phosphorus_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 460
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 500
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 1250
+     4..|        age &gt; 13              -&gt; 700
+        |      end
+        |    end
+        |  
+        |    def potassium_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 3000
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 3800
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 4500
+     4..|        age &gt; 13              -&gt; 4700
+        |      end
+        |    end
+        |    
+        |    def selenium_rda(%{:age =&gt; age}) do
+     4..|      cond do
+     4..|        age &gt; 0 and age &lt; 4   -&gt; 0.020
+     4..|        age &gt; 3 and age &lt; 9   -&gt; 0.030
+     4..|        age &gt; 8 and age &lt; 14  -&gt; 0.040
+     4..|        age &gt; 13              -&gt; 0.055
+        |      end
+        |    end
+        |    
+        |    def selenium_ul(%{:age =&gt; age}) do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.090</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.150</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 0.280</font>
+<font color=red>     0..|        age &gt; 13              -&gt; 0.400</font>
+        |      end
+        |    end
+        |  
+        |    #http://thepaleodiet.com/new-studies-on-salt-adverse-influence-upon-immunity-inflammation-and-autoimmunity/ 
+        |    # http://www.marksdailyapple.com/salt-what-is-it-good-for/
+        |    # def sodium_ul(%{:age =&gt; age}) do
+        |    #   cond do
+        |    #     age &gt; 0 and age &lt; 4   -&gt; 1500
+        |    #     age &gt; 3 and age &lt; 9   -&gt; 1900
+        |    #     age &gt; 8 and age &lt; 14  -&gt; 2200
+        |    #     age &gt; 13              -&gt; 2300
+        |    #   end
+        |    # end
+        |    
+        |    @spec zinc_rda(map) :: integer
+        |    def zinc_rda(%{:age =&gt; age}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 3</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 5</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 8</font>
+        |      end
+        |    end
+        |    def zinc_rda(%{:sex =&gt; sex}) when sex == "male", do: 11
+        |    def zinc_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 9
+     1..|        age &gt; 18              -&gt; 8
+        |      end
+        |    end
+        |    def zinc_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 10
+     1..|        age &gt; 18              -&gt; 9.5
+        |      end
+        |    end
+        |  
+        |    
+        |    #Other nutrients
+        |  
+        |    @spec choline_ai(map) :: integer
+        |    def choline_ai(%{:age =&gt; age, :sex =&gt; sex}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 200</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 250</font>
+<font color=red>     0..|        age &gt; 8 and age &lt; 14  -&gt; 375</font>
+        |      end
+        |    end
+        |    def choline_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male", do: 550  
+        |    def choline_ai(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 400
+     1..|        age &gt; 18              -&gt; 425
+        |      end
+        |    end
+        |    def choline_ai(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 475
+     1..|        age &gt; 18              -&gt; 487.5
+        |      end
+        |    end
+        |  
+        |    @doc """
+        |    ##Australian and NZ Health authorities reccomendations
+        |    http://www.goedomega3.com/index.php/files/download/304
+        |    EPA DHA and DPA Omega 3 Fatty Acids: grams/day
+        |    """
+        |    def o3_epa_dha_dpa_rda(%{:age =&gt; age}) when age &lt; 14 do
+<font color=red>     0..|      cond do</font>
+<font color=red>     0..|        age &gt; 0 and age &lt; 4   -&gt; 0.040</font>
+<font color=red>     0..|        age &gt; 3 and age &lt; 9   -&gt; 0.055</font>
+<font color=red>     0..|        age &gt; 8               -&gt; 0.070</font>
+        |      end
+        |    end
+        |    def o3_epa_dha_dpa_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "male" do
+     2..|      cond do
+     2..|        age &gt; 13 and age &lt; 19 -&gt; 0.125
+     2..|        age &gt; 18              -&gt; 0.160
+        |      end
+        |    end
+        |    def o3_epa_dha_dpa_rda(%{:age =&gt; age, :sex =&gt; sex}) when sex == "female" do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 0.085
+     1..|        age &gt; 18              -&gt; 0.090
+        |      end
+        |    end
+        |    def o3_epa_dha_dpa_rda(%{:age =&gt; age}) do
+     1..|      cond do
+     1..|        age &gt; 13 and age &lt; 19 -&gt; 0.105
+     1..|        age &gt; 18              -&gt; 0.125
+        |      end
+        |    end
+        |  end
+</pre>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.ListController.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/controllers/list_controller.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+<font color=red>     0..|  defmodule Kai.ListController do</font>
+        |    use Kai.Web, :controller
+        |  
+        |    alias Kai.{FoodQuantity, List, User}
+        |    
+        |    def index(conn, %{"user_id" =&gt; user_id}) do
+        |      lists = user_id |&gt; User.decode |&gt; List.get_by_user_id
+        |      render(conn, "index.html", lists: lists)
+        |    end
+        |  
+        |    def show(conn, %{"list_id" =&gt; list_id}) do
+        |  
+        |      render(conn, "show.html")
+        |    end
+        |  
+        |  end
+</pre>
+</body>
+</html>

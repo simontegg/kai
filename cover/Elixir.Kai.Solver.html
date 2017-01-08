@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Solver.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/workers/solver.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.Solver do 
+        |  #   use Toniq.Worker
+        |    import Porcelain
+        |    import CSV
+        |    import Ecto.Query
+        |    import Kai.Utils
+        |  
+        |    alias Porcelain.{Process, Result}
+        |    alias Kai.{
+        |      Conversion, 
+        |      Food, 
+        |      FoodPrice, 
+        |      FoodQuantity,
+        |      List, 
+        |      Price, 
+        |      Repo, 
+        |      Requirements
+        |    }
+        |    
+        |    @food_excl [:name, :edible_portion]
+        |  
+        |    @nutrients [ 
+        |      :calories,
+        |      :protein, 
+        |      :folate_dfe, 
+        |      :biotin,
+        |      :calcium,
+        |      :chromium,
+        |      :copper,
+        |      :o3_epa,
+        |      :o3_dha,
+        |      :o3_dpa,
+        |      :iodine,
+        |      :iron,
+        |      :magnesium,
+        |      :manganese, 
+        |      :mercury, 
+        |      :molybdenum, 
+        |      :niacin_ne, 
+        |      :pantothenic_acid, 
+        |      :phosphorus, 
+        |      :potassium, 
+        |      :riboflavin, 
+        |      :selenium, 
+        |      :thiamin, 
+        |      :vitamin_a_rae, 
+        |      :vitamin_b12, 
+        |      :vitamin_b6, 
+        |      :vitamin_c, 
+        |      :vit_e_a_tocopherol, 
+        |      :vitamin_k1, 
+        |      :zinc 
+        |    ]
+        |    
+        |    @food_fields @food_excl ++ @nutrients
+        |    @price_fields [:price, :quantity, :quantity_unit] 
+        |    @conversion_fields [:each_g, :raw_to_cooked] 
+        |    @headers @food_fields ++ @price_fields ++ @conversion_fields
+        |  
+        |    def solve(user: user, foods: foods, constraints: constraints) do
+     1..|      constraints_file = write_constraints(constraints)
+     1..|      foods = Food.get_foods_prices()
+     1..|      foods_file = write_foods(foods)
+        |  
+        |      # TODO: error handling
+     1..|      [solution_path, levels_path] = 
+        |        julia_command(constraints_file, foods_file) 
+        |        |&gt; Porcelain.shell
+        |        |&gt; out
+        |        |&gt; String.split(";")
+        |  
+<font color=red>     0..|      File.rm(constraints_file)</font>
+<font color=red>     0..|      File.rm(foods_file)</font>
+        |  
+<font color=red>     0..|      solution = get_files_as_list(solution_path)</font>
+        |      #TODO: use levels somehow?
+        |      #levels = get_files_as_list(levels_path)
+        |  
+<font color=red>     0..|      File.rm(solution_path)</font>
+<font color=red>     0..|      File.rm(levels_path)</font>
+        |       
+<font color=red>     0..|      solution  </font>
+        |    end
+        |  
+        |  
+        |    def out(result) do
+<font color=red>     0..|      result.out</font>
+        |    end
+        |  
+        |    def julia_command(constraints_file, foods_file) do
+     1..|      "julia web/workers/solver.jl #{constraints_file} #{foods_file}"
+        |    end
+        |  
+        |    def get_files_as_list(path) do
+<font color=red>     0..|      path |&gt; File.stream! |&gt; CSV.decode(headers: true) |&gt; Enum.to_list</font>
+        |    end
+        |  
+        |    def write_foods(foods_extended) do
+     1..|      write_input(foods_extended, "foods-#{random_string(7)}.csv")
+        |    end
+        |  
+        |    def write_constraints(constraints) do
+     1..|      constraints_filename = "constraints-#{random_string(7)}.csv" 
+        |  
+        |      constraints
+        |      |&gt; Enum.map(&amp;reshape(&amp;1)) 
+     1..|      |&gt; write_input(constraints_filename)
+        |    end
+        |  
+        |    def reshape({key, value}) do
+    28..|      %{nutrient: key, amount: value, constraint: "min"} 
+        |    end
+        |  
+        |    def write_input(list, file_name) do
+     2..|      headers = list |&gt; hd |&gt; Map.keys
+     2..|      file_path = Path.join(__DIR__, file_name)
+     2..|      file = File.open!(file_path, [:write, :utf8])
+        |      
+     2..|      list |&gt; CSV.encode(headers: headers) |&gt; Enum.each(&amp;IO.write(file, &amp;1))
+        |  
+     2..|      file_path
+        |    end
+        |  
+        |  end
+</pre>
+</body>
+</html>

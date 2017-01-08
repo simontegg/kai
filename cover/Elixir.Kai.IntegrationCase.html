@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.IntegrationCase.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/test/support/integration_case.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+     1..|  defmodule Kai.IntegrationCase do
+        |    use ExUnit.CaseTemplate
+        |    
+        |    using do
+        |      quote do
+        |        import Ecto.Model
+        |        import Ecto.Query, only: [from: 2]
+        |        import Kai.Router.Helpers
+        |  
+        |        alias Kai.Repo
+        |  
+        |        @endpoint Kai.Endpoint
+        |      end
+        |    end
+        |  
+        |    setup tags do
+        |      :ok = Ecto.Adapters.SQL.Sandbox.checkout(Kai.Repo)
+        |    end
+        |  
+        |  end
+        |  
+</pre>
+</body>
+</html>

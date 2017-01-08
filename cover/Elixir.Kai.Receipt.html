@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>cover/Elixir.Kai.Receipt.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/simontegg/projects/kai/web/models/receipt.ex by COVER 2017-01-08 at 09:02:58
+
+****************************************************************************
+
+        |  defmodule Kai.ReceiptSlug do
+        |    use EctoAutoslugField.Slug, from: :company, to: :slug
+        |  end
+        |  
+        |  defmodule Kai.Receipt do
+        |    use Kai.Web, :model
+        |    use Arc.Ecto.Schema
+        |  
+        |    alias Kai.ReceiptUploader
+        |    alias Kai.ReceiptSlug
+        |  
+<font color=red>     0..|    schema "receipts" do</font>
+        |      field :store_receipt_id, :string
+        |      field :company_id, :string
+        |      field :store_id, :string
+        |      field :user_id, :string
+        |      field :company, :string
+        |  
+        |      field :slug, ReceiptSlug.Type 
+        |      field :image, ReceiptUploader.Type
+        |  
+        |      timestamps()
+        |    end
+        |  
+        |    @required_fields ~w(company)
+        |    @optional_fields ~w(store_receipt_id company_id store_id user_id)
+        |  
+        |    @required_file_fields ~w(image)
+        |    @optional_file_fields ~w()
+        |  
+        |  
+        |    @doc """
+        |    Builds a changeset based on the `struct` and `params`.
+        |    """
+        |    def changeset(struct, params \\ %{}) do
+        |      struct
+        |      |&gt; cast(params, @required_fields, @optional_fields)
+        |      |&gt; ReceiptSlug.maybe_generate_slug
+        |      |&gt; ReceiptSlug.unique_constraint
+        |      |&gt; cast_attachments(params, @required_file_fields)
+        |    end
+        |  
+        |    def image_url(struct), do: ReceiptUploader.url({struct.image, struct})
+        |  
+        |  end
+</pre>
+</body>
+</html>
