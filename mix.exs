@@ -40,7 +40,6 @@ defmodule Kai.Mixfile do
       :ex_aws,
       :httpoison,
       :timex
-      #      :toniq
     ]
   end
 
