@@ -1,24 +1,41 @@
-# ./Dockerfile
+## Set the Docker image you want to base your image off.
+# I chose this one because it has Elixir preinstalled.
+FROM trenpixster/elixir:1.3.0
 
-# Starting from the official Elixir 1.3.2 image:
-# https://hub.docker.com/_/elixir/
-FROM elixir:1.3.2
-MAINTAINER David Anguita <david@davidanguita.name>
+# Setup Node - Phoenix uses the Node library `brunch` to compile assets.
+# The official node instructions want you to pipe a script from the 
+# internet through sudo. There are alternatives: 
+# https://www.joyent.com/blog/installing-node-and-npm
+RUN curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash - && apt-get install -y nodejs
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Install other stable dependencies that don't change often
 
-# Install hex
-RUN mix local.hex --force
-
-# Install rebar
-RUN mix local.rebar --force
-
-# Install the Phoenix framework itself
-RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
-
-# Install NodeJS 6.x and the NPM
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y -q nodejs
-
-# Set /app as workdir
+# Compile app
+RUN mkdir /app
 WORKDIR /app
+
+# Install Elixir Deps
+ADD mix.* ./
+RUN MIX_ENV=prod mix local.rebar
+RUN MIX_ENV=prod mix local.hex --force
+RUN MIX_ENV=prod mix deps.get
+
+# Install Node Deps
+ADD package.json ./
+RUN npm install
+
+# Install app
+ADD . .
+RUN MIX_ENV=prod mix compile
+
+# Compile assets
+RUN NODE_ENV=production node_modules/brunch/bin/brunch build --production
+RUN MIX_ENV=prod mix phoenix.digest
+
+# Exposes this port from the docker container to the host machine
+EXPOSE 4000
+
+# The command to run when this image starts up
+CMD MIX_ENV=prod mix ecto.migrate && \
+  MIX_ENV=prod mix phoenix.server ./Dockerfile
+
