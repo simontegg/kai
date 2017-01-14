@@ -31,6 +31,7 @@ environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: :")331(UZ__Le]oKi/gj[hrJ_!f;gQC8VP_Rzd|peop.g8>2>&o]`0%5IDbFPL{y[b"
+  set output_dir: "rel/kai"
 end
 
 # You may define one or more releases in this file.
