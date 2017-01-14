@@ -74,6 +74,8 @@ defmodule Kai.Mixfile do
       {:ex_aws, "~> 1.0.0-rc3"},
       {:httpoison, "~> 0.7"}, 
 
+      # deloyment
+      {:distillery, "~> 1.0"},
       # Testing
       {:ex_machina, "~> 1.0", only: [:test]},
       {:cabbage, github: "mgwidmann/cabbage", only: [:dev, :test]},
