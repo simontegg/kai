@@ -2,6 +2,9 @@ defmodule Kai.DeployCallbacks do
   import Gatling.Bash
 
   def before_mix_digest(env) do
+    IO.inspect "ENV"
+    IO.inspect env
+
     # mkdir prevents complains about this directory not existing
     bash("mkdir", ~w[-p priv/static], cd: env.build_dir)
     bash("npm", ~w[install], cd: env.build_dir)
