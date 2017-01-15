@@ -75,7 +75,7 @@ defmodule Kai.Mixfile do
       {:httpoison, "~> 0.7"}, 
 
       # deloyment
-      {:distillery, github: "dennisreimann/gatling", branch: "distillery-default"},
+      {:distillery, "~> 1.0"},
       # Testing
       {:ex_machina, "~> 1.0", only: [:test]},
       {:cabbage, github: "mgwidmann/cabbage", only: [:dev, :test]},
@@ -95,7 +95,6 @@ defmodule Kai.Mixfile do
 
       {:cowboy, "~> 1.0"},
       {:csv, "~> 1.4.2"},
-      {:exrm, "~> 1.0.8"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.5"},
       {:hashids, "~> 2.0"},
