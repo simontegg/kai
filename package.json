@@ -2,7 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "brunch build --production",
+    "deploy": "gulp",
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
