@@ -37,9 +37,6 @@ gulp.task('css-vendor', function() {
   return gulp
     .src(vendorCssPaths)
     .pipe(concat('admin_lte2.css'))
-    .pipe(compress({
-      type: 'css'
-    }))
     .pipe(gulp.dest('priv/static/css'))
 })
 
@@ -69,9 +66,6 @@ gulp.task('js-after', function() {
   return gulp
     .src(jsAfterPaths)
     .pipe(concat('app-after.js'))
-    .pipe(compress({
-      type: 'js'
-    }))
     .pipe(gulp.dest('priv/static/js'))
 })
 
