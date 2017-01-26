@@ -59,9 +59,9 @@ config :ex_admin,
   modules: [
     Kai.ExAdmin.Dashboard,
     Kai.ExAdmin.Food,
+    Kai.ExAdmin.Nutrition,
     Kai.ExAdmin.Price,
-    Kai.ExAdmin.FoodPrice,
-    Kai.ExAdmin.Conversion
+    Kai.ExAdmin.NutritionPrice
   ]
 
 import_config "#{Mix.env}.exs"

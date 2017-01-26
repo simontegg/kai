@@ -1,11 +1,11 @@
 defmodule Kai.List do
   use Kai.Web, :model
-  alias Kai.{User, FoodPrice, FoodQuantity, Repo, List}
+  alias Kai.{User, NutritionPrice, Quantity, Repo, List}
 
   schema "lists" do
     field :name, :string
     belongs_to :user, User
-    has_many :food_quantities, FoodQuantity
+    has_many :quantities, Quantity
 
     timestamps()
   end
@@ -17,8 +17,8 @@ defmodule Kai.List do
     struct
     |> cast(params, [:name])
     |> Ecto.Changeset.put_assoc(:user, params.user)
-    |> Ecto.Changeset.put_assoc(:food_quantities, params.food_quantities)
-    |> validate_required([:food_quantities])
+    |> Ecto.Changeset.put_assoc(:quantities, params.quantities)
+    |> validate_required([:quantities])
   end
 
   @spec get_by_user_id(integer) :: list
@@ -34,31 +34,31 @@ defmodule Kai.List do
   def by_user_id_query(user_id) do
     from(l in List,
          left_join: u in assoc(l, :user),
-         left_join: fq in assoc(l, :food_quantities),
-         left_join: fp in assoc(fq, :food_price),
-         left_join: p in assoc(fp, :price),
-         left_join: f in assoc(fp, :food),
-         left_join: c in assoc(fp, :conversion),
+         left_join: q in assoc(l, :quantities),
+         left_join: np in assoc(q, :nutrition_price),
+         left_join: p in assoc(np, :price),
+         left_join: n in assoc(np, :nutrition),
+         left_join: f in assoc(np, :food),
          where: u.id == ^user_id,
          group_by: [:id, 
-                    fq.quantity, 
-                    fq.cost,
+                    q.quantity, 
+                    q.cost,
                     p.price, 
                     p.quantity_unit,
                     p.name, 
-                    f.name, 
-                    c.each_g, 
-                    c.raw_to_cooked],
+                    n.name, 
+                    f.each_g, 
+                    f.raw_to_cooked],
          select: %{
            list_id: l.id,
-           cost: fq.cost, 
-           quantity: fq.quantity,
+           cost: q.cost, 
+           quantity: q.quantity,
            quantity_unit: p.quantity_unit,
            unit_price: p.price,
            price_name: p.name, 
-           food_name: f.name,
-           each_g: c.each_g,
-           raw_to_cooked: c.raw_to_cooked
+           food_name: n.name,
+           each_g: f.each_g,
+           raw_to_cooked: f.raw_to_cooked
          })
   end
 
@@ -76,24 +76,26 @@ defmodule Kai.List do
   def save_list(solution, foods, user) do
     foods_by_name = for food <- foods, into: %{}, do: {food.name, food}
 
-    food_quantities = 
+    quantities = 
       solution
       |> Enum.reduce([], fn (food, acc) -> 
-            food_quantity = %{
-              food_price: Repo.get(FoodPrice, foods_by_name[food["name"]].id),
-              quantity: String.to_integer(food["quantity"]),
-              cost: String.to_integer(food["cost"])
-            }
+          nutrition_price_id = foods_by_name[food["name"]].id
 
-            acc ++ [food_quantity]
-          end) 
+          quantity = %{
+            nutrition_price: Repo.get(NutritionPrice, nutrition_price_id),
+            quantity: String.to_integer(food["quantity"]),
+            cost: String.to_integer(food["cost"])
+          }
+
+          acc ++ [quantity]
+        end) 
       |> Enum.map(fn (params) -> 
-            %FoodQuantity{} |> FoodQuantity.changeset(params) |> Repo.insert!
-          end)
+          %Quantity{} |> Quantity.changeset(params) |> Repo.insert!
+        end)
 
     params = %{
       name: "first", 
-      food_quantities: food_quantities,
+      quantities: quantities,
       user: user 
     }
 
@@ -101,17 +103,15 @@ defmodule Kai.List do
   end
 
   @spec convert(map) :: map
-  def convert(%{:quantity => quantity, 
-                :each_g => each_g} = food_quantity) when not is_nil(each_g) do
+  def convert(%{:quantity => q, 
+                :each_g => each_g} = quantity) when not is_nil(each_g) do
 
-    Map.put_new(food_quantity, 
-                :item_quantity, 
-                Float.round(quantity / each_g, 1))
+    Map.put_new(quantity, :item_quantity, Float.round(q / each_g, 1))
   end
-  def convert(%{:quantity => quantity, 
-                :raw_to_cooked => r} = food_quantity) when not is_nil(r) do 
+  def convert(%{:quantity => q, 
+                :raw_to_cooked => r} = quantity) when not is_nil(r) do 
 
-    Map.put_new(food_quantity, :raw_quantity, round(quantity / r))
+    Map.put_new(quantity, :raw_quantity, round(q / r))
   end
-  def convert(food_quantity), do: food_quantity 
+  def convert(quantity), do: quantity 
 end

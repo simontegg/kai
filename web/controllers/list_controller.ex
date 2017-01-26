@@ -1,7 +1,7 @@
 defmodule Kai.ListController do
   use Kai.Web, :controller
 
-  alias Kai.{FoodQuantity, List, User}
+  alias Kai.{NutritionQuantity, List, User}
   
   def index(conn, %{"user_id" => user_id}) do
     lists = user_id |> User.decode |> List.get_by_user_id

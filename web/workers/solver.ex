@@ -7,10 +7,10 @@ defmodule Kai.Solver do
 
   alias Porcelain.{Process, Result}
   alias Kai.{
-    Conversion, 
     Food, 
-    FoodPrice, 
-    FoodQuantity,
+    Nutrition, 
+    NutritionPrice, 
+    NutritionQuantity,
     List, 
     Price, 
     Repo, 
@@ -59,7 +59,7 @@ defmodule Kai.Solver do
 
   def solve(user: user, foods: foods, constraints: constraints) do
     constraints_file = write_constraints(constraints)
-    foods = Food.get_foods_prices()
+    foods = Nutrition.get_nutrition_prices()
     foods_file = write_foods(foods)
 
     # TODO: error handling

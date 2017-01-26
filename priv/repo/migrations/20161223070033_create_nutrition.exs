@@ -2,7 +2,7 @@ defmodule Kai.Repo.Migrations.CreateFoods do
   use Ecto.Migration
 
   def change do
-    create table(:foods) do
+    create table(:nutrition) do
       add :data_source_id, :string  
       add :name, :string
       add :data_source, :string

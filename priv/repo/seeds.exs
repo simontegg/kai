@@ -10,8 +10,8 @@ defmodule Import do
   end
 end
 
-defmodule Seeds.Food do
-  alias Kai.{NutrientNameMap, Food, Repo} 
+defmodule Seeds.Nutrition do
+  alias Kai.{NutrientNameMap, Nutrition, Repo} 
 
   @nzff NutrientNameMap.nzff
   @multiplier NutrientNameMap.nzff_conversion
@@ -24,8 +24,8 @@ defmodule Seeds.Food do
       into: %{}, 
       do: {Map.get(@nzff, k), convert_value(k, v)}
 
-    %Food{}
-    |> Food.changeset(params)
+    %Nutrition{}
+    |> Nutrition.changeset(params)
     |> Repo.insert!
   end
 
@@ -57,7 +57,7 @@ end
 
 
 defmodule Seeds.Price do
-  alias Kai.{Conversion, Food, FoodPrice, Price, Repo} 
+  alias Kai.{Food, Nutrition, NutritionPrice, Price, Repo} 
   
   @integers ["price", "quantity", "each_g"]
   @floats ["raw_to_cooked"]
@@ -67,26 +67,26 @@ defmodule Seeds.Price do
       into: %{},
       do: {String.to_atom(k), convert_value(k, v)}
 
-    food = Repo.get_by(Food, name: row_data.food_name)
+    nutrition = Repo.get_by(Nutrition, name: row_data.food_name)
     price = %Price{} |> Price.changeset(row_data) |> Repo.insert!
-    food_price_changeset = %{food_id: food.id, price_id: price.id}
+    nutrition_price_changeset = %{nutrition_id: nutrition.id, price_id: price.id}
    
     if (row_data.each_g || row_data.raw_to_cooked) do
-      conversion = 
-        %Conversion{} 
-        |> Conversion.changeset(row_data) 
+      food = 
+        %Food{} 
+        |> Food.changeset(row_data) 
         |> Repo.insert!
 
-      food_price_changeset 
-      |> Map.put_new(:conversion_id, conversion.id)
-      |> insert_food_price
+      nutrition_price_changeset 
+      |> Map.put_new(:food_id, food.id)
+      |> insert_nutrition_price
     else
-      insert_food_price(food_price_changeset)
+      insert_nutrition_price(nutrition_price_changeset)
     end
   end
 
-  def insert_food_price(changeset) do 
-    %FoodPrice{} |> FoodPrice.changeset(changeset) |> Repo.insert!
+  def insert_nutrition_price(changeset) do 
+    %NutritionPrice{} |> NutritionPrice.changeset(changeset) |> Repo.insert!
   end
 
   def convert_value(_key, value) when value == "", do: nil
@@ -101,10 +101,7 @@ defmodule Seeds.Price do
   def convert_value(_key, value), do: value
 end
 
-
-
-
-Import.import_from_csv("foods-abridged.csv", &Seeds.Food.process_row/1)
+Import.import_from_csv("foods-abridged.csv", &Seeds.Nutrition.process_row/1)
 Import.import_from_csv("prices.csv", &Seeds.Price.process_price/1)
 
 

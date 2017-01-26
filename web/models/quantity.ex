@@ -1,12 +1,12 @@
-defmodule Kai.FoodQuantity do
+defmodule Kai.Quantity do
   use Kai.Web, :model
-  alias Kai.{FoodPrice, List}
+  alias Kai.{NutritionPrice, List}
 
-  schema "food_quantities" do
+  schema "quantities" do
     field :quantity, :integer
     field :cost, :integer
     belongs_to :list, List
-    belongs_to :food_price, FoodPrice
+    belongs_to :nutrition_price, NutritionPrice
 
     timestamps()
   end
@@ -17,7 +17,7 @@ defmodule Kai.FoodQuantity do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:quantity, :cost])
-    |> Ecto.Changeset.put_assoc(:food_price, params.food_price)
+    |> Ecto.Changeset.put_assoc(:nutrition_price, params.nutrition_price)
     |> validate_required([:quantity, :cost])
   end
 end
