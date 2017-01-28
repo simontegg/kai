@@ -16,6 +16,6 @@ defmodule Kai.NutritionPrice do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:nutrition_id, :price_id, :food_id])
-    |> validate_required([:food_id, :price_id])
+    |> validate_required([:nutrition_id, :price_id])
   end
 end
