@@ -78,10 +78,10 @@ defmodule Kai.Mixfile do
       {:distillery, "1.0.0"},
       # Testing
       {:ex_machina, "~> 1.0", only: [:test]},
-      {:cabbage, github: "mgwidmann/cabbage", only: [:dev, :test]},
+      #  {:cabbage, github: "mgwidmann/cabbage", only: [:dev, :test]},
       #      {:white_bread, "~> 2.5", only: [:dev, :test]},
       {:hound, "~> 1.0"},
-      {:gherkin, "~> 0.1.0", github: "mgwidmann/gherkin"},
+      #      {:gherkin, "~> 0.1.0", github: "mgwidmann/gherkin"},
 
       # Linting
       {:credo, "~> 0.5", only: [:dev, :test]},
