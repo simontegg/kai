@@ -10,10 +10,8 @@ defmodule Kai.Factory do
     }
   end
 
-
-
-  def food_factory do
-    %Kai.Food{
+  def nutrition_factory do
+    %Kai.Nutrition{
       data_source_id: 'nz-ff',
       name: "avocados",
       category: "B",
@@ -50,14 +48,14 @@ defmodule Kai.Factory do
     %Kai.List{
       name: "a list",
       user: build(:user),
-      food_quantities: build_list(3, :food_quantity)
+      quantities: build_list(3, :quantity)
     }
   end
 
-  def food_quantity_factory do
-    %Kai.FoodQuantity{
+  def quantity_factory do
+    %Kai.Quantity{
       quantity: 200,
-      food_price: build(:food_price),
+      nutrition_price: build(:nutrition_price),
       list: %Kai.List{
         name: "a list",
         user: build(:user)
@@ -65,11 +63,11 @@ defmodule Kai.Factory do
     }
   end
 
-  def food_price_factory do
-    %Kai.FoodPrice{
-      food: build(:food),
+  def nutrition_price_factory do
+    %Kai.NutritionPrice{
+      nutrition: build(:nutrition),
       price: build(:price),
-      conversion: build(:conversion)
+      food: build(:food)
     }
   end
 
@@ -85,8 +83,8 @@ defmodule Kai.Factory do
     }
   end
 
-  def conversion_factory do
-    %Kai.Conversion{
+  def food_factory do
+    %Kai.Food{
       name: "Avocados",
       each_g: 170,
       raw_to_cooked: nil

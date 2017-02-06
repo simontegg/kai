@@ -29,7 +29,6 @@ defmodule Kai.Mixfile do
       :bamboo,
       :cowboy, 
       :std_json_io,
-      :gherkin,
 
       :logger, 
       :number,
