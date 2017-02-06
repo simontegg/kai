@@ -8,16 +8,17 @@ defmodule Kai.Solver do
   alias Porcelain.{Process, Result}
   alias Kai.{
     Food, 
+    List, 
     Nutrition, 
     NutritionPrice, 
-    NutritionQuantity,
-    List, 
     Price, 
+    Quantity,
     Repo, 
     Requirements
   }
-  
-  @food_excl [:name, :edible_portion]
+ 
+  # TODO: define in single place
+  @nutrient_excl [:name, :edible_portion]
 
   @nutrients [ 
     :calories,
@@ -52,10 +53,10 @@ defmodule Kai.Solver do
     :zinc 
   ]
   
-  @food_fields @food_excl ++ @nutrients
+  @nutrient_fields @nutrient_excl ++ @nutrients
   @price_fields [:price, :quantity, :quantity_unit] 
-  @conversion_fields [:each_g, :raw_to_cooked] 
-  @headers @food_fields ++ @price_fields ++ @conversion_fields
+  @food_fields [:each_g, :raw_to_cooked] 
+  @headers @nutrient_fields ++ @price_fields ++ @food_fields
 
   def solve(user: user, foods: foods, constraints: constraints) do
     constraints_file = write_constraints(constraints)
@@ -81,7 +82,6 @@ defmodule Kai.Solver do
      
     solution  
   end
-
 
   def out(result) do
     result.out
