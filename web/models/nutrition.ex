@@ -154,13 +154,13 @@ defmodule Kai.Nutrition do
   def get_query do
     from(np in NutritionPrice,
          left_join: p in assoc(np, :price),
-         left_join: n in assoc(np, :nutrititon),
+         left_join: n in assoc(np, :nutrition),
          left_join: f in assoc(np, :food),
          select: %{
            id: np.id, 
            price: map(p, ^@price_fields),
-           food: map(n, ^@nutrition_fields),
-           conversion: map(f, ^@food_fields)
+           nutrition: map(n, ^@nutrition_fields),
+           food: map(f, ^@food_fields)
          })
   end
 

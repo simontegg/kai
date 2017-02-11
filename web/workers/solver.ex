@@ -70,6 +70,7 @@ defmodule Kai.Solver do
       |> out
       |> String.split(";")
 
+
     File.rm(constraints_file)
     File.rm(foods_file)
 

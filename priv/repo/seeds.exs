@@ -69,6 +69,7 @@ defmodule Seeds.Price do
 
     nutrition = Repo.get_by(Nutrition, name: row_data.food_name)
     price = %Price{} |> Price.changeset(row_data) |> Repo.insert!
+
     nutrition_price_changeset = %{nutrition_id: nutrition.id, price_id: price.id}
    
     if (row_data.each_g || row_data.raw_to_cooked) do
